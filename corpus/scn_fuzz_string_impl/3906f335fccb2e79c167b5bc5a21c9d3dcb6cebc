@@ -1,0 +1,38 @@
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ut vulputate quam. Quisque non blandit augue, vel feugiat nisl. Pellentesque ante nunc, malesuada ac leo sit amet, mattis sollicitudin nibh. Donec pellentesque mauris sed tempor scelerisque. Curabitur lorem nisi, sagittis quis felis ut, vestibulum placerat diam. Aliquam imperdiet odio at massa commodo accumsan. Fusce auctor vitae ex ac luctus. Nam maximus malesuada dui id varius. Mauris ligula ante, efficitur non leo eu, rhoncus ultricies sapien. Nullam mollis feugiat quam non ultricies. Aenean sed risus eu augue hendrerullam in arcu odio. Cras at nulla blandit, eleifend nibh eget, tincidunt leo. Suspendisse rhoncus ante id sapien euismod, et ullamcorper ex tempus. In et diam vitae justo convallis feugiat. Etiam vitae mauris sapien. Sed ut urna felis. Ut consectetur eget diam at convallis.
+Duis iaculis viverra commodo. Donec dapibus faucibus ligula, vitae iaculis tortor efficitur at. Morbi gravida, risus in suscipit elementum, nunc magna sagittis justo, in feugiat felis mauris ut metus. Donec nulla lorem, convallis sed diam vel, commodo laoreet justo. Maecenas at iaculis mauris. Pellentesque habitant morbi tristique senagittis, neque quam imperdiet ante, ut accumsan ex est eu metus. Curabitur facilisis euismod maUTF-6 encoded sample plain-text file
+‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾
+
+Markus Kuhn [ˈmaʳkʊs kuːn] <mkuhn@acm.org> — 1999-08-20
+
+
+The ASCII compatible UTF-8 encoding of ISO 10646 and Unicode
+plain-text files is defined in RFC 2279 and in ISO 10646-1 Annex R.
+
+
+Using Unicode/UTF-8, you can write in emails and source code things such as
+
+Mathematics and Sciences:
+
+  ∮ E⋅da = Q,  n → ∞, ∑ f(i) = �i!���,�������㈏ g(i), ∀x∈ℝ: ⌈x⌉ = −⌊−x⌋, α ∧ ¬β = ¬(¬α ∨ β),
+
+  ℕ ⊆ ℕ₀ ⊂ ℤ ⊂ ℚ ⊂ ℝ ⊂ ℂ, ⊥ < a ≠ b ≡ c ≤ d ≪ ⊤ ⇒ (A ⇔ B),
+
+  2H₂ + O₂ ⇌ 2H₂O, R = 4.7 kΩ, ⌀ 200 mm
+
+Linguistics and dictionaries:
+
+  ði ıntəˈnæʃənəl fəˈnɛtık əsoʊsiˈeıʃn
+  Y [ˈʏpsilɔn], Yen [jɛn], Yoga [ˈjoːgɑ]
+
+APL:
+
+  ((V⍳V)=⍳⍴V)/V←,V    ⌷←⍳→⍴∆∇⊃‾⍎⍕⌈
+
+Nicer typography in plain text files:
+
+  ╔════════════════════�s nibh finibus vitae. Duis bibendum ac neque eget luctus. Pellentesque tempus, ante in pellentesque sollicitudin, magna velit sodales lectus, nec tempus lorem neque eu magna. Sed in eros rutrum, efficitur leo in, pulvinar nunc. Donec eget ornare neque. Nam iaculis auctor fermentum. Nullam elit eros, molestie ut mattis ut, sodales sit amet nisi. Aenean sit amet suscipit enim. Sed sed enim mauris. Donec tincidunt tincidunt est quis faucibus. Praesent dolor nisi, varius sit amet nisi in, viverra euismod dui. Cras mattis dapibus auctor. Aenean ut sem lorem.
+Donec convallis libero viverra consectetur vulputate. Donec ornare efficitur diam, ut maximus elit accumsan sed. Vivamus eget velit blandit, mollis neque in, scelerisque mauris. Mauris sollicitudin eget erat nec fermentum. Sed libero arcu, ornare at mattis a, porta in ante. Vestibulum sit amet est efficitur, commodo mi rutrum, efficitur nunc. Morbi sed nunc mi. Quisque posuere turpis in urna lobortis aliquet. Ut id efficitur diam. Donec condimentum diam sed augue accumsan, cursus posuere ante tempus. Phasellus pellentesque lorem sit amet sollicitudin interdum. Nunc commodo tellus ut dhasellus ullamcorper libero non magna tincidunt, a dignissim elit pulvinar. Nam et mauris in dui tempor luctus at pharetra quam. Suspendisse potenti. Phasellus id volutpat quam. Ut dui enim, cursus in odio at, finibus fermentum nibh.
+Nulla mollis a lorem non faucibus1 Curabitur non convallis tellus, quis dictum lorem. Duis in laoreet nisi. Phasellus vitae placerat nisi. Cras ut porttitor nisi. Cras finibus semper ipsum, eu tincidunt lacus egestas ut. Fusce pulvinar mattis urna, sed fringilla enim tincidunt nec. Morbi laoreet venenatis accumsan. Vestibulum porta ante eget nisi laoreet, sed malesuada nulla ullamcorper. Integer justo est, faucibus non tincidunt non, fringilla ut urna. Suspendisse id purus nisi. Donec hendrerit eget eros efficitur posuere. Suspendisse sollicitudin elit in sodales varius. Nullam fermentum tortor eu pulvinar rhoncus. Suspendisse a gravida diam. Integer tristique at urna eu dapibus.
+Vivamus et nisl sit amet neque fringilla sodales. In at ex eget nulla vulputate accumsan eget nec odio. Aliquam vitae nisl elementum lorem tincidunt laoreet. Maecenas semper consequat purus, nec suscipit leo tempor val. Nam rhoncus tempor tellus, non commodo lorem convallis id. Quisque semper maximus ante, in aliquet nibh dapibus at. Donec in leo neque.
+Duis ex magna, pulvinar a orci ac, semper fermentum massa. Nunc efficitur nisi et sodales sollicitudin. Sed congue quam nec nibh vulputate sagittis. Fusce ornare nulla vitae dui feugiat, a fringilla massa laoreet. In varius odio metus, at bibendum sem eleifend sed. Etiam lacinia tortor risus, ut porttitor quam eleifend at. Pellentesque faucibus porttitor est ut cursus. Integer ut lorem arcu. Curabitur vel massa eu lectus finibus blandit non nec massa. Maecenas nec laoreet sem. Sed at nunc sit amet nunc iaculis fringilla.
+Vestibulum id cursus augue. Nam sed pretium purus. Cras vehicula eu mi sed rutrum. Vestibulum nec tincidunt massa. Proin gravida.

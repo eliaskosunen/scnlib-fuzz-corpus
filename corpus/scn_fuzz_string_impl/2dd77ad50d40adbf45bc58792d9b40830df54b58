@@ -1,0 +1,19 @@
+UTF-8 encoded sample plain-text file
+‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾������������������������������������������������������‾‾‾‾‾‾‾‾‾‾�ัย           ฤๅหาใครค้ำชูกู้บรรลังก์ ฯ
+
+  (The ae text:
+
+  ABCDEFGHIJKLMNOPQRSTUVWXYZ /0123456789
+  abcdefghijklmnopqrstuvwxyz £©µÀÆÖÞßéöÿ
+  –—‘“”„†•…‰™œŠŸž€ ΑΒΓΔΩαβγδω АБВГДабвгд
+  ∀∂∈ℝ∧∪≡∞ ↑↗↨↻⇣ ┐┼╔╘░►☺♀ ﬁ�⑀₂ἠ�你好ɐː⍎אԱა
+
+Greetings in various languages:
+
+  Hello world, Καλημέρα κόσμε, コンニチハ
+
+Box drawing alignment tests:             � ��╳╳╳
+  ║│╲ ╱�0�║  ▎
+  ║└─╥─┘║  │╚═╤═╝│  │╘═╪═╛│  │╙─╀─╜│  ┃└─╂─┘┃  ░░▒▒▓▓██ ┊  ┆ ╎ ╏  ┇ ┋ ▏
+  ╚══╩══╝  └──┴──┘  ╰──┴──╯  ╰──┴──╯  ┗━━┻━━┛           └╌╌┘ ╎ ┗╍╍┛ ┋  ▁▂▃▄▅▆▇█
+
