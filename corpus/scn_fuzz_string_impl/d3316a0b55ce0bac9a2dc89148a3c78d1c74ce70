@@ -1,0 +1,12 @@
+H������o���������������������������UTF-8 encoded sample ℕ ⊆ ℕ₀ ⊂ �l fəˈnɛtık əsoʊsiˈeıʃn
+  Y [�[a [ˈjoːgɑ]
+
+APL:
+
+  ((V⍳V)=⍳⍴V)/V←,V⊆ ℕ₀ ⊂ �
+APL:
+
+  ((V⍳V)=⍳⍴V)/V←,V    ⌷←⭳→⍴�    ⌷←⭳→⍴∆∇슃‾⍎⍕⌈
+
+
+Nice typography in plain tex

@@ -1,0 +1,31 @@
+)o worlga [ˈjoːgɑ]
+
+APL:
+
+  ((V⍳V)=⍳⍴V)/V←,V    ⌷←⍳→⍴∆∇⊃‾⍎⍕⌈
+
+Nicer typography in plain text files:
+
+  ╔══════════════════════════════════════════╗
+  ║               /                          ║
+  ║   • ‘single’ and “double” quotes         ║
+  ║                                     �     ║
+  ║   • Curly apostrophes: “We’ve been here” ║
+  ║                                          ║
+  ║   • Latin-1 apostrophe and accents你好: '´`  ║
+  ║                                          ║
+  ║   • ‚deutsche‘ „Anführungszeichen“       ║
+  ║                                          ║
+  ║   • †, ‡, ‰, •, 3–4, —, −5/+5, ™, …      ║
+  ║                                          ║
+  ║   • ASCII safety test: 1lI|, 0OD, 8B     ║
+  ║                      ��         ║
+  ║                      ╰────
+─────╯         ║
+  ╽ωρίζω ἀπὸ τὴν κόψη
+  τοῦ σπαθιοῦ �ρομερή,
+  σὲ γνωρίζω ἀπὸ τὴν ὄψη
+  ποὺ �UTF-8 encoded sample p:ain-text file
+‾‾‾‾‾‾‾�ble UT�� world!o �������������������������������������������������������������������������������������������������������������������������� s:
+
+ἢ  τὴν  �ὑψ�
