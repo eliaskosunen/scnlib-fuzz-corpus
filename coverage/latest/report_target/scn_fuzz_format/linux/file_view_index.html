@@ -1,0 +1,2512 @@
+<!doctype html>
+<html>
+  <head>
+    <meta name='viewport' content='width=device-width,initial-scale=1'>
+    <meta charset='UTF-8'>
+    <link rel='stylesheet' type='text/css' href='../style.css'>
+    <!-- Custom style overrides -->
+    <style>
+      /* Copyright 2018 The Chromium Authors. All rights reserved.
+ * Use of this source code is governed by a BSD-style license that can be
+ * found in the LICENSE file. */
+
+th, td {
+  padding: 5px 16px;
+}
+
+tbody td, tfoot td {
+  font-size: 14px;
+}
+
+thead th {
+  font-size: 16px;
+}
+
+thead th, tfoot td {
+  background-color: #f5f5f5;
+  border-left: 1px solid #e4e4e4;
+  border-right: 1px solid #e4e4e4;
+  color: #484848;
+  text-transform: uppercase;
+}
+
+tbody tr:hover td, tfoot tr:hover td {
+  background-color: #f5f5f5;
+  border-color: #e4e4e4 !important;
+}
+    </style>
+  </head>
+  <body>
+    <h2>Coverage Report</h2>
+    <p>
+      View results by:
+            <a href='directory_view_index.html'>Directories</a>
+              | <a href='file_view_index.html'>Files</a>
+          </p>
+    <div class='centered'><table>
+  <thead>
+    <tr>
+      <th class="column-entry-bold">Path</th>
+      <th class="column-entry-bold" onclick="sortTable(SORT_COLUMN.LINE)" title=
+          "Line coverage is the percentage of code lines which have been executed at least once. Only executable lines within function bodies are considered to be code lines.">
+        Line Coverage
+      </th>
+      <th class="column-entry-bold" onclick="sortTable(SORT_COLUMN.FUNCTION)" title=
+          "Function coverage is the percentage of functions which have been executed at least once. A function is considered to be executed if any of its instantiations are executed.">
+        Function Coverage
+      </th>
+      <th class="column-entry-bold" onclick="sortTable(SORT_COLUMN.REGION)" title=
+          "Region coverage is the percentage of code regions which have been executed at least once. A code region may span multiple lines (e.g in a large function body with no control flow). However, it's also possible for a single line to contain multiple code regions (e.g in 'return x || y &amp;&amp; z').">
+        Region Coverage
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+      <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/build/_deps/fast_float-src/include/fast_float/ascii_number.h.html'>src/scnlib/build/_deps/fast_float-src/include/fast_float/ascii_number.h</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/279)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/16)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/174)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/build/_deps/fast_float-src/include/fast_float/bigint.h.html'>src/scnlib/build/_deps/fast_float-src/include/fast_float/bigint.h</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/348)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/45)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/233)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/build/_deps/fast_float-src/include/fast_float/decimal_to_binary.h.html'>src/scnlib/build/_deps/fast_float-src/include/fast_float/decimal_to_binary.h</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/82)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/5)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/43)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/build/_deps/fast_float-src/include/fast_float/digit_comparison.h.html'>src/scnlib/build/_deps/fast_float-src/include/fast_float/digit_comparison.h</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/309)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/22)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/154)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/build/_deps/fast_float-src/include/fast_float/float_common.h.html'>src/scnlib/build/_deps/fast_float-src/include/fast_float/float_common.h</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/226)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/66)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/86)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/build/_deps/fast_float-src/include/fast_float/parse_number.h.html'>src/scnlib/build/_deps/fast_float-src/include/fast_float/parse_number.h</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/106)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/4)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/105)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/build/_deps/simdutf-src/include/simdutf/implementation.h.html'>src/scnlib/build/_deps/simdutf-src/include/simdutf/implementation.h</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  8.70% (2/23)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  7.69% (1/13)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  5.88% (1/17)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/build/_deps/simdutf-src/include/simdutf/internal/isadetection.h.html'>src/scnlib/build/_deps/simdutf-src/include/simdutf/internal/isadetection.h</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/97)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/3)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/36)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/build/_deps/simdutf-src/src/encoding_types.cpp.html'>src/scnlib/build/_deps/simdutf-src/src/encoding_types.cpp</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/45)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/5)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/60)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/build/_deps/simdutf-src/src/error.cpp.html'>src/scnlib/build/_deps/simdutf-src/src/error.cpp</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/1)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/1)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/1)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/build/_deps/simdutf-src/src/fallback/implementation.cpp.html'>src/scnlib/build/_deps/simdutf-src/src/fallback/implementation.cpp</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/235)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/75)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/88)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/build/_deps/simdutf-src/src/generic/buf_block_reader.h.html'>src/scnlib/build/_deps/simdutf-src/src/generic/buf_block_reader.h</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/41)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/8)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/11)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/build/_deps/simdutf-src/src/generic/utf16.h.html'>src/scnlib/build/_deps/simdutf-src/src/generic/utf16.h</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/42)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/4)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/16)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/build/_deps/simdutf-src/src/generic/utf8.h.html'>src/scnlib/build/_deps/simdutf-src/src/generic/utf8.h</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/22)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/2)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/8)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/build/_deps/simdutf-src/src/generic/utf8_to_latin1/utf8_to_latin1.h.html'>src/scnlib/build/_deps/simdutf-src/src/generic/utf8_to_latin1/utf8_to_latin1.h</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/167)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/6)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/62)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/build/_deps/simdutf-src/src/generic/utf8_to_latin1/valid_utf8_to_latin1.h.html'>src/scnlib/build/_deps/simdutf-src/src/generic/utf8_to_latin1/valid_utf8_to_latin1.h</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/34)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/1)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/15)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/build/_deps/simdutf-src/src/generic/utf8_to_utf16/utf8_to_utf16.h.html'>src/scnlib/build/_deps/simdutf-src/src/generic/utf8_to_utf16/utf8_to_utf16.h</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/174)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/7)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/63)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/build/_deps/simdutf-src/src/generic/utf8_to_utf16/valid_utf8_to_utf16.h.html'>src/scnlib/build/_deps/simdutf-src/src/generic/utf8_to_utf16/valid_utf8_to_utf16.h</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/26)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/1)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/8)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/build/_deps/simdutf-src/src/generic/utf8_to_utf32/utf8_to_utf32.h.html'>src/scnlib/build/_deps/simdutf-src/src/generic/utf8_to_utf32/utf8_to_utf32.h</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/174)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/7)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/63)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/build/_deps/simdutf-src/src/generic/utf8_to_utf32/valid_utf8_to_utf32.h.html'>src/scnlib/build/_deps/simdutf-src/src/generic/utf8_to_utf32/valid_utf8_to_utf32.h</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/26)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/1)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/8)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/build/_deps/simdutf-src/src/generic/utf8_validation/utf8_lookup4_algorithm.h.html'>src/scnlib/build/_deps/simdutf-src/src/generic/utf8_validation/utf8_lookup4_algorithm.h</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/96)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/7)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/15)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/build/_deps/simdutf-src/src/generic/utf8_validation/utf8_validator.h.html'>src/scnlib/build/_deps/simdutf-src/src/generic/utf8_validation/utf8_validator.h</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/96)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/8)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/34)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/build/_deps/simdutf-src/src/haswell/avx2_convert_latin1_to_utf16.cpp.html'>src/scnlib/build/_deps/simdutf-src/src/haswell/avx2_convert_latin1_to_utf16.cpp</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/18)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/1)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/6)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/build/_deps/simdutf-src/src/haswell/avx2_convert_latin1_to_utf32.cpp.html'>src/scnlib/build/_deps/simdutf-src/src/haswell/avx2_convert_latin1_to_utf32.cpp</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/9)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/1)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/4)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/build/_deps/simdutf-src/src/haswell/avx2_convert_latin1_to_utf8.cpp.html'>src/scnlib/build/_deps/simdutf-src/src/haswell/avx2_convert_latin1_to_utf8.cpp</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/49)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/1)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/7)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/build/_deps/simdutf-src/src/haswell/avx2_convert_utf16_to_latin1.cpp.html'>src/scnlib/build/_deps/simdutf-src/src/haswell/avx2_convert_utf16_to_latin1.cpp</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/70)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/2)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/28)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/build/_deps/simdutf-src/src/haswell/avx2_convert_utf16_to_utf32.cpp.html'>src/scnlib/build/_deps/simdutf-src/src/haswell/avx2_convert_utf16_to_utf32.cpp</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/83)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/2)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/54)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/build/_deps/simdutf-src/src/haswell/avx2_convert_utf16_to_utf8.cpp.html'>src/scnlib/build/_deps/simdutf-src/src/haswell/avx2_convert_utf16_to_utf8.cpp</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/261)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/2)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/92)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/build/_deps/simdutf-src/src/haswell/avx2_convert_utf32_to_latin1.cpp.html'>src/scnlib/build/_deps/simdutf-src/src/haswell/avx2_convert_utf32_to_latin1.cpp</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/66)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/2)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/23)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/build/_deps/simdutf-src/src/haswell/avx2_convert_utf32_to_utf16.cpp.html'>src/scnlib/build/_deps/simdutf-src/src/haswell/avx2_convert_utf32_to_utf16.cpp</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/102)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/2)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/68)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/build/_deps/simdutf-src/src/haswell/avx2_convert_utf32_to_utf8.cpp.html'>src/scnlib/build/_deps/simdutf-src/src/haswell/avx2_convert_utf32_to_utf8.cpp</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/271)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/2)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/98)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/build/_deps/simdutf-src/src/haswell/avx2_convert_utf8_to_latin1.cpp.html'>src/scnlib/build/_deps/simdutf-src/src/haswell/avx2_convert_utf8_to_latin1.cpp</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/32)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/1)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/11)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/build/_deps/simdutf-src/src/haswell/avx2_convert_utf8_to_utf16.cpp.html'>src/scnlib/build/_deps/simdutf-src/src/haswell/avx2_convert_utf8_to_utf16.cpp</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/130)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/1)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/40)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/build/_deps/simdutf-src/src/haswell/avx2_convert_utf8_to_utf32.cpp.html'>src/scnlib/build/_deps/simdutf-src/src/haswell/avx2_convert_utf8_to_utf32.cpp</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/89)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/1)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/19)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/build/_deps/simdutf-src/src/haswell/avx2_detect_encodings.cpp.html'>src/scnlib/build/_deps/simdutf-src/src/haswell/avx2_detect_encodings.cpp</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/128)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/1)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/54)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/build/_deps/simdutf-src/src/haswell/avx2_validate_utf16.cpp.html'>src/scnlib/build/_deps/simdutf-src/src/haswell/avx2_validate_utf16.cpp</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/79)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/2)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/30)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/build/_deps/simdutf-src/src/haswell/avx2_validate_utf32le.cpp.html'>src/scnlib/build/_deps/simdutf-src/src/haswell/avx2_validate_utf32le.cpp</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/47)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/2)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/19)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/build/_deps/simdutf-src/src/haswell/implementation.cpp.html'>src/scnlib/build/_deps/simdutf-src/src/haswell/implementation.cpp</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/609)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/78)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/318)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/build/_deps/simdutf-src/src/icelake/icelake_ascii_validation.inl.cpp.html'>src/scnlib/build/_deps/simdutf-src/src/icelake/icelake_ascii_validation.inl.cpp</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/14)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/1)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/6)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/build/_deps/simdutf-src/src/icelake/icelake_convert_latin1_to_utf16.inl.cpp.html'>src/scnlib/build/_deps/simdutf-src/src/icelake/icelake_convert_latin1_to_utf16.inl.cpp</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/25)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/1)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/10)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/build/_deps/simdutf-src/src/icelake/icelake_convert_latin1_to_utf32.inl.cpp.html'>src/scnlib/build/_deps/simdutf-src/src/icelake/icelake_convert_latin1_to_utf32.inl.cpp</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/9)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/1)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/4)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/build/_deps/simdutf-src/src/icelake/icelake_convert_latin1_to_utf8.inl.cpp.html'>src/scnlib/build/_deps/simdutf-src/src/icelake/icelake_convert_latin1_to_utf8.inl.cpp</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/79)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/3)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/19)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/build/_deps/simdutf-src/src/icelake/icelake_convert_utf16_to_latin1.inl.cpp.html'>src/scnlib/build/_deps/simdutf-src/src/icelake/icelake_convert_utf16_to_latin1.inl.cpp</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/95)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/2)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/40)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/build/_deps/simdutf-src/src/icelake/icelake_convert_utf16_to_utf32.inl.cpp.html'>src/scnlib/build/_deps/simdutf-src/src/icelake/icelake_convert_utf16_to_utf32.inl.cpp</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/59)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/1)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/12)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/build/_deps/simdutf-src/src/icelake/icelake_convert_utf16_to_utf8.inl.cpp.html'>src/scnlib/build/_deps/simdutf-src/src/icelake/icelake_convert_utf16_to_utf8.inl.cpp</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/151)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/1)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/31)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/build/_deps/simdutf-src/src/icelake/icelake_convert_utf32_to_latin1.inl.cpp.html'>src/scnlib/build/_deps/simdutf-src/src/icelake/icelake_convert_utf32_to_latin1.inl.cpp</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/67)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/2)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/26)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/build/_deps/simdutf-src/src/icelake/icelake_convert_utf32_to_utf16.inl.cpp.html'>src/scnlib/build/_deps/simdutf-src/src/icelake/icelake_convert_utf32_to_utf16.inl.cpp</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/102)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/2)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/68)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/build/_deps/simdutf-src/src/icelake/icelake_convert_utf32_to_utf8.inl.cpp.html'>src/scnlib/build/_deps/simdutf-src/src/icelake/icelake_convert_utf32_to_utf8.inl.cpp</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/271)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/2)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/98)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/build/_deps/simdutf-src/src/icelake/icelake_convert_utf8_to_latin1.inl.cpp.html'>src/scnlib/build/_deps/simdutf-src/src/icelake/icelake_convert_utf8_to_latin1.inl.cpp</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/62)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/2)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/29)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/build/_deps/simdutf-src/src/icelake/icelake_convert_valid_utf8_to_latin1.inl.cpp.html'>src/scnlib/build/_deps/simdutf-src/src/icelake/icelake_convert_valid_utf8_to_latin1.inl.cpp</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/47)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/2)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/15)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/build/_deps/simdutf-src/src/icelake/icelake_from_utf8.inl.cpp.html'>src/scnlib/build/_deps/simdutf-src/src/icelake/icelake_from_utf8.inl.cpp</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/254)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/4)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/306)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/build/_deps/simdutf-src/src/icelake/icelake_from_valid_utf8.inl.cpp.html'>src/scnlib/build/_deps/simdutf-src/src/icelake/icelake_from_valid_utf8.inl.cpp</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/101)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/1)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/134)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/build/_deps/simdutf-src/src/icelake/icelake_utf32_validation.inl.cpp.html'>src/scnlib/build/_deps/simdutf-src/src/icelake/icelake_utf32_validation.inl.cpp</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/23)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/1)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/12)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/build/_deps/simdutf-src/src/icelake/icelake_utf8_common.inl.cpp.html'>src/scnlib/build/_deps/simdutf-src/src/icelake/icelake_utf8_common.inl.cpp</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/365)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/9)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/123)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/build/_deps/simdutf-src/src/icelake/icelake_utf8_validation.inl.cpp.html'>src/scnlib/build/_deps/simdutf-src/src/icelake/icelake_utf8_validation.inl.cpp</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/85)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/7)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/10)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/build/_deps/simdutf-src/src/icelake/implementation.cpp.html'>src/scnlib/build/_deps/simdutf-src/src/icelake/implementation.cpp</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/1076)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/75)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/515)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/build/_deps/simdutf-src/src/implementation.cpp.html'>src/scnlib/build/_deps/simdutf-src/src/implementation.cpp</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.12% (1/864)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.37% (1/268)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.34% (1/296)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/build/_deps/simdutf-src/src/scalar/ascii.h.html'>src/scnlib/build/_deps/simdutf-src/src/scalar/ascii.h</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/36)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/2)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/31)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/build/_deps/simdutf-src/src/scalar/latin1.h.html'>src/scnlib/build/_deps/simdutf-src/src/scalar/latin1.h</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/14)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/3)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/8)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/build/_deps/simdutf-src/src/scalar/latin1_to_utf16/latin1_to_utf16.h.html'>src/scnlib/build/_deps/simdutf-src/src/scalar/latin1_to_utf16/latin1_to_utf16.h</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/11)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/1)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/6)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/build/_deps/simdutf-src/src/scalar/latin1_to_utf32/latin1_to_utf32.h.html'>src/scnlib/build/_deps/simdutf-src/src/scalar/latin1_to_utf32/latin1_to_utf32.h</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/8)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/1)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/4)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/build/_deps/simdutf-src/src/scalar/latin1_to_utf8/latin1_to_utf8.h.html'>src/scnlib/build/_deps/simdutf-src/src/scalar/latin1_to_utf8/latin1_to_utf8.h</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/32)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/1)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/13)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/build/_deps/simdutf-src/src/scalar/utf16.h.html'>src/scnlib/build/_deps/simdutf-src/src/scalar/utf16.h</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/89)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/9)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/82)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/build/_deps/simdutf-src/src/scalar/utf16_to_latin1/utf16_to_latin1.h.html'>src/scnlib/build/_deps/simdutf-src/src/scalar/utf16_to_latin1/utf16_to_latin1.h</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/50)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/2)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/37)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/build/_deps/simdutf-src/src/scalar/utf16_to_latin1/valid_utf16_to_latin1.h.html'>src/scnlib/build/_deps/simdutf-src/src/scalar/utf16_to_latin1/valid_utf16_to_latin1.h</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/12)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/1)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/6)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/build/_deps/simdutf-src/src/scalar/utf16_to_utf32/utf16_to_utf32.h.html'>src/scnlib/build/_deps/simdutf-src/src/scalar/utf16_to_utf32/utf16_to_utf32.h</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/46)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/2)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/44)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/build/_deps/simdutf-src/src/scalar/utf16_to_utf32/valid_utf16_to_utf32.h.html'>src/scnlib/build/_deps/simdutf-src/src/scalar/utf16_to_utf32/valid_utf16_to_utf32.h</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/21)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/1)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/16)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/build/_deps/simdutf-src/src/scalar/utf16_to_utf8/utf16_to_utf8.h.html'>src/scnlib/build/_deps/simdutf-src/src/scalar/utf16_to_utf8/utf16_to_utf8.h</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/96)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/2)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/80)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/build/_deps/simdutf-src/src/scalar/utf16_to_utf8/valid_utf16_to_utf8.h.html'>src/scnlib/build/_deps/simdutf-src/src/scalar/utf16_to_utf8/valid_utf16_to_utf8.h</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/46)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/1)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/34)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/build/_deps/simdutf-src/src/scalar/utf32.h.html'>src/scnlib/build/_deps/simdutf-src/src/scalar/utf32.h</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/48)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/5)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/32)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/build/_deps/simdutf-src/src/scalar/utf32_to_latin1/utf32_to_latin1.h.html'>src/scnlib/build/_deps/simdutf-src/src/scalar/utf32_to_latin1/utf32_to_latin1.h</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/38)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/2)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/19)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/build/_deps/simdutf-src/src/scalar/utf32_to_latin1/valid_utf32_to_latin1.h.html'>src/scnlib/build/_deps/simdutf-src/src/scalar/utf32_to_latin1/valid_utf32_to_latin1.h</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/22)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/1)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/8)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/build/_deps/simdutf-src/src/scalar/utf32_to_utf16/utf32_to_utf16.h.html'>src/scnlib/build/_deps/simdutf-src/src/scalar/utf32_to_utf16/utf32_to_utf16.h</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/50)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/2)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/42)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/build/_deps/simdutf-src/src/scalar/utf32_to_utf16/valid_utf32_to_utf16.h.html'>src/scnlib/build/_deps/simdutf-src/src/scalar/utf32_to_utf16/valid_utf32_to_utf16.h</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/24)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/1)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/11)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/build/_deps/simdutf-src/src/scalar/utf32_to_utf8/utf32_to_utf8.h.html'>src/scnlib/build/_deps/simdutf-src/src/scalar/utf32_to_utf8/utf32_to_utf8.h</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/80)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/2)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/52)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/build/_deps/simdutf-src/src/scalar/utf32_to_utf8/valid_utf32_to_utf8.h.html'>src/scnlib/build/_deps/simdutf-src/src/scalar/utf32_to_utf8/valid_utf32_to_utf8.h</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/38)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/1)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/17)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/build/_deps/simdutf-src/src/scalar/utf8.h.html'>src/scnlib/build/_deps/simdutf-src/src/scalar/utf8.h</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/168)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/6)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/190)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/build/_deps/simdutf-src/src/scalar/utf8_to_latin1/utf8_to_latin1.h.html'>src/scnlib/build/_deps/simdutf-src/src/scalar/utf8_to_latin1/utf8_to_latin1.h</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/114)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/3)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/77)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/build/_deps/simdutf-src/src/scalar/utf8_to_latin1/valid_utf8_to_latin1.h.html'>src/scnlib/build/_deps/simdutf-src/src/scalar/utf8_to_latin1/valid_utf8_to_latin1.h</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/36)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/1)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/23)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/build/_deps/simdutf-src/src/scalar/utf8_to_utf16/utf8_to_utf16.h.html'>src/scnlib/build/_deps/simdutf-src/src/scalar/utf8_to_utf16/utf8_to_utf16.h</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/172)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/3)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/178)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/build/_deps/simdutf-src/src/scalar/utf8_to_utf16/valid_utf8_to_utf16.h.html'>src/scnlib/build/_deps/simdutf-src/src/scalar/utf8_to_utf16/valid_utf8_to_utf16.h</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/57)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/1)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/44)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/build/_deps/simdutf-src/src/scalar/utf8_to_utf32/utf8_to_utf32.h.html'>src/scnlib/build/_deps/simdutf-src/src/scalar/utf8_to_utf32/utf8_to_utf32.h</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/145)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/3)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/156)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/build/_deps/simdutf-src/src/scalar/utf8_to_utf32/valid_utf8_to_utf32.h.html'>src/scnlib/build/_deps/simdutf-src/src/scalar/utf8_to_utf32/valid_utf8_to_utf32.h</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/41)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/1)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/32)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/build/_deps/simdutf-src/src/simdutf/fallback/implementation.h.html'>src/scnlib/build/_deps/simdutf-src/src/simdutf/fallback/implementation.h</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/1)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/1)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/1)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/build/_deps/simdutf-src/src/simdutf/haswell/bitmanipulation.h.html'>src/scnlib/build/_deps/simdutf-src/src/simdutf/haswell/bitmanipulation.h</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/3)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/1)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/1)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/build/_deps/simdutf-src/src/simdutf/haswell/implementation.h.html'>src/scnlib/build/_deps/simdutf-src/src/simdutf/haswell/implementation.h</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/1)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/1)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/1)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/build/_deps/simdutf-src/src/simdutf/haswell/simd.h.html'>src/scnlib/build/_deps/simdutf-src/src/simdutf/haswell/simd.h</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/162)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/80)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/82)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/build/_deps/simdutf-src/src/simdutf/haswell/simd16-inl.h.html'>src/scnlib/build/_deps/simdutf-src/src/simdutf/haswell/simd16-inl.h</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/92)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/55)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/57)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/build/_deps/simdutf-src/src/simdutf/icelake/bitmanipulation.h.html'>src/scnlib/build/_deps/simdutf-src/src/simdutf/icelake/bitmanipulation.h</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/3)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/1)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/1)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/build/_deps/simdutf-src/src/simdutf/icelake/implementation.h.html'>src/scnlib/build/_deps/simdutf-src/src/simdutf/icelake/implementation.h</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/1)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/1)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/1)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/build/_deps/simdutf-src/src/simdutf/westmere/bitmanipulation.h.html'>src/scnlib/build/_deps/simdutf-src/src/simdutf/westmere/bitmanipulation.h</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/3)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/1)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/1)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/build/_deps/simdutf-src/src/simdutf/westmere/implementation.h.html'>src/scnlib/build/_deps/simdutf-src/src/simdutf/westmere/implementation.h</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/1)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/1)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/1)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/build/_deps/simdutf-src/src/simdutf/westmere/simd.h.html'>src/scnlib/build/_deps/simdutf-src/src/simdutf/westmere/simd.h</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/199)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/104)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/106)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/build/_deps/simdutf-src/src/simdutf/westmere/simd16-inl.h.html'>src/scnlib/build/_deps/simdutf-src/src/simdutf/westmere/simd16-inl.h</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/101)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/59)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/59)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/build/_deps/simdutf-src/src/westmere/implementation.cpp.html'>src/scnlib/build/_deps/simdutf-src/src/westmere/implementation.cpp</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/616)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/78)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/318)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/build/_deps/simdutf-src/src/westmere/internal/write_v_u16_11bits_to_utf8.cpp.html'>src/scnlib/build/_deps/simdutf-src/src/westmere/internal/write_v_u16_11bits_to_utf8.cpp</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/25)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/2)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/2)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/build/_deps/simdutf-src/src/westmere/sse_convert_latin1_to_utf16.cpp.html'>src/scnlib/build/_deps/simdutf-src/src/westmere/sse_convert_latin1_to_utf16.cpp</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/13)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/1)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/10)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/build/_deps/simdutf-src/src/westmere/sse_convert_latin1_to_utf32.cpp.html'>src/scnlib/build/_deps/simdutf-src/src/westmere/sse_convert_latin1_to_utf32.cpp</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/20)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/1)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/3)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/build/_deps/simdutf-src/src/westmere/sse_convert_latin1_to_utf8.cpp.html'>src/scnlib/build/_deps/simdutf-src/src/westmere/sse_convert_latin1_to_utf8.cpp</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/53)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/1)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/11)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/build/_deps/simdutf-src/src/westmere/sse_convert_utf16_to_latin1.cpp.html'>src/scnlib/build/_deps/simdutf-src/src/westmere/sse_convert_utf16_to_latin1.cpp</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/49)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/2)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/28)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/build/_deps/simdutf-src/src/westmere/sse_convert_utf16_to_utf32.cpp.html'>src/scnlib/build/_deps/simdutf-src/src/westmere/sse_convert_utf16_to_utf32.cpp</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/81)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/2)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/54)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/build/_deps/simdutf-src/src/westmere/sse_convert_utf16_to_utf8.cpp.html'>src/scnlib/build/_deps/simdutf-src/src/westmere/sse_convert_utf16_to_utf8.cpp</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/239)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/2)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/106)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/build/_deps/simdutf-src/src/westmere/sse_convert_utf32_to_latin1.cpp.html'>src/scnlib/build/_deps/simdutf-src/src/westmere/sse_convert_utf32_to_latin1.cpp</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/62)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/2)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/23)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/build/_deps/simdutf-src/src/westmere/sse_convert_utf32_to_utf16.cpp.html'>src/scnlib/build/_deps/simdutf-src/src/westmere/sse_convert_utf32_to_utf16.cpp</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/102)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/2)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/68)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/build/_deps/simdutf-src/src/westmere/sse_convert_utf32_to_utf8.cpp.html'>src/scnlib/build/_deps/simdutf-src/src/westmere/sse_convert_utf32_to_utf8.cpp</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/294)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/2)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/111)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/build/_deps/simdutf-src/src/westmere/sse_convert_utf8_to_latin1.cpp.html'>src/scnlib/build/_deps/simdutf-src/src/westmere/sse_convert_utf8_to_latin1.cpp</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/25)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/1)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/7)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/build/_deps/simdutf-src/src/westmere/sse_convert_utf8_to_utf16.cpp.html'>src/scnlib/build/_deps/simdutf-src/src/westmere/sse_convert_utf8_to_utf16.cpp</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/131)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/1)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/40)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/build/_deps/simdutf-src/src/westmere/sse_convert_utf8_to_utf32.cpp.html'>src/scnlib/build/_deps/simdutf-src/src/westmere/sse_convert_utf8_to_utf32.cpp</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/93)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/1)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/19)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/build/_deps/simdutf-src/src/westmere/sse_detect_encodings.cpp.html'>src/scnlib/build/_deps/simdutf-src/src/westmere/sse_detect_encodings.cpp</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/145)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/1)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/55)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/build/_deps/simdutf-src/src/westmere/sse_validate_utf16.cpp.html'>src/scnlib/build/_deps/simdutf-src/src/westmere/sse_validate_utf16.cpp</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/79)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/2)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/30)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/build/_deps/simdutf-src/src/westmere/sse_validate_utf32le.cpp.html'>src/scnlib/build/_deps/simdutf-src/src/westmere/sse_validate_utf32le.cpp</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/47)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/2)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/19)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/include/scn/detail/args.h.html'>src/scnlib/include/scn/detail/args.h</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/148)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/28)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/54)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/include/scn/detail/context.h.html'>src/scnlib/include/scn/detail/context.h</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/25)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/9)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/10)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/include/scn/detail/error.h.html'>src/scnlib/include/scn/detail/error.h</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/38)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/14)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/15)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/include/scn/detail/format_string.h.html'>src/scnlib/include/scn/detail/format_string.h</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/12)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/5)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/5)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/include/scn/detail/format_string_parser.h.html'>src/scnlib/include/scn/detail/format_string_parser.h</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/825)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/59)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/514)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/include/scn/detail/input_map.h.html'>src/scnlib/include/scn/detail/input_map.h</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/69)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/5)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/7)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/include/scn/detail/locale_ref.h.html'>src/scnlib/include/scn/detail/locale_ref.h</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/4)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/2)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/2)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/include/scn/detail/parse_context.h.html'>src/scnlib/include/scn/detail/parse_context.h</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/53)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/9)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/27)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/include/scn/detail/pp.h.html'>src/scnlib/include/scn/detail/pp.h</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/1)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/1)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/1)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/include/scn/detail/ranges.h.html'>src/scnlib/include/scn/detail/ranges.h</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/65)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/17)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/25)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/include/scn/detail/regex.h.html'>src/scnlib/include/scn/detail/regex.h</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/1)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/1)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/1)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/include/scn/detail/result.h.html'>src/scnlib/include/scn/detail/result.h</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/51)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/17)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/17)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/include/scn/detail/scan.h.html'>src/scnlib/include/scn/detail/scan.h</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/25)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/5)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/20)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/include/scn/detail/scan_buffer.h.html'>src/scnlib/include/scn/detail/scan_buffer.h</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/173)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/34)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/98)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/include/scn/detail/unicode.h.html'>src/scnlib/include/scn/detail/unicode.h</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/164)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/7)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/69)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/include/scn/detail/visitor.h.html'>src/scnlib/include/scn/detail/visitor.h</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/75)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/1)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/128)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/include/scn/detail/vscan.h.html'>src/scnlib/include/scn/detail/vscan.h</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/25)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/4)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/14)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/include/scn/detail/xchar.h.html'>src/scnlib/include/scn/detail/xchar.h</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/13)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/4)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/8)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/include/scn/external/nanorange/nanorange.hpp.html'>src/scnlib/include/scn/external/nanorange/nanorange.hpp</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/826)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/92)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/376)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/include/scn/util/algorithm.h.html'>src/scnlib/include/scn/util/algorithm.h</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/5)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/1)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/1)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/include/scn/util/expected.h.html'>src/scnlib/include/scn/util/expected.h</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/6)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/3)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/4)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/include/scn/util/expected_impl.h.html'>src/scnlib/include/scn/util/expected_impl.h</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/138)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/36)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/58)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/include/scn/util/memory.h.html'>src/scnlib/include/scn/util/memory.h</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/6)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/2)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/3)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/include/scn/util/span.h.html'>src/scnlib/include/scn/util/span.h</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/16)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/6)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/6)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/include/scn/util/string_view.h.html'>src/scnlib/include/scn/util/string_view.h</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/32)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/3)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/18)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/src/scn/impl/algorithms/common.h.html'>src/scnlib/src/scn/impl/algorithms/common.h</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/121)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/5)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/66)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/src/scn/impl/algorithms/contiguous_range_factory.h.html'>src/scnlib/src/scn/impl/algorithms/contiguous_range_factory.h</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/88)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/14)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/46)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/src/scn/impl/algorithms/eof_check.h.html'>src/scnlib/src/scn/impl/algorithms/eof_check.h</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/14)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/3)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/6)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/src/scn/impl/algorithms/find_whitespace.cpp.html'>src/scnlib/src/scn/impl/algorithms/find_whitespace.cpp</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/87)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/12)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/31)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/src/scn/impl/algorithms/read.h.html'>src/scnlib/src/scn/impl/algorithms/read.h</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/267)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/19)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/177)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/src/scn/impl/algorithms/read_simple.h.html'>src/scnlib/src/scn/impl/algorithms/read_simple.h</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/32)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/3)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/20)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/src/scn/impl/algorithms/take_width_view.h.html'>src/scnlib/src/scn/impl/algorithms/take_width_view.h</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/96)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/20)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/48)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/src/scn/impl/locale.cpp.html'>src/scnlib/src/scn/impl/locale.cpp</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/8)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/2)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/5)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/src/scn/impl/locale.h.html'>src/scnlib/src/scn/impl/locale.h</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/30)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/7)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/13)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/src/scn/impl/reader/bool_reader.h.html'>src/scnlib/src/scn/impl/reader/bool_reader.h</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/127)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/11)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/74)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/src/scn/impl/reader/code_unit_and_point_reader.h.html'>src/scnlib/src/scn/impl/reader/code_unit_and_point_reader.h</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/89)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/11)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/66)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/src/scn/impl/reader/common.h.html'>src/scnlib/src/scn/impl/reader/common.h</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/75)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/13)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/42)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/src/scn/impl/reader/float_reader.cpp.html'>src/scnlib/src/scn/impl/reader/float_reader.cpp</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/203)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/20)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/120)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/src/scn/impl/reader/float_reader.h.html'>src/scnlib/src/scn/impl/reader/float_reader.h</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/456)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/34)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/295)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/src/scn/impl/reader/integer_reader.cpp.html'>src/scnlib/src/scn/impl/reader/integer_reader.cpp</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/188)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/13)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/124)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/src/scn/impl/reader/integer_reader.h.html'>src/scnlib/src/scn/impl/reader/integer_reader.h</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/226)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/13)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/185)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/src/scn/impl/reader/numeric_reader.h.html'>src/scnlib/src/scn/impl/reader/numeric_reader.h</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/69)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/6)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/47)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/src/scn/impl/reader/pointer_reader.h.html'>src/scnlib/src/scn/impl/reader/pointer_reader.h</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/24)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/4)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/18)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/src/scn/impl/reader/reader.h.html'>src/scnlib/src/scn/impl/reader/reader.h</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/171)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/11)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/137)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/src/scn/impl/reader/regex_reader.h.html'>src/scnlib/src/scn/impl/reader/regex_reader.h</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/165)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/10)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/99)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/src/scn/impl/reader/string_reader.h.html'>src/scnlib/src/scn/impl/reader/string_reader.h</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/339)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/39)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/178)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/src/scn/impl/unicode/unicode.h.html'>src/scnlib/src/scn/impl/unicode/unicode.h</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/409)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/17)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/186)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/src/scn/impl/unicode/unicode_whitespace.h.html'>src/scnlib/src/scn/impl/unicode/unicode_whitespace.h</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/14)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/2)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/18)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/src/scn/impl/util/ascii_ctype.h.html'>src/scnlib/src/scn/impl/util/ascii_ctype.h</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/17)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/5)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/7)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/src/scn/impl/util/bits.h.html'>src/scnlib/src/scn/impl/util/bits.h</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/80)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/9)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/9)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/src/scn/impl/util/contiguous_context.h.html'>src/scnlib/src/scn/impl/util/contiguous_context.h</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/30)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/8)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/17)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/src/scn/impl/util/function_ref.h.html'>src/scnlib/src/scn/impl/util/function_ref.h</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/29)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/6)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/15)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/src/scn/impl/util/internal_error.h.html'>src/scnlib/src/scn/impl/util/internal_error.h</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/43)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/11)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/22)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/src/scn/impl/util/text_width.h.html'>src/scnlib/src/scn/impl/util/text_width.h</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/87)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/4)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/77)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/src/scn/scan.cpp.html'>src/scnlib/src/scn/scan.cpp</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/3)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/1)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/1)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/src/scn/scan_buffer.cpp.html'>src/scnlib/src/scn/scan_buffer.cpp</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/146)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/23)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/69)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/src/scn/vscan.cpp.html'>src/scnlib/src/scn/vscan.cpp</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/376)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/47)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/229)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/tests/fuzz/format_fuzz.cpp.html'>src/scnlib/tests/fuzz/format_fuzz.cpp</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/36)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/4)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/9)</pre>
+      </td>
+          </tr>
+        <tr class="light-row">
+      <td>
+                  <pre><a href='src/scnlib/tests/fuzz/fuzz.h.html'>src/scnlib/tests/fuzz/fuzz.h</a></pre>
+              </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/40)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/1)</pre>
+      </td>
+            <td class='column-entry-red'>
+        <pre>  0.00% (0/12)</pre>
+      </td>
+          </tr>
+      </tbody>
+      <tfoot>
+      <tr class="light-row-bold">
+        <td>
+          <pre>Totals</pre>
+        </td>
+                <td class='column-entry-red'>
+          <pre>  0.02% (3/19557)</pre>
+        </td>
+                <td class='column-entry-red'>
+          <pre>  0.10% (2/2032)</pre>
+        </td>
+                <td class='column-entry-red'>
+          <pre>  0.02% (2/10331)</pre>
+        </td>
+              </tr>
+    </tfoot>
+  </table>
+
+<script>
+  const SORT_COLUMN = {
+    LINE: 2,
+    FUNCTION: 3,
+    REGION: 4,
+  }
+
+  const SORT_TYPES = {
+    UNSET: -1,
+    PERCENT: 0,
+    AGGREGATE: 1,
+  }
+
+  var SORT_ORDER = {
+    [SORT_COLUMN.LINE]: [SORT_TYPES.UNSET],
+    [SORT_COLUMN.FUNCTION]: [SORT_TYPES.UNSET],
+    [SORT_COLUMN.REGION]: [SORT_TYPES.UNSET],
+  }
+
+  function sortTable(columnNumber) {
+    SORT_ORDER[columnNumber] = ++SORT_ORDER[columnNumber] % 2;
+
+    let columnSortOrder = SORT_ORDER[columnNumber];
+    let tbody = document.getElementsByTagName("tbody")[0];
+
+    [].slice.call(tbody.rows).sort(function(a, b) {
+      let aColumn = a.cells[columnNumber-1].textContent;
+      let bColumn = b.cells[columnNumber-1].textContent;
+
+      let aColumnCompare, bColumnCompare;
+      if (columnSortOrder == SORT_TYPES.PERCENT) {
+        aColumnCompare = parseFloat(/([0-9.]+)%/.exec(aColumn)[1]);
+        bColumnCompare = parseFloat(/([0-9.]+)%/.exec(bColumn)[1]);
+      } else {
+        aColumnCompare = parseInt(/\/(\d+)/.exec(aColumn)[1]);
+        bColumnCompare = parseInt(/\/(\d+)/.exec(bColumn)[1]);
+      }
+
+      return (
+          aColumnCompare < bColumnCompare ? -1:
+              aColumnCompare > bColumnCompare ? 1 : 0);
+    }).forEach(function(value, index) {
+      tbody.appendChild(value);
+    });
+  }
+
+</script>    </div>
+  </body>
+</html>
