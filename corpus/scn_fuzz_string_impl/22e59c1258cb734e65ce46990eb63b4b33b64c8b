@@ -1,0 +1,46 @@
+�CII compatible UTF-8 encoding of ISO 10646 and Unicode
+plain-text files is defined in RFC 2279 and in ISO 10646-1 Annex R.
+
+
+Using Unicode/UTF-8, you can writ�⌈
+
+Nicer typography in plain text files:
+
+  ╔══════════════════════════════════════════╗
+  ║                                          ║
+  ║   • ‘single’ and “double” quotes         ║
+  ║                                          ║
+  ║   • Curly apostrophes: “We’ve been here” ║
+  ║                                          ║
+  ║   • Latin-1 apostrophe and accents: '´`  ║
+  ║                  `                       ║
+  ║   • ‚deutsche‘ „Anführungszeichen“       ║
+  ║                                          ║
+  ║   • †, ‡, ‰, •, 3–4, —, −5/+5, ™, …      ║
+  ║                                          ║
+  ║   • ASCII safety test: 1lI|, 0OD, 8B     ║
+  ║                      ╭─────────╮         ║
+  ║   • the euro symbol: │ 14.95 € │         ║
+  ║                      ╰─────────╯         ║
+  ╚══════════════════════════════════════════╝
+
+Greek (in Polytonic):
+
+  The Greek anthem:
+
+  Σὲ γνωρίζω ἀπὸ τὴν κόψη
+  τοῦ σπαθιοῦ τὴν τρομερή,
+  σὲ γνωρίζω ἀπὸ τὴν ὄψη
+  ποὺ μὲ βία μετράει τὴ γῆ.
+
+  ᾿Απ᾿ τὰ κόκκαλα βγαλμένη
+  τῶν ῾Ελλήνων τὰ ἱερά
+  καὶ σὰν πρῶτα ἀ�-δρειωμένη
+  χαῖρε, ὦ χαῖρε, ᾿Ελευθεριά!
+
+  From a speech of Demosthenes in the 4th century BC:
+
+  Οὐχὶ ταὐτὰ παρίσταταί μοι γιγνώσκειν, ὦ ἄνδρες ᾿Αθηναῖοι,
+  ὅταν τ᾿ εἰς τὰ πράγματα ἀποβλέψω καὶ ὅταν πρὸς τοὺς
+  λόγους οὓς ἀκούω· τΥåå�ä
+ööö

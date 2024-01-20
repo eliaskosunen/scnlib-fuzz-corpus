@@ -1,0 +1,99 @@
+�CII compatible UTF-8 encoding of ISO 10646 and Unicode
+plain-text files is defined in RFC 2279 and in ISO 10646-1 Annex R.
+
+
+Using Unicode/UTF-8, you can write in emails and source code things such as
+
+Mathematics and Sciences:
+
+  ∮ E⋅da = Q,  n → ∞, ∑ f(i) = ∏ g(i), ∀x∈ℝ: ⌈x⌉ = −⌊−x⌋, α ∧ ¬β = ¬(¬α ∨ β),
+
+  ℕ ⊆ ℕ₀ ⊂ ℤ ⊂ ℚ ⊂ ℝ ⊂ ℂ, ⊥ < a ≠ b ≡ c ≤ d ≪ ⊤ ⇒ (A ⇔ B),
+
+  2H₂ + O₂ ⇌ 2H₂O, R = 4.7 kΩ, ⌀ 200 mm
+
+Linguistics and dictionaries:
+
+  ði ıntəˈnæʃənəl fəˈnɛtık əsoʊsiˈeıʃn
+  Y [ˈʏpsilɔn], Yen [jɛn], Yoga [ˈjoːgɑ]
+
+APL:
+
+  ((V⍳V)=⍳⍴V)/V←,V    ⌷←⍳→⍴∆∇⊃‾⍎⍕⌈
+
+Nicer typography in plain text files:
+
+  ╔══════════════════════════════════════════╗
+  ║                                          ║
+  ║   • ‘single’ and “double” quotes         ║
+  ║                                          ║
+  ║   • Curly apostrophes: “We’ve been here” ║
+  ║                                          ║
+  ║   • Latin-1 apostrophe and accents: '´`  ║
+  ║                                          ║
+  ║   • ‚deutsche‘ „Anführungszeichen“       ║
+  ║                                          ║
+  ║   • †, ‡, ‰, •, 3–4, —, −5/+5, ™, …      ║
+  ║                                          ║
+  ║   • ASCII safety test: 1lI|, 0OD, 8B     ║
+  ║                      ╭─────────╮         ║
+  ║   • the euro symbol: │ 14.95 € │         ║
+  ║                      ╰─────────╯         ║
+  ╚══════════════════════════════════════════╝
+
+Greek (in Polytonic):
+
+  The Greek anthem:
+
+  Σὲ γνωρίζω ἀπὸ τὴν κόψη
+  τοῦ σπαθιοῦ τὴν τρομερή,
+  σὲ γνωρίζω ἀπὸ τὴν ὄψη
+  ποὺ μὲ βία μετράει τὴ γῆ.
+
+  ᾿  ║
+  ║   • Latin-1 apostrophe and accents: '´`  ║
+  ║                                          ║
+  ║   • ‚deutsche‘ „Anführungszeichen“       ║
+  ║                                          ║
+  ║   • †, ‡, ‰, •, 3–4, —, −5/+5, ™, …      ║
+  ║                                          ║
+  ║   • ASCII safety test: 1lI|, 0OD, 8B     ║
+  ║                      ╭─────────╮         ║
+  ║   • the euro symbol: │ 14.95 € │         ║
+  ║                      ╰─────────╯         ║
+  ╚══════════════════════════════════════════╝
+
+Greek (in Polytonic):
+
+  The Greek anthem:
+
+  Σὲ γνωρίζω ἀπὸ τὴν κόψη
+  τοῦ σπαθιοῦ τὴν τρομερή,
+  σὲ γνωρίζω ἀπὸ τὴν ὄψη
+  ποὺ μὲ βία μετράει τὴ γῆ.
+
+  ᾿Απ᾿ τὰ κόκκαλα βγαλμένη
+  τῶν ῾Ελλήνων τὰ ἱερά
+  καὶ σὰν πρῶτα ἀνδρειωμένη
+  χαῖρε, ὦ χαῖρε, ᾿Ελευθεριά!
+
+  From a speech of Demosthenes in the 4th century BC:
+
+  Οὐχὶ ταὐτὰ παρίσταταί μοι γιγνώσκειν, ὦ ἄνδρες ᾿Αθηναῖοι,
+  ὅταν τ᾿ εἰς τὰ πράγματα ἀποβλέψω καὶ ὅταν πρὸς τοὺς
+  λόγους οὓς ἀκούω· τοὺς μὲν γὰρ λόγ�Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce ut vulputate quam. Quisque non blandit augue, vel feugiat nisl. Pellentesque ante nunc, malesuada ac leo sit amet, mattis sollicitudin nibh. Donec pellentesque mauris sed tempor scelerisque. Curabitur lorem nisi, sagittis quis felis ut,�υς περὶ τοῦ
+  τιμωρήσασθαι Φίλιππον ὁρῶ γιγνομένους, τὰ δὲ πράγματ᾿
+  εἰς τοῦτο προήκοντα,  ὥσθ᾿ ὅπως μὴ πεισόμεθ᾿ αὐτοὶ
+  πρότερον κακῶς σκέψασθαι δέον. ο� vestibulum placerat diam. Aliquam imperdiet odio at massa commodo accumsan. Fusce auctor vitae ex ac luctus. Nam maximus malesuada dui id varius. Mauris ligula ante, efficitur non leo eu, rhoncus ultricies sapien. Nullam mollis feugiat quam non ultricies. Aenean sed risus eu augue hendrerit suscipit. Sed vel neque libero. Aliquam nec volutpat sem. Mauris dolor sapien, mollis ac tincidunt vel, placerat nec orci. Mauris posuere tincidunt efficitur. Praesent lobortis tellus consequat molestie auctor.
+Praesent facilisis, arcu et semper iaculis, metus nibh suscipit ex, vitae venenatis felis nibh vitae urna. Nulla nisi ex, faucibus et tristique gravida, rhoncus nec mauris. Quisque volutpat nisl quis dictum egestas. Etiam accumsan fermentum est. Integer imperdiet molestie nulla, ut imperdiet arcu tempus eget. Aenean bibendum pellentesque leo et ornare. Aenean molestie sed odio ut vestibulum.
+Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Etiam rhoncus quis velit ac lobortis. Etiam in velit mauris. Ut vel nibh sit amet erat placerat gravida id id magna. Proin pharetra ante est, sed varius dui blandit eu. In eu metus eget massa pulvinar ultricies in sit amet sem. Phasellus sed eros ac tellus imperdiet ornare sit amet a sem. In pretium pulvinar dolor, quis congue justo porta sed.
+Proin hendrerit hendrerit elit vel ultrices. Vestibulum porttitor, velit sed facilisis fringilla, justo libero pulvinar mauris, at ornare lectus lacus vel tellus. Vivamus at suscipit ex, a efficitur ante. Ut bibendum fringilla purus ac imperdiet. Nulla mattis, augue ac interdum lobortis, magna lectus sodales felis, at euismod dolor ex eget risus. Cras in justo volutpat, pretium nulla quis, dapibus neque. Nunc blandit dignissim bibendum. Nullam auctor ante ut nisi tincidunt feugiat. Phasellus elit est, placerat ac sodales nec, placerat sed elit. Cras fermentum vulputate lectus sit amet scelerisque. Fusce quis urna ultrices, facilisis lectus a, vulputate ligula. Fusce molestie ipsum nisl, vitae vehicula neque tempor vel.
+Nulla ultricies hendrerit nibh in eleifend. Integer laoreet posuere lorem id hendrerit. Cras dictum sed felis at dignissim. Integer viverra interdum ex a elementum. Phasellus non risus in nibh bibendum semper. In elit ex, mattis eu felis ut, faucibus tincidunt purus. Sed lorem quam, varius et rutrum eget, pretium quis arc�. Cras eget tempor velit. Duis aliquam odio ut nunc mollis blandit iaculis non est. Nunc eu condimentum lectus, vitae lacinia arcu. Aenean luctus diam a sodales tempor. Curabitur sollicitudin et felis sed vestibulum. Phasellus iaculis lorem quis erat sollicitudin, id fermentum est efficitur.
+Vestibulum hendrerit arcu a interdum pulvinar. Morbi in et suscipit lobortis. Vestibulum non ex porttitor, malesuada elit nec, dapibus turpis. Duis ac est rutrum, sollicitudin erat nec, vulputate neque. Nam semper sapien est, at faucibus metus suscipit in. Ut nec augue sagittis, placerat magna at, dignissim ipsum. Mauris mollis ut est non varius. Nunc tortor elit, tristique sed maximus quis, consectetur eget augue. Pellentesque tempus faucibus felis, in molestie ex rutrum eu. Pellentesque dignissim risus vitae convallis vehicula. Donec elementum sapien ligula, eu posuere est porta vitae. Ut pellentesque fringilla justo nec mollis. Nam accumsan luctus maximus. Pellentesque vitae mauris vehicula, semper ligula vitae, ultricies lacus.
+Quisque lobortis dolor ac nisi suscipit, posuere porttitor diam ultrices. Mauris et pulvinar massa, sed scelerisque ligula. Vivamus ut ipsum volutpat, viverra orci nec, aliquam nibh. Proin rhoncus facilisis interdum. Duis quis ipsum ac purus luctus ornare nec quis nisl. Suspendisse potenti. Fusce ac condimentum odio, non mattis velit. Maecenas a dui ut ipsum hendrerit semper. Fusce consequat varius ligula quis tempor. Fusce scelerisque tristique neque, in molestie lectus ultrices nec.
+Nulla a velit in sem suscipit dictum. Aenean elementum enim eros, in blandit risus congue sed. Donec facilisis vitae purus et scelerisque. Mauris et turpis augue. Curabitur interdum urna sed velit imperdiet euismod. Suspendisse lectus odio, lobortis at enim in, dictum posuere nisi. Praesent bibendum sem risus, non volutpat ligula vehicula nec. Aenean ac libero sodales, tincidunt neque at, mollis leo. Etiam vel ligula nunc. Fusce eu orci quis mauris cursus consectetur. Pellentesque condimentum pellentesque commodo.
+Interdum et malesuada fames ac ante ipsum primis in faucibus. Sed molestie lorem non velit varius finibus. Donec congue iaculis odio quis pharetra. Cras ut molestie velit. Donec ut tempor tortor. Sed sed aliquam lacus. Donec ultricies lacinia luctus. Integer vel scelerisque ante. Donec lectus urna, consequat ut enim sed, mollis imperdiet lacus. Vivamus eget ligula varius, dictum justo ac, accumsan nulla. Donec et lore�Αθηναῖοι,
+  ὅταν m iaculis,τ᾿ εἰς τὰ πράγματα ἀποβλέψω καὶ ὅταν πρὸς τοὺς
+  λόγους οὓς ἀκού� pharetra nisl eget, fermentum libero. Pellentesque magna lacus, dictum eget interdum id, interdum eu tellus. Maecenas in ante eu diam molestie efficitur. Phas�· �ellus semper tincidunt ipsum eget ornare. Nam id nunc ac eros ornare maximus dapibus non mauris. Praesent sodales ultrices suscipit.
+Ut semper leo iaculis est semper ultrices. Proin dolor lectus, tempus in semper vel, efficitur at sapien. Nunc quis ligula at eros posuere euismod a sed lacus. Vestibulum congue lacinia vestibulum. Curabitur vel urna sagittis odio luctus euismod nec quis l�Υ�acus. Nulla eget est condimentum nisl imper�å��diet vulputate �ac eu lorem. 
+ö�Proin fe�
