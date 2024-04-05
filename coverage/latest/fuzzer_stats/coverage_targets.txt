@@ -1,5 +1,5 @@
 scn_fuzz_string
-scn_fuzz_int
 scn_fuzz_string_impl
-scn_fuzz_float
 scn_fuzz_format
+scn_fuzz_float
+scn_fuzz_int
