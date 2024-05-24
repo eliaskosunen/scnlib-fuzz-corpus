@@ -1,3003 +1,809 @@
-_ZN7simdutf6resultC2ENS_10error_codeEm:
-   29|  49.0k|  simdutf_really_inline result(error_code _err, size_t _pos) : error{_err}, count{_pos} {}
-
-_ZNK7simdutf14implementation25required_instruction_setsEv:
- 1589|      2|  virtual uint32_t required_instruction_sets() const { return _required_instruction_sets; }
-_ZN7simdutf14implementationC2ENSt3__112basic_stringIcNS1_11char_traitsIcEENS1_9allocatorIcEEEES7_j:
- 2693|      7|  {
- 2694|      7|  }
-_ZN7simdutf8internal29available_implementation_listC2Ev:
- 2723|      1|  simdutf_really_inline available_implementation_list() {}
-_ZN7simdutf14implementationD2Ev:
- 2695|      5|  virtual ~implementation()=default;
-_ZN7simdutf8internal10atomic_ptrIKNS_14implementationEEaSEPS3_:
- 2789|      1|  atomic_ptr& operator=(T *_ptr) { ptr = _ptr; return *this; }
-_ZN7simdutf8internal10atomic_ptrIKNS_14implementationEEcvPS3_Ev:
- 2786|      1|  operator T*() { return ptr.load(); }
-_ZN7simdutf8internal10atomic_ptrIKNS_14implementationEEC2EPS3_:
- 2769|      1|  atomic_ptr(T *_ptr) : ptr{_ptr} {}
-_ZN7simdutf8internal10atomic_ptrIKNS_14implementationEEptEv:
- 2788|   217k|  T* operator->() { return ptr.load(); }
-
-simdutf.cpp:_ZN7simdutf8internalL30detect_supported_architecturesEv:
-  208|      1|static inline uint32_t detect_supported_architectures() {
-  209|      1|  uint32_t eax;
-  210|      1|  uint32_t ebx = 0;
-  211|      1|  uint32_t ecx = 0;
-  212|      1|  uint32_t edx = 0;
-  213|      1|  uint32_t host_isa = 0x0;
-  214|       |
-  215|       |  // EBX for EAX=0x1
-  216|      1|  eax = 0x1;
-  217|      1|  cpuid(&eax, &ebx, &ecx, &edx);
-  218|       |
-  219|      1|  if (ecx & cpuid_bit::sse42) {
-  ------------------
-  |  Branch (219:7): [True: 1, False: 0]
-  ------------------
-  220|      1|    host_isa |= instruction_set::SSE42;
-  221|      1|  }
-  222|       |
-  223|      1|  if (ecx & cpuid_bit::pclmulqdq) {
-  ------------------
-  |  Branch (223:7): [True: 1, False: 0]
-  ------------------
-  224|      1|    host_isa |= instruction_set::PCLMULQDQ;
-  225|      1|  }
-  226|       |
-  227|      1|  if ((ecx & cpuid_bit::osxsave) != cpuid_bit::osxsave) {
-  ------------------
-  |  Branch (227:7): [True: 0, False: 1]
-  ------------------
-  228|      0|    return host_isa;
-  229|      0|  }
-  230|       |
-  231|       |  // xgetbv for checking if the OS saves registers
-  232|      1|  uint64_t xcr0 = xgetbv();
-  233|       |
-  234|      1|  if ((xcr0 & cpuid_bit::xcr0_bit::avx256_saved) == 0) {
-  ------------------
-  |  Branch (234:7): [True: 0, False: 1]
-  ------------------
-  235|      0|    return host_isa;
-  236|      0|  }
-  237|       |  // ECX for EAX=0x7
-  238|      1|  eax = 0x7;
-  239|      1|  ecx = 0x0; // Sub-leaf = 0
-  240|      1|  cpuid(&eax, &ebx, &ecx, &edx);
-  241|      1|  if (ebx & cpuid_bit::ebx::avx2) {
-  ------------------
-  |  Branch (241:7): [True: 1, False: 0]
-  ------------------
-  242|      1|    host_isa |= instruction_set::AVX2;
-  243|      1|  }
-  244|      1|  if (ebx & cpuid_bit::ebx::bmi1) {
-  ------------------
-  |  Branch (244:7): [True: 1, False: 0]
-  ------------------
-  245|      1|    host_isa |= instruction_set::BMI1;
-  246|      1|  }
-  247|      1|  if (ebx & cpuid_bit::ebx::bmi2) {
-  ------------------
-  |  Branch (247:7): [True: 1, False: 0]
-  ------------------
-  248|      1|    host_isa |= instruction_set::BMI2;
-  249|      1|  }
-  250|      1|  if (!((xcr0 & cpuid_bit::xcr0_bit::avx512_saved) == cpuid_bit::xcr0_bit::avx512_saved)) {
-  ------------------
-  |  Branch (250:7): [True: 1, False: 0]
-  ------------------
-  251|      1|    return host_isa;
-  252|      1|  }
-  253|      0|  if (ebx & cpuid_bit::ebx::avx512f) {
-  ------------------
-  |  Branch (253:7): [True: 0, False: 0]
-  ------------------
-  254|      0|    host_isa |= instruction_set::AVX512F;
-  255|      0|  }
-  256|      0|  if (ebx & cpuid_bit::ebx::avx512bw) {
-  ------------------
-  |  Branch (256:7): [True: 0, False: 0]
-  ------------------
-  257|      0|    host_isa |= instruction_set::AVX512BW;
-  258|      0|  }
-  259|      0|  if (ebx & cpuid_bit::ebx::avx512cd) {
-  ------------------
-  |  Branch (259:7): [True: 0, False: 0]
-  ------------------
-  260|      0|    host_isa |= instruction_set::AVX512CD;
-  261|      0|  }
-  262|      0|  if (ebx & cpuid_bit::ebx::avx512dq) {
-  ------------------
-  |  Branch (262:7): [True: 0, False: 0]
-  ------------------
-  263|      0|    host_isa |= instruction_set::AVX512DQ;
-  264|      0|  }
-  265|      0|  if (ebx & cpuid_bit::ebx::avx512vl) {
-  ------------------
-  |  Branch (265:7): [True: 0, False: 0]
-  ------------------
-  266|      0|    host_isa |= instruction_set::AVX512VL;
-  267|      0|  }
-  268|      0|  if (ecx & cpuid_bit::ecx::avx512vbmi2) {
-  ------------------
-  |  Branch (268:7): [True: 0, False: 0]
-  ------------------
-  269|      0|    host_isa |= instruction_set::AVX512VBMI2;
-  270|      0|  }
-  271|      0|  if (ecx & cpuid_bit::ecx::avx512vpopcnt) {
-  ------------------
-  |  Branch (271:7): [True: 0, False: 0]
-  ------------------
-  272|      0|    host_isa |= instruction_set::AVX512VPOPCNTDQ;
-  273|      0|  }
-  274|      0|  return host_isa;
-  275|      1|}
-simdutf.cpp:_ZN7simdutf8internalL5cpuidEPjS1_S1_S1_:
-  177|      2|                         uint32_t *edx) {
-  178|       |#if defined(_MSC_VER)
-  179|       |  int cpu_info[4];
-  180|       |  __cpuidex(cpu_info, *eax, *ecx);
-  181|       |  *eax = cpu_info[0];
-  182|       |  *ebx = cpu_info[1];
-  183|       |  *ecx = cpu_info[2];
-  184|       |  *edx = cpu_info[3];
-  185|       |#elif defined(HAVE_GCC_GET_CPUID) && defined(USE_GCC_GET_CPUID)
-  186|       |  uint32_t level = *eax;
-  187|       |  __get_cpuid(level, eax, ebx, ecx, edx);
-  188|       |#else
-  189|      2|  uint32_t a = *eax, b, c = *ecx, d;
-  190|      2|  asm volatile("cpuid\n\t" : "+a"(a), "=b"(b), "+c"(c), "=d"(d));
-  191|      2|  *eax = a;
-  192|      2|  *ebx = b;
-  193|      2|  *ecx = c;
-  194|      2|  *edx = d;
-  195|      2|#endif
-  196|      2|}
-simdutf.cpp:_ZN7simdutf8internalL6xgetbvEv:
-  198|      1|static inline uint64_t xgetbv() {
-  199|       | #if defined(_MSC_VER)
-  200|       |   return _xgetbv(0);
-  201|       | #else
-  202|      1|   uint32_t xcr0_lo, xcr0_hi;
-  203|      1|   asm volatile("xgetbv\n\t" : "=a" (xcr0_lo), "=d" (xcr0_hi) : "c" (0));
-  204|      1|   return xcr0_lo | ((uint64_t)xcr0_hi << 32);
-  205|      1| #endif
-  206|      1| }
-
-simdutf.cpp:_ZN7simdutf7haswell12_GLOBAL__N_116buf_block_readerILm64EEC2EPKhm:
-   62|  35.6k|simdutf_really_inline buf_block_reader<STEP_SIZE>::buf_block_reader(const uint8_t *_buf, size_t _len) : buf{_buf}, len{_len}, lenminusstep{len < STEP_SIZE ? 0 : len - STEP_SIZE}, idx{0} {}
-simdutf.cpp:_ZNK7simdutf7haswell12_GLOBAL__N_116buf_block_readerILm64EE14has_full_blockEv:
-   68|  35.6k|simdutf_really_inline bool buf_block_reader<STEP_SIZE>::has_full_block() const {
-   69|  35.6k|  return idx < lenminusstep;
-   70|  35.6k|}
-simdutf.cpp:_ZN7simdutf7haswell12_GLOBAL__N_116buf_block_readerILm64EE7advanceEv:
-   86|  35.6k|simdutf_really_inline void buf_block_reader<STEP_SIZE>::advance() {
-   87|  35.6k|  idx += STEP_SIZE;
-   88|  35.6k|}
-simdutf.cpp:_ZNK7simdutf7haswell12_GLOBAL__N_116buf_block_readerILm64EE13get_remainderEPh:
-   78|  35.6k|simdutf_really_inline size_t buf_block_reader<STEP_SIZE>::get_remainder(uint8_t *dst) const {
-   79|  35.6k|  if(len == idx) { return 0; } // memcpy(dst, null, 0) will trigger an error with some sanitizers
-  ------------------
-  |  Branch (79:6): [True: 0, False: 35.6k]
-  ------------------
-   80|  35.6k|  std::memset(dst, 0x20, STEP_SIZE); // std::memset STEP_SIZE because it's more efficient to write out 8 or 16 bytes at once.
-   81|  35.6k|  std::memcpy(dst, buf + idx, len - idx);
-   82|  35.6k|  return len - idx;
-   83|  35.6k|}
-
-simdutf.cpp:_ZN7simdutf7haswell12_GLOBAL__N_14utf817count_code_pointsEPKcm:
-   10|  14.6k|simdutf_really_inline size_t count_code_points(const char* in, size_t size) {
-   11|  14.6k|    size_t pos = 0;
-   12|  14.6k|    size_t count = 0;
-   13|  14.6k|    for(;pos + 64 <= size; pos += 64) {
-  ------------------
-  |  Branch (13:10): [True: 0, False: 14.6k]
-  ------------------
-   14|      0|      simd8x64<int8_t> input(reinterpret_cast<const int8_t *>(in + pos));
-   15|      0|      uint64_t utf8_continuation_mask = input.gt(-65);
-   16|      0|      count += count_ones(utf8_continuation_mask);
-   17|      0|    }
-   18|  14.6k|    return count + scalar::utf8::count_code_points(in + pos, size - pos);
-   19|  14.6k|}
-
-simdutf.cpp:_ZN7simdutf7haswell12_GLOBAL__N_113utf8_to_utf3221validating_transcoderC2Ev:
-  115|   162k|    validating_transcoder() : error(uint8_t(0)) {}
-simdutf.cpp:_ZN7simdutf7haswell12_GLOBAL__N_113utf8_to_utf3221validating_transcoder7convertEPKcmPDi:
-  129|   145k|    simdutf_really_inline size_t convert(const char* in, size_t size, char32_t* utf32_output) {
-  130|   145k|      size_t pos = 0;
-  131|   145k|      char32_t* start{utf32_output};
-  132|       |      // In the worst case, we have the haswell kernel which can cause an overflow of
-  133|       |      // 8 bytes when calling convert_masked_utf8_to_utf32. If you skip the last 16 bytes,
-  134|       |      // and if the data is valid, then it is entirely safe because 16 UTF-8 bytes generate
-  135|       |      // much more than 8 bytes. However, you cannot generally assume that you have valid
-  136|       |      // UTF-8 input, so we are going to go back from the end counting 8 leading bytes,
-  137|       |      // to give us a good margin.
-  138|   145k|      size_t leading_byte = 0;
-  139|   145k|      size_t margin = size;
-  140|   387k|      for(; margin > 0 && leading_byte < 8; margin--) {
-  ------------------
-  |  Branch (140:13): [True: 242k, False: 145k]
-  |  Branch (140:27): [True: 242k, False: 0]
-  ------------------
-  141|   242k|        leading_byte += (int8_t(in[margin-1]) > -65);
-  142|   242k|      }
-  143|       |      // If the input is long enough, then we have that margin-1 is the fourth last leading byte.
-  144|   145k|      const size_t safety_margin = size - margin + 1; // to avoid overruns!
-  145|   145k|      while(pos + 64 + safety_margin <= size) {
-  ------------------
-  |  Branch (145:13): [True: 0, False: 145k]
-  ------------------
-  146|      0|        simd8x64<int8_t> input(reinterpret_cast<const int8_t *>(in + pos));
-  147|      0|        if(input.is_ascii()) {
-  ------------------
-  |  Branch (147:12): [True: 0, False: 0]
-  ------------------
-  148|      0|          input.store_ascii_as_utf32(utf32_output);
-  149|      0|          utf32_output += 64;
-  150|      0|          pos += 64;
-  151|      0|        } else {
-  152|       |          // you might think that a for-loop would work, but under Visual Studio, it is not good enough.
-  153|      0|          static_assert((simd8x64<uint8_t>::NUM_CHUNKS == 2) || (simd8x64<uint8_t>::NUM_CHUNKS == 4),
-  154|      0|              "We support either two or four chunks per 64-byte block.");
-  155|      0|          auto zero = simd8<uint8_t>{uint8_t(0)};
-  156|      0|          if(simd8x64<uint8_t>::NUM_CHUNKS == 2) {
-  ------------------
-  |  Branch (156:14): [Folded - Ignored]
-  ------------------
-  157|      0|            this->check_utf8_bytes(input.chunks[0], zero);
-  158|      0|            this->check_utf8_bytes(input.chunks[1], input.chunks[0]);
-  159|      0|          } else if(simd8x64<uint8_t>::NUM_CHUNKS == 4) {
-  ------------------
-  |  Branch (159:21): [Folded - Ignored]
-  ------------------
-  160|      0|            this->check_utf8_bytes(input.chunks[0], zero);
-  161|      0|            this->check_utf8_bytes(input.chunks[1], input.chunks[0]);
-  162|      0|            this->check_utf8_bytes(input.chunks[2], input.chunks[1]);
-  163|      0|            this->check_utf8_bytes(input.chunks[3], input.chunks[2]);
-  164|      0|          }
-  165|      0|          uint64_t utf8_continuation_mask = input.lt(-65 + 1);
-  166|      0|          uint64_t utf8_leading_mask = ~utf8_continuation_mask;
-  167|      0|          uint64_t utf8_end_of_code_point_mask = utf8_leading_mask>>1;
-  168|       |          // We process in blocks of up to 12 bytes except possibly
-  169|       |          // for fast paths which may process up to 16 bytes. For the
-  170|       |          // slow path to work, we should have at least 12 input bytes left.
-  171|      0|          size_t max_starting_point = (pos + 64) - 12;
-  172|       |          // Next loop is going to run at least five times.
-  173|      0|          while(pos < max_starting_point) {
-  ------------------
-  |  Branch (173:17): [True: 0, False: 0]
-  ------------------
-  174|       |            // Performance note: our ability to compute 'consumed' and
-  175|       |            // then shift and recompute is critical. If there is a
-  176|       |            // latency of, say, 4 cycles on getting 'consumed', then
-  177|       |            // the inner loop might have a total latency of about 6 cycles.
-  178|       |            // Yet we process between 6 to 12 inputs bytes, thus we get
-  179|       |            // a speed limit between 1 cycle/byte and 0.5 cycle/byte
-  180|       |            // for this section of the code. Hence, there is a limit
-  181|       |            // to how much we can further increase this latency before
-  182|       |            // it seriously harms performance.
-  183|      0|            size_t consumed = convert_masked_utf8_to_utf32(in + pos,
-  184|      0|                            utf8_end_of_code_point_mask, utf32_output);
-  185|      0|            pos += consumed;
-  186|      0|            utf8_end_of_code_point_mask >>= consumed;
-  187|      0|          }
-  188|       |          // At this point there may remain between 0 and 12 bytes in the
-  189|       |          // 64-byte block. These bytes will be processed again. So we have an
-  190|       |          // 80% efficiency (in the worst case). In practice we expect an
-  191|       |          // 85% to 90% efficiency.
-  192|      0|        }
-  193|      0|      }
-  194|   145k|      if(errors()) { return 0; }
-  ------------------
-  |  Branch (194:10): [True: 0, False: 145k]
-  ------------------
-  195|   145k|      if(pos < size) {
-  ------------------
-  |  Branch (195:10): [True: 145k, False: 0]
-  ------------------
-  196|   145k|        size_t howmany  = scalar::utf8_to_utf32::convert(in + pos, size - pos, utf32_output);
-  197|   145k|        if(howmany == 0) { return 0; }
-  ------------------
-  |  Branch (197:12): [True: 18.4k, False: 126k]
-  ------------------
-  198|   126k|        utf32_output += howmany;
-  199|   126k|      }
-  200|   126k|      return utf32_output - start;
-  201|   145k|    }
-simdutf.cpp:_ZNK7simdutf7haswell12_GLOBAL__N_113utf8_to_utf3221validating_transcoder6errorsEv:
-  290|   162k|    simdutf_really_inline bool errors() const {
-  291|   162k|      return this->error.any_bits_set_anywhere();
-  292|   162k|    }
-simdutf.cpp:_ZN7simdutf7haswell12_GLOBAL__N_113utf8_to_utf3221validating_transcoder19convert_with_errorsEPKcmPDi:
-  203|  16.9k|    simdutf_really_inline result convert_with_errors(const char* in, size_t size, char32_t* utf32_output) {
-  204|  16.9k|      size_t pos = 0;
-  205|  16.9k|      char32_t* start{utf32_output};
-  206|       |      // In the worst case, we have the haswell kernel which can cause an overflow of
-  207|       |      // 8 bytes when calling convert_masked_utf8_to_utf32. If you skip the last 16 bytes,
-  208|       |      // and if the data is valid, then it is entirely safe because 16 UTF-8 bytes generate
-  209|       |      // much more than 8 bytes. However, you cannot generally assume that you have valid
-  210|       |      // UTF-8 input, so we are going to go back from the end counting 8 leading bytes,
-  211|       |      // to give us a good margin.
-  212|  16.9k|      size_t leading_byte = 0;
-  213|  16.9k|      size_t margin = size;
-  214|   203k|      for(; margin > 0 && leading_byte < 8; margin--) {
-  ------------------
-  |  Branch (214:13): [True: 202k, False: 1.10k]
-  |  Branch (214:27): [True: 186k, False: 15.8k]
-  ------------------
-  215|   186k|        leading_byte += (int8_t(in[margin-1]) > -65);
-  216|   186k|      }
-  217|       |      // If the input is long enough, then we have that margin-1 is the fourth last leading byte.
-  218|  16.9k|      const size_t safety_margin = size - margin + 1; // to avoid overruns!
-  219|  16.9k|      while(pos + 64 + safety_margin <= size) {
-  ------------------
-  |  Branch (219:13): [True: 0, False: 16.9k]
-  ------------------
-  220|      0|        simd8x64<int8_t> input(reinterpret_cast<const int8_t *>(in + pos));
-  221|      0|        if(input.is_ascii()) {
-  ------------------
-  |  Branch (221:12): [True: 0, False: 0]
-  ------------------
-  222|      0|          input.store_ascii_as_utf32(utf32_output);
-  223|      0|          utf32_output += 64;
-  224|      0|          pos += 64;
-  225|      0|        } else {
-  226|       |          // you might think that a for-loop would work, but under Visual Studio, it is not good enough.
-  227|      0|          static_assert((simd8x64<uint8_t>::NUM_CHUNKS == 2) || (simd8x64<uint8_t>::NUM_CHUNKS == 4),
-  228|      0|              "We support either two or four chunks per 64-byte block.");
-  229|      0|          auto zero = simd8<uint8_t>{uint8_t(0)};
-  230|      0|          if(simd8x64<uint8_t>::NUM_CHUNKS == 2) {
-  ------------------
-  |  Branch (230:14): [Folded - Ignored]
-  ------------------
-  231|      0|            this->check_utf8_bytes(input.chunks[0], zero);
-  232|      0|            this->check_utf8_bytes(input.chunks[1], input.chunks[0]);
-  233|      0|          } else if(simd8x64<uint8_t>::NUM_CHUNKS == 4) {
-  ------------------
-  |  Branch (233:21): [Folded - Ignored]
-  ------------------
-  234|      0|            this->check_utf8_bytes(input.chunks[0], zero);
-  235|      0|            this->check_utf8_bytes(input.chunks[1], input.chunks[0]);
-  236|      0|            this->check_utf8_bytes(input.chunks[2], input.chunks[1]);
-  237|      0|            this->check_utf8_bytes(input.chunks[3], input.chunks[2]);
-  238|      0|          }
-  239|      0|          if (errors()) {
-  ------------------
-  |  Branch (239:15): [True: 0, False: 0]
-  ------------------
-  240|      0|            result res = scalar::utf8_to_utf32::rewind_and_convert_with_errors(pos, in + pos, size - pos, utf32_output);
-  241|      0|            res.count += pos;
-  242|      0|            return res;
-  243|      0|          }
-  244|      0|          uint64_t utf8_continuation_mask = input.lt(-65 + 1);
-  245|      0|          uint64_t utf8_leading_mask = ~utf8_continuation_mask;
-  246|      0|          uint64_t utf8_end_of_code_point_mask = utf8_leading_mask>>1;
-  247|       |          // We process in blocks of up to 12 bytes except possibly
-  248|       |          // for fast paths which may process up to 16 bytes. For the
-  249|       |          // slow path to work, we should have at least 12 input bytes left.
-  250|      0|          size_t max_starting_point = (pos + 64) - 12;
-  251|       |          // Next loop is going to run at least five times.
-  252|      0|          while(pos < max_starting_point) {
-  ------------------
-  |  Branch (252:17): [True: 0, False: 0]
-  ------------------
-  253|       |            // Performance note: our ability to compute 'consumed' and
-  254|       |            // then shift and recompute is critical. If there is a
-  255|       |            // latency of, say, 4 cycles on getting 'consumed', then
-  256|       |            // the inner loop might have a total latency of about 6 cycles.
-  257|       |            // Yet we process between 6 to 12 inputs bytes, thus we get
-  258|       |            // a speed limit between 1 cycle/byte and 0.5 cycle/byte
-  259|       |            // for this section of the code. Hence, there is a limit
-  260|       |            // to how much we can further increase this latency before
-  261|       |            // it seriously harms performance.
-  262|      0|            size_t consumed = convert_masked_utf8_to_utf32(in + pos,
-  263|      0|                            utf8_end_of_code_point_mask, utf32_output);
-  264|      0|            pos += consumed;
-  265|      0|            utf8_end_of_code_point_mask >>= consumed;
-  266|      0|          }
-  267|       |          // At this point there may remain between 0 and 12 bytes in the
-  268|       |          // 64-byte block. These bytes will be processed again. So we have an
-  269|       |          // 80% efficiency (in the worst case). In practice we expect an
-  270|       |          // 85% to 90% efficiency.
-  271|      0|        }
-  272|      0|      }
-  273|  16.9k|      if(errors()) {
-  ------------------
-  |  Branch (273:10): [True: 0, False: 16.9k]
-  ------------------
-  274|      0|        result res = scalar::utf8_to_utf32::rewind_and_convert_with_errors(pos, in + pos, size - pos, utf32_output);
-  275|      0|        res.count += pos;
-  276|      0|        return res;
-  277|      0|      }
-  278|  16.9k|      if(pos < size) {
-  ------------------
-  |  Branch (278:10): [True: 16.9k, False: 0]
-  ------------------
-  279|  16.9k|        result res = scalar::utf8_to_utf32::rewind_and_convert_with_errors(pos, in + pos, size - pos, utf32_output);
-  280|  16.9k|        if (res.error) {    // In case of error, we want the error position
-  ------------------
-  |  Branch (280:13): [True: 15.0k, False: 1.90k]
-  ------------------
-  281|  15.0k|          res.count += pos;
-  282|  15.0k|          return res;
-  283|  15.0k|        } else {    // In case of success, we want the number of word written
-  284|  1.90k|          utf32_output += res.count;
-  285|  1.90k|        }
-  286|  16.9k|      }
-  287|  1.90k|      return result(error_code::SUCCESS, utf32_output - start);
-  288|  16.9k|    }
-
-simdutf.cpp:_ZN7simdutf7haswell12_GLOBAL__N_115utf8_validation12utf8_checker16check_next_inputERKNS1_4simd8simd8x64IhEE:
-  152|  35.6k|    simdutf_really_inline void check_next_input(const simd8x64<uint8_t>& input) {
-  153|  35.6k|      if(simdutf_likely(is_ascii(input))) {
-  ------------------
-  |  |   70|  35.6k|  #define simdutf_likely(x) __builtin_expect(!!(x), 1)
+_ZN3scn2v36detail39code_point_length_by_starting_code_unitIcEEmT_:
+ 3777|   448k|{
+ 3778|   448k|    if constexpr (sizeof(U) == 1) {
+  ------------------
+  |  Branch (3778:19): [Folded - Ignored]
+  ------------------
+ 3779|   448k|        return utf8_code_point_length_by_starting_code_unit(ch);
+ 3780|   448k|    }
+ 3781|   448k|    else if constexpr (sizeof(U) == 2) {
+ 3782|   448k|        return utf16_code_point_length_by_starting_code_unit(ch);
+ 3783|   448k|    }
+ 3784|   448k|    else {
+ 3785|       |        // utf-32
+ 3786|   448k|        static_assert(sizeof(U) == 4);
+ 3787|   448k|        SCN_UNUSED(ch);
+ 3788|   448k|        return 1;
+ 3789|   448k|    }
+ 3790|   448k|}
+_ZN3scn2v36detail44utf8_code_point_length_by_starting_code_unitIcEEmT_:
+ 3741|   448k|{
+ 3742|   448k|    static_assert(sizeof(U8) == 1);
+ 3743|       |
+ 3744|   448k|    SCN_GCC_COMPAT_PUSH
+ 3745|   448k|    SCN_GCC_COMPAT_IGNORE("-Wsign-conversion")
+ 3746|   448k|    constexpr char lengths[] =
+ 3747|   448k|        "\1\1\1\1\1\1\1\1"  // highest bit is 0 -> single-byte
+ 3748|   448k|        "\1\1\1\1\1\1\1\1"
+ 3749|   448k|        "\0\0\0\0\0\0\0\0"  // highest bits 10 -> error, non-initial
+ 3750|       |                            // byte
+ 3751|   448k|        "\2\2\2\2"          // highest bits 110 -> 2-byte cp
+ 3752|   448k|        "\3\3"              // highest bits 1110 -> 3-byte cp
+ 3753|   448k|        "\4";               // highest bits 11110 -> 4-byte cp
+ 3754|   448k|    return lengths[static_cast<unsigned char>(ch) >> 3];
+ 3755|   448k|    SCN_GCC_COMPAT_POP
+ 3756|   448k|}
+_ZN3scn2v36detail28decode_code_point_exhaustiveIcEEDiNSt3__117basic_string_viewIT_NS3_11char_traitsIS5_EEEE:
+ 3983|   217k|{
+ 3984|   217k|    if constexpr (sizeof(CharT) == 1) {
+  ------------------
+  |  Branch (3984:19): [Folded - Ignored]
+  ------------------
+ 3985|   217k|        return decode_utf8_code_point_exhaustive(input);
+ 3986|   217k|    }
+ 3987|   217k|    else if constexpr (sizeof(CharT) == 2) {
+ 3988|   217k|        return decode_utf16_code_point_exhaustive(input);
+ 3989|   217k|    }
+ 3990|   217k|    else {
+ 3991|   217k|        SCN_EXPECT(input.size() == 1);
+ 3992|   217k|        auto cp = static_cast<char32_t>(input.front());
+ 3993|   217k|        if (SCN_UNLIKELY(cp >= invalid_code_point)) {
+ 3994|   217k|            return invalid_code_point;
+ 3995|   217k|        }
+ 3996|   217k|        return cp;
+ 3997|   217k|    }
+ 3998|   217k|}
+_ZN3scn2v36detail33decode_utf8_code_point_exhaustiveENSt3__117basic_string_viewIcNS2_11char_traitsIcEEEE:
+ 3796|   217k|{
+ 3797|   217k|    SCN_EXPECT(!input.empty() && input.size() <= 4);
+  ------------------
+  |  |  924|   217k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
   |  |  ------------------
-  |  |  |  Branch (70:29): [True: 23.0k, False: 12.5k]
+  |  |  |  |  921|   217k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
   |  |  ------------------
   ------------------
-  154|  23.0k|        this->error |= this->prev_incomplete;
-  155|  23.0k|      } else {
-  156|       |        // you might think that a for-loop would work, but under Visual Studio, it is not good enough.
-  157|  12.5k|        static_assert((simd8x64<uint8_t>::NUM_CHUNKS == 2) || (simd8x64<uint8_t>::NUM_CHUNKS == 4),
-  158|  12.5k|            "We support either two or four chunks per 64-byte block.");
-  159|  12.5k|        if(simd8x64<uint8_t>::NUM_CHUNKS == 2) {
+ 3798|       |
+ 3799|   217k|    const auto is_trailing_code_unit = [](char ch) {
+ 3800|   217k|        return static_cast<unsigned char>(ch) >> 6 == 0x2;
+ 3801|   217k|    };
+ 3802|       |
+ 3803|   217k|    if (input.size() == 1) {
   ------------------
-  |  Branch (159:12): [Folded - Ignored]
+  |  Branch (3803:9): [True: 151k, False: 65.5k]
   ------------------
-  160|  12.5k|          this->check_utf8_bytes(input.chunks[0], this->prev_input_block);
-  161|  12.5k|          this->check_utf8_bytes(input.chunks[1], input.chunks[0]);
-  162|  12.5k|        } else if(simd8x64<uint8_t>::NUM_CHUNKS == 4) {
+ 3804|   151k|        if (static_cast<unsigned char>(input[0]) >= 0x80) {
   ------------------
-  |  Branch (162:19): [Folded - Ignored]
+  |  Branch (3804:13): [True: 0, False: 151k]
   ------------------
-  163|      0|          this->check_utf8_bytes(input.chunks[0], this->prev_input_block);
-  164|      0|          this->check_utf8_bytes(input.chunks[1], input.chunks[0]);
-  165|      0|          this->check_utf8_bytes(input.chunks[2], input.chunks[1]);
-  166|      0|          this->check_utf8_bytes(input.chunks[3], input.chunks[2]);
-  167|      0|        }
-  168|  12.5k|        this->prev_incomplete = is_incomplete(input.chunks[simd8x64<uint8_t>::NUM_CHUNKS-1]);
-  169|  12.5k|        this->prev_input_block = input.chunks[simd8x64<uint8_t>::NUM_CHUNKS-1];
-  170|       |
-  171|  12.5k|      }
-  172|  35.6k|    }
-simdutf.cpp:_ZN7simdutf7haswell12_GLOBAL__N_115utf8_validation12utf8_checker16check_utf8_bytesENS1_4simd5simd8IhEES6_:
-  135|  25.1k|    simdutf_really_inline void check_utf8_bytes(const simd8<uint8_t> input, const simd8<uint8_t> prev_input) {
-  136|       |      // Flip prev1...prev3 so we can easily determine if they are 2+, 3+ or 4+ lead bytes
-  137|       |      // (2, 3, 4-byte leads become large positive numbers instead of small negative numbers)
-  138|  25.1k|      simd8<uint8_t> prev1 = input.prev<1>(prev_input);
-  139|  25.1k|      simd8<uint8_t> sc = check_special_cases(input, prev1);
-  140|  25.1k|      this->error |= check_multibyte_lengths(input, prev_input, sc);
-  141|  25.1k|    }
-simdutf.cpp:_ZN7simdutf7haswell12_GLOBAL__N_115utf8_validation19check_special_casesENS1_4simd5simd8IhEES5_:
-    8|  25.1k|  simdutf_really_inline simd8<uint8_t> check_special_cases(const simd8<uint8_t> input, const simd8<uint8_t> prev1) {
-    9|       |// Bit 0 = Too Short (lead byte/ASCII followed by lead byte/ASCII)
-   10|       |// Bit 1 = Too Long (ASCII followed by continuation)
-   11|       |// Bit 2 = Overlong 3-byte
-   12|       |// Bit 4 = Surrogate
-   13|       |// Bit 5 = Overlong 2-byte
-   14|       |// Bit 7 = Two Continuations
-   15|  25.1k|    constexpr const uint8_t TOO_SHORT   = 1<<0; // 11______ 0_______
-   16|       |                                                // 11______ 11______
-   17|  25.1k|    constexpr const uint8_t TOO_LONG    = 1<<1; // 0_______ 10______
-   18|  25.1k|    constexpr const uint8_t OVERLONG_3  = 1<<2; // 11100000 100_____
-   19|  25.1k|    constexpr const uint8_t SURROGATE   = 1<<4; // 11101101 101_____
-   20|  25.1k|    constexpr const uint8_t OVERLONG_2  = 1<<5; // 1100000_ 10______
-   21|  25.1k|    constexpr const uint8_t TWO_CONTS   = 1<<7; // 10______ 10______
-   22|  25.1k|    constexpr const uint8_t TOO_LARGE   = 1<<3; // 11110100 1001____
-   23|       |                                                // 11110100 101_____
-   24|       |                                                // 11110101 1001____
-   25|       |                                                // 11110101 101_____
-   26|       |                                                // 1111011_ 1001____
-   27|       |                                                // 1111011_ 101_____
-   28|       |                                                // 11111___ 1001____
-   29|       |                                                // 11111___ 101_____
-   30|  25.1k|    constexpr const uint8_t TOO_LARGE_1000 = 1<<6;
-   31|       |                                                // 11110101 1000____
-   32|       |                                                // 1111011_ 1000____
-   33|       |                                                // 11111___ 1000____
-   34|  25.1k|    constexpr const uint8_t OVERLONG_4  = 1<<6; // 11110000 1000____
-   35|       |
-   36|  25.1k|    const simd8<uint8_t> byte_1_high = prev1.shr<4>().lookup_16<uint8_t>(
-   37|       |      // 0_______ ________ <ASCII in byte 1>
-   38|  25.1k|      TOO_LONG, TOO_LONG, TOO_LONG, TOO_LONG,
-   39|  25.1k|      TOO_LONG, TOO_LONG, TOO_LONG, TOO_LONG,
-   40|       |      // 10______ ________ <continuation in byte 1>
-   41|  25.1k|      TWO_CONTS, TWO_CONTS, TWO_CONTS, TWO_CONTS,
-   42|       |      // 1100____ ________ <two byte lead in byte 1>
-   43|  25.1k|      TOO_SHORT | OVERLONG_2,
-   44|       |      // 1101____ ________ <two byte lead in byte 1>
-   45|  25.1k|      TOO_SHORT,
-   46|       |      // 1110____ ________ <three byte lead in byte 1>
-   47|  25.1k|      TOO_SHORT | OVERLONG_3 | SURROGATE,
-   48|       |      // 1111____ ________ <four+ byte lead in byte 1>
-   49|  25.1k|      TOO_SHORT | TOO_LARGE | TOO_LARGE_1000 | OVERLONG_4
-   50|  25.1k|    );
-   51|  25.1k|    constexpr const uint8_t CARRY = TOO_SHORT | TOO_LONG | TWO_CONTS; // These all have ____ in byte 1 .
-   52|  25.1k|    const simd8<uint8_t> byte_1_low = (prev1 & 0x0F).lookup_16<uint8_t>(
-   53|       |      // ____0000 ________
-   54|  25.1k|      CARRY | OVERLONG_3 | OVERLONG_2 | OVERLONG_4,
-   55|       |      // ____0001 ________
-   56|  25.1k|      CARRY | OVERLONG_2,
-   57|       |      // ____001_ ________
-   58|  25.1k|      CARRY,
-   59|  25.1k|      CARRY,
-   60|       |
-   61|       |      // ____0100 ________
-   62|  25.1k|      CARRY | TOO_LARGE,
-   63|       |      // ____0101 ________
-   64|  25.1k|      CARRY | TOO_LARGE | TOO_LARGE_1000,
-   65|       |      // ____011_ ________
-   66|  25.1k|      CARRY | TOO_LARGE | TOO_LARGE_1000,
-   67|  25.1k|      CARRY | TOO_LARGE | TOO_LARGE_1000,
-   68|       |
-   69|       |      // ____1___ ________
-   70|  25.1k|      CARRY | TOO_LARGE | TOO_LARGE_1000,
-   71|  25.1k|      CARRY | TOO_LARGE | TOO_LARGE_1000,
-   72|  25.1k|      CARRY | TOO_LARGE | TOO_LARGE_1000,
-   73|  25.1k|      CARRY | TOO_LARGE | TOO_LARGE_1000,
-   74|  25.1k|      CARRY | TOO_LARGE | TOO_LARGE_1000,
-   75|       |      // ____1101 ________
-   76|  25.1k|      CARRY | TOO_LARGE | TOO_LARGE_1000 | SURROGATE,
-   77|  25.1k|      CARRY | TOO_LARGE | TOO_LARGE_1000,
-   78|  25.1k|      CARRY | TOO_LARGE | TOO_LARGE_1000
-   79|  25.1k|    );
-   80|  25.1k|    const simd8<uint8_t> byte_2_high = input.shr<4>().lookup_16<uint8_t>(
-   81|       |      // ________ 0_______ <ASCII in byte 2>
-   82|  25.1k|      TOO_SHORT, TOO_SHORT, TOO_SHORT, TOO_SHORT,
-   83|  25.1k|      TOO_SHORT, TOO_SHORT, TOO_SHORT, TOO_SHORT,
-   84|       |
-   85|       |      // ________ 1000____
-   86|  25.1k|      TOO_LONG | OVERLONG_2 | TWO_CONTS | OVERLONG_3 | TOO_LARGE_1000 | OVERLONG_4,
-   87|       |      // ________ 1001____
-   88|  25.1k|      TOO_LONG | OVERLONG_2 | TWO_CONTS | OVERLONG_3 | TOO_LARGE,
-   89|       |      // ________ 101_____
-   90|  25.1k|      TOO_LONG | OVERLONG_2 | TWO_CONTS | SURROGATE  | TOO_LARGE,
-   91|  25.1k|      TOO_LONG | OVERLONG_2 | TWO_CONTS | SURROGATE  | TOO_LARGE,
-   92|       |
-   93|       |      // ________ 11______
-   94|  25.1k|      TOO_SHORT, TOO_SHORT, TOO_SHORT, TOO_SHORT
-   95|  25.1k|    );
-   96|  25.1k|    return (byte_1_high & byte_1_low & byte_2_high);
-   97|  25.1k|  }
-simdutf.cpp:_ZN7simdutf7haswell12_GLOBAL__N_115utf8_validation23check_multibyte_lengthsENS1_4simd5simd8IhEES5_S5_:
-   99|  25.1k|      const simd8<uint8_t> prev_input, const simd8<uint8_t> sc) {
-  100|  25.1k|    simd8<uint8_t> prev2 = input.prev<2>(prev_input);
-  101|  25.1k|    simd8<uint8_t> prev3 = input.prev<3>(prev_input);
-  102|  25.1k|    simd8<uint8_t> must23 = simd8<uint8_t>(must_be_2_3_continuation(prev2, prev3));
-  103|  25.1k|    simd8<uint8_t> must23_80 = must23 & uint8_t(0x80);
-  104|  25.1k|    return must23_80 ^ sc;
-  105|  25.1k|  }
-simdutf.cpp:_ZN7simdutf7haswell12_GLOBAL__N_115utf8_validation13is_incompleteENS1_4simd5simd8IhEE:
-  111|  12.5k|  simdutf_really_inline simd8<uint8_t> is_incomplete(const simd8<uint8_t> input) {
-  112|       |    // If the previous input's last 3 bytes match this, they're too short (they ended at EOF):
-  113|       |    // ... 1111____ 111_____ 11______
-  114|  12.5k|    static const uint8_t max_array[32] = {
-  115|  12.5k|      255, 255, 255, 255, 255, 255, 255, 255,
-  116|  12.5k|      255, 255, 255, 255, 255, 255, 255, 255,
-  117|  12.5k|      255, 255, 255, 255, 255, 255, 255, 255,
-  118|  12.5k|      255, 255, 255, 255, 255, 0b11110000u-1, 0b11100000u-1, 0b11000000u-1
-  119|  12.5k|    };
-  120|  12.5k|    const simd8<uint8_t> max_value(&max_array[sizeof(max_array)-sizeof(simd8<uint8_t>)]);
-  121|  12.5k|    return input.gt_bits(max_value);
-  122|  12.5k|  }
-simdutf.cpp:_ZN7simdutf7haswell12_GLOBAL__N_115utf8_validation12utf8_checker9check_eofEv:
-  146|  35.6k|    simdutf_really_inline void check_eof() {
-  147|       |      // If the previous block had incomplete UTF-8 characters at the end, an ASCII block can't
-  148|       |      // possibly finish them.
-  149|  35.6k|      this->error |= this->prev_incomplete;
-  150|  35.6k|    }
-simdutf.cpp:_ZNK7simdutf7haswell12_GLOBAL__N_115utf8_validation12utf8_checker6errorsEv:
-  175|  35.6k|    simdutf_really_inline bool errors() const {
-  176|  35.6k|      return this->error.any_bits_set_anywhere();
-  177|  35.6k|    }
+ 3805|      0|            SCN_UNLIKELY_ATTR
+ 3806|      0|            return invalid_code_point;
+ 3807|      0|        }
+ 3808|   151k|        return static_cast<char32_t>(input[0]);
+ 3809|   151k|    }
+ 3810|       |
+ 3811|  65.5k|    if (input.size() == 2) {
+  ------------------
+  |  Branch (3811:9): [True: 33.5k, False: 31.9k]
+  ------------------
+ 3812|  33.5k|        if ((static_cast<unsigned char>(input[0]) & 0xe0) != 0xc0) {
+  ------------------
+  |  Branch (3812:13): [True: 0, False: 33.5k]
+  ------------------
+ 3813|      0|            SCN_UNLIKELY_ATTR
+ 3814|      0|            return invalid_code_point;
+ 3815|      0|        }
+ 3816|  33.5k|        if (!is_trailing_code_unit(input[1])) {
+  ------------------
+  |  Branch (3816:13): [True: 3.63k, False: 29.9k]
+  ------------------
+ 3817|  3.63k|            SCN_UNLIKELY_ATTR
+ 3818|  3.63k|            return invalid_code_point;
+ 3819|  3.63k|        }
+ 3820|       |
+ 3821|  29.9k|        char32_t cp{};
+ 3822|  29.9k|        cp |= (static_cast<char32_t>(input[0]) & 0x1f) << 6;
+ 3823|  29.9k|        cp |= (static_cast<char32_t>(input[1]) & 0x3f) << 0;
+ 3824|  29.9k|        return cp;
+ 3825|  33.5k|    }
+ 3826|       |
+ 3827|  31.9k|    if (input.size() == 3) {
+  ------------------
+  |  Branch (3827:9): [True: 18.6k, False: 13.3k]
+  ------------------
+ 3828|  18.6k|        if ((static_cast<unsigned char>(input[0]) & 0xf0) != 0xe0) {
+  ------------------
+  |  Branch (3828:13): [True: 0, False: 18.6k]
+  ------------------
+ 3829|      0|            SCN_UNLIKELY_ATTR
+ 3830|      0|            return invalid_code_point;
+ 3831|      0|        }
+ 3832|  18.6k|        if (!is_trailing_code_unit(input[1]) ||
+  ------------------
+  |  Branch (3832:13): [True: 2.29k, False: 16.3k]
+  ------------------
+ 3833|  18.6k|            !is_trailing_code_unit(input[2])) {
+  ------------------
+  |  Branch (3833:13): [True: 1.25k, False: 15.0k]
+  ------------------
+ 3834|  3.55k|            SCN_UNLIKELY_ATTR
+ 3835|  3.55k|            return invalid_code_point;
+ 3836|  3.55k|        }
+ 3837|       |
+ 3838|  15.0k|        char32_t cp{};
+ 3839|  15.0k|        cp |= (static_cast<char32_t>(input[0]) & 0x0f) << 12;
+ 3840|  15.0k|        cp |= (static_cast<char32_t>(input[1]) & 0x3f) << 6;
+ 3841|  15.0k|        cp |= (static_cast<char32_t>(input[2]) & 0x3f) << 0;
+ 3842|  15.0k|        return cp;
+ 3843|  18.6k|    }
+ 3844|       |
+ 3845|  13.3k|    if (input.size() == 4) {
+  ------------------
+  |  Branch (3845:9): [True: 13.3k, False: 0]
+  ------------------
+ 3846|  13.3k|        if ((static_cast<unsigned char>(input[0]) & 0xf8) != 0xf0) {
+  ------------------
+  |  Branch (3846:13): [True: 0, False: 13.3k]
+  ------------------
+ 3847|      0|            SCN_UNLIKELY_ATTR
+ 3848|      0|            return invalid_code_point;
+ 3849|      0|        }
+ 3850|  13.3k|        if (static_cast<unsigned char>(input[0]) > 0xf4) {
+  ------------------
+  |  Branch (3850:13): [True: 2.05k, False: 11.3k]
+  ------------------
+ 3851|  2.05k|            SCN_UNLIKELY_ATTR
+ 3852|  2.05k|            return invalid_code_point;
+ 3853|  2.05k|        }
+ 3854|  11.3k|        if (!is_trailing_code_unit(input[1]) ||
+  ------------------
+  |  Branch (3854:13): [True: 2.50k, False: 8.80k]
+  ------------------
+ 3855|  11.3k|            !is_trailing_code_unit(input[2]) ||
+  ------------------
+  |  Branch (3855:13): [True: 883, False: 7.92k]
+  ------------------
+ 3856|  11.3k|            !is_trailing_code_unit(input[3])) {
+  ------------------
+  |  Branch (3856:13): [True: 838, False: 7.08k]
+  ------------------
+ 3857|  4.22k|            SCN_UNLIKELY_ATTR
+ 3858|  4.22k|            return invalid_code_point;
+ 3859|  4.22k|        }
+ 3860|       |
+ 3861|  7.08k|        char32_t cp{};
+ 3862|  7.08k|        cp |= (static_cast<char32_t>(input[0]) & 0x07) << 18;
+ 3863|  7.08k|        cp |= (static_cast<char32_t>(input[1]) & 0x3f) << 12;
+ 3864|  7.08k|        cp |= (static_cast<char32_t>(input[2]) & 0x3f) << 6;
+ 3865|  7.08k|        cp |= (static_cast<char32_t>(input[3]) & 0x3f) << 0;
+ 3866|  7.08k|        return cp;
+ 3867|  11.3k|    }
+ 3868|       |
+ 3869|      0|#if !SCN_GCC || SCN_GCC >= SCN_COMPILER(8, 0, 0)
+ 3870|       |    // gcc 7 thinks we'll get here, even when we won't
+ 3871|      0|    SCN_EXPECT(false);
+  ------------------
+  |  |  924|      0|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
+  |  |  ------------------
+  |  |  |  |  921|      0|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
+  |  |  ------------------
+  ------------------
+ 3872|      0|#endif
+ 3873|      0|    SCN_UNREACHABLE;
+  ------------------
+  |  |  887|      0|#define SCN_UNREACHABLE __builtin_unreachable()
+  ------------------
+ 3874|      0|}
+_ZZN3scn2v36detail33decode_utf8_code_point_exhaustiveENSt3__117basic_string_viewIcNS2_11char_traitsIcEEEEENKUlcE_clEc:
+ 3799|  96.5k|    const auto is_trailing_code_unit = [](char ch) {
+ 3800|  96.5k|        return static_cast<unsigned char>(ch) >> 6 == 0x2;
+ 3801|  96.5k|    };
+_ZN3scn2v36detail31make_string_view_from_iteratorsIcEENSt3__117basic_string_viewIT_NS3_11char_traitsIS5_EEEENS8_8iteratorES9_:
+ 3669|   449k|{
+ 3670|   449k|    if constexpr (std::is_constructible_v<std::basic_string_view<CharT>,
+  ------------------
+  |  Branch (3670:19): [Folded - Ignored]
+  |  Branch (3670:19): [Folded - Ignored]
+  ------------------
+ 3671|   449k|                                          decltype(first), decltype(last)> &&
+ 3672|   449k|                  !SCN_MSVC_DEBUG_ITERATORS) {
+  ------------------
+  |  |  403|      0|#define SCN_MSVC_DEBUG_ITERATORS 0
+  ------------------
+  |  Branch (3672:19): [Folded - Ignored]
+  ------------------
+ 3673|   449k|        return {first, last};
+ 3674|   449k|    }
+ 3675|   449k|    else {
+ 3676|   449k|        return {to_address(first), static_cast<size_t>(std::distance(
+ 3677|   449k|                                       to_address(first), to_address(last)))};
+ 3678|   449k|    }
+ 3679|   449k|}
+_ZN3scn2v36detail10to_addressIRPKcEEDTclgssr3scn6detailE15to_address_implscDtfp_Efp_tlNS1_12priority_tagILm2EEEEEEOT_:
+  321|  1.41M|{
+  322|  1.41M|    return ::scn::detail::to_address_impl(SCN_FWD(p), priority_tag<2>{});
+  ------------------
+  |  |  930|  1.41M|#define SCN_FWD(x)          static_cast<decltype(x)&&>(x)
+  ------------------
+  323|  1.41M|}
+_ZN3scn2v36detail15to_address_implIKcEEPT_S5_NS1_12priority_tagILm2EEE:
+  301|  1.41M|{
+  302|  1.41M|    return p;
+  303|  1.41M|}
+_ZN3scn2v36detail25make_string_view_iteratorIcEENSt3__117basic_string_viewIT_NS3_11char_traitsIS5_EEE8iteratorES8_S9_:
+ 3700|   282k|{
+ 3701|   282k|    if constexpr (std::is_constructible_v<
+  ------------------
+  |  Branch (3701:19): [Folded - Ignored]
+  |  Branch (3701:19): [Folded - Ignored]
+  ------------------
+ 3702|   282k|                      typename std::basic_string_view<CharT>::iterator,
+ 3703|   282k|                      decltype(it)> &&
+ 3704|   282k|                  !SCN_MSVC_DEBUG_ITERATORS) {
+  ------------------
+  |  |  403|      0|#define SCN_MSVC_DEBUG_ITERATORS 0
+  ------------------
+  |  Branch (3704:19): [Folded - Ignored]
+  ------------------
+ 3705|   282k|        SCN_UNUSED(sv);
+  ------------------
+  |  |  909|   282k|#define SCN_UNUSED(x) static_cast<void>(sizeof(x))
+  ------------------
+ 3706|   282k|        return it;
+ 3707|   282k|    }
+ 3708|   282k|    else {
+ 3709|   282k|        return sv.begin() + std::distance(sv.data(), detail::to_address(it));
+ 3710|   282k|    }
+ 3711|   282k|}
 
-simdutf.cpp:_ZN7simdutf7haswell12_GLOBAL__N_115utf8_validation21generic_validate_utf8EPKcm:
-   27|  14.6k|bool generic_validate_utf8(const char * input, size_t length) {
-   28|  14.6k|  return generic_validate_utf8<utf8_checker>(reinterpret_cast<const uint8_t *>(input),length);
-   29|  14.6k|}
-simdutf.cpp:_ZN7simdutf7haswell12_GLOBAL__N_115utf8_validation21generic_validate_utf8INS2_12utf8_checkerEEEbPKhm:
-   10|  14.6k|bool generic_validate_utf8(const uint8_t * input, size_t length) {
-   11|  14.6k|    checker c{};
-   12|  14.6k|    buf_block_reader<64> reader(input, length);
-   13|  14.6k|    while (reader.has_full_block()) {
-  ------------------
-  |  Branch (13:12): [True: 0, False: 14.6k]
-  ------------------
-   14|      0|      simd::simd8x64<uint8_t> in(reader.full_block());
-   15|      0|      c.check_next_input(in);
-   16|      0|      reader.advance();
-   17|      0|    }
-   18|  14.6k|    uint8_t block[64]{};
-   19|  14.6k|    reader.get_remainder(block);
-   20|  14.6k|    simd::simd8x64<uint8_t> in(block);
-   21|  14.6k|    c.check_next_input(in);
-   22|  14.6k|    reader.advance();
-   23|  14.6k|    c.check_eof();
-   24|  14.6k|    return !c.errors();
-   25|  14.6k|}
-simdutf.cpp:_ZN7simdutf7haswell12_GLOBAL__N_115utf8_validation33generic_validate_utf8_with_errorsEPKcm:
-   67|  21.0k|result generic_validate_utf8_with_errors(const char * input, size_t length) {
-   68|  21.0k|  return generic_validate_utf8_with_errors<utf8_checker>(reinterpret_cast<const uint8_t *>(input),length);
-   69|  21.0k|}
-simdutf.cpp:_ZN7simdutf7haswell12_GLOBAL__N_115utf8_validation33generic_validate_utf8_with_errorsINS2_12utf8_checkerEEENS_6resultEPKhm:
-   35|  21.0k|result generic_validate_utf8_with_errors(const uint8_t * input, size_t length) {
-   36|  21.0k|    checker c{};
-   37|  21.0k|    buf_block_reader<64> reader(input, length);
-   38|  21.0k|    size_t count{0};
-   39|  21.0k|    while (reader.has_full_block()) {
-  ------------------
-  |  Branch (39:12): [True: 0, False: 21.0k]
-  ------------------
-   40|      0|      simd::simd8x64<uint8_t> in(reader.full_block());
-   41|      0|      c.check_next_input(in);
-   42|      0|      if(c.errors()) {
-  ------------------
-  |  Branch (42:10): [True: 0, False: 0]
-  ------------------
-   43|      0|        if (count != 0) { count--; } // Sometimes the error is only detected in the next chunk
-  ------------------
-  |  Branch (43:13): [True: 0, False: 0]
-  ------------------
-   44|      0|        result res = scalar::utf8::rewind_and_validate_with_errors(reinterpret_cast<const char*>(input), reinterpret_cast<const char*>(input + count), length - count);
-   45|      0|        res.count += count;
-   46|      0|        return res;
-   47|      0|      }
-   48|      0|      reader.advance();
-   49|      0|      count += 64;
-   50|      0|    }
-   51|  21.0k|    uint8_t block[64]{};
-   52|  21.0k|    reader.get_remainder(block);
-   53|  21.0k|    simd::simd8x64<uint8_t> in(block);
-   54|  21.0k|    c.check_next_input(in);
-   55|  21.0k|    reader.advance();
-   56|  21.0k|    c.check_eof();
-   57|  21.0k|    if (c.errors()) {
-  ------------------
-  |  Branch (57:9): [True: 6.24k, False: 14.7k]
-  ------------------
-   58|  6.24k|      if (count != 0) { count--; } // Sometimes the error is only detected in the next chunk
-  ------------------
-  |  Branch (58:11): [True: 0, False: 6.24k]
-  ------------------
-   59|  6.24k|      result res = scalar::utf8::rewind_and_validate_with_errors(reinterpret_cast<const char*>(input), reinterpret_cast<const char*>(input) + count, length - count);
-   60|  6.24k|      res.count += count;
-   61|  6.24k|      return res;
-   62|  14.7k|    } else {
-   63|  14.7k|      return result(error_code::SUCCESS, length);
-   64|  14.7k|    }
-   65|  21.0k|}
-
-simdutf.cpp:_ZN7simdutf7haswell12_GLOBAL__N_138avx2_convert_utf32_to_utf8_with_errorsEPKDimPc:
-  241|  4.57k|std::pair<result, char*> avx2_convert_utf32_to_utf8_with_errors(const char32_t* buf, size_t len, char* utf8_output) {
-  242|  4.57k|  const char32_t* end = buf + len;
-  243|  4.57k|  const char32_t* start = buf;
-  244|       |
-  245|  4.57k|  const __m256i v_0000 = _mm256_setzero_si256();
-  246|  4.57k|  const __m256i v_ffff0000 = _mm256_set1_epi32((uint32_t)0xffff0000);
-  247|  4.57k|  const __m256i v_ff80 = _mm256_set1_epi16((uint16_t)0xff80);
-  248|  4.57k|  const __m256i v_f800 = _mm256_set1_epi16((uint16_t)0xf800);
-  249|  4.57k|  const __m256i v_c080 = _mm256_set1_epi16((uint16_t)0xc080);
-  250|  4.57k|  const __m256i v_7fffffff = _mm256_set1_epi32((uint32_t)0x7fffffff);
-  251|  4.57k|  const __m256i v_10ffff = _mm256_set1_epi32((uint32_t)0x10ffff);
-  252|       |
-  253|  4.57k|  const size_t safety_margin = 12; // to avoid overruns, see issue https://github.com/simdutf/simdutf/issues/92
-  254|       |
-  255|  8.75k|  while (buf + 16 + safety_margin <= end) {
-  ------------------
-  |  Branch (255:10): [True: 4.17k, False: 4.57k]
-  ------------------
-  256|  4.17k|    __m256i in = _mm256_loadu_si256((__m256i*)buf);
-  257|  4.17k|    __m256i nextin = _mm256_loadu_si256((__m256i*)buf+1);
-  258|       |    // Check for too large input
-  259|  4.17k|    const __m256i max_input = _mm256_max_epu32(_mm256_max_epu32(in, nextin), v_10ffff);
-  260|  4.17k|    if(static_cast<uint32_t>(_mm256_movemask_epi8(_mm256_cmpeq_epi32(max_input, v_10ffff))) != 0xffffffff) {
-  ------------------
-  |  Branch (260:8): [True: 0, False: 4.17k]
-  ------------------
-  261|      0|      return std::make_pair(result(error_code::TOO_LARGE, buf - start), utf8_output);
-  262|      0|    }
-  263|       |
-  264|       |    // Pack 32-bit UTF-32 code units to 16-bit UTF-16 code units with unsigned saturation
-  265|  4.17k|    __m256i in_16 = _mm256_packus_epi32(_mm256_and_si256(in, v_7fffffff), _mm256_and_si256(nextin, v_7fffffff));
-  266|  4.17k|    in_16 = _mm256_permute4x64_epi64(in_16, 0b11011000);
-  267|       |
-  268|       |    // Try to apply UTF-16 => UTF-8 routine on 256 bits (haswell/avx2_convert_utf16_to_utf8.cpp)
-  269|       |
-  270|  4.17k|    if(_mm256_testz_si256(in_16, v_ff80)) { // ASCII fast path!!!!
-  ------------------
-  |  Branch (270:8): [True: 1.07k, False: 3.10k]
-  ------------------
-  271|       |      // 1. pack the bytes
-  272|  1.07k|      const __m128i utf8_packed = _mm_packus_epi16(_mm256_castsi256_si128(in_16),_mm256_extractf128_si256(in_16,1));
-  273|       |      // 2. store (16 bytes)
-  274|  1.07k|      _mm_storeu_si128((__m128i*)utf8_output, utf8_packed);
-  275|       |      // 3. adjust pointers
-  276|  1.07k|      buf += 16;
-  277|  1.07k|      utf8_output += 16;
-  278|  1.07k|      continue; // we are done for this round!
-  279|  1.07k|    }
-  280|       |    // no bits set above 7th bit
-  281|  3.10k|    const __m256i one_byte_bytemask = _mm256_cmpeq_epi16(_mm256_and_si256(in_16, v_ff80), v_0000);
-  282|  3.10k|    const uint32_t one_byte_bitmask = static_cast<uint32_t>(_mm256_movemask_epi8(one_byte_bytemask));
-  283|       |
-  284|       |    // no bits set above 11th bit
-  285|  3.10k|    const __m256i one_or_two_bytes_bytemask = _mm256_cmpeq_epi16(_mm256_and_si256(in_16, v_f800), v_0000);
-  286|  3.10k|    const uint32_t one_or_two_bytes_bitmask = static_cast<uint32_t>(_mm256_movemask_epi8(one_or_two_bytes_bytemask));
-  287|  3.10k|    if (one_or_two_bytes_bitmask == 0xffffffff) {
-  ------------------
-  |  Branch (287:9): [True: 259, False: 2.84k]
-  ------------------
-  288|       |      // 1. prepare 2-byte values
-  289|       |      // input 16-bit word : [0000|0aaa|aabb|bbbb] x 8
-  290|       |      // expected output   : [110a|aaaa|10bb|bbbb] x 8
-  291|    259|      const __m256i v_1f00 = _mm256_set1_epi16((int16_t)0x1f00);
-  292|    259|      const __m256i v_003f = _mm256_set1_epi16((int16_t)0x003f);
-  293|       |
-  294|       |      // t0 = [000a|aaaa|bbbb|bb00]
-  295|    259|      const __m256i t0 = _mm256_slli_epi16(in_16, 2);
-  296|       |      // t1 = [000a|aaaa|0000|0000]
-  297|    259|      const __m256i t1 = _mm256_and_si256(t0, v_1f00);
-  298|       |      // t2 = [0000|0000|00bb|bbbb]
-  299|    259|      const __m256i t2 = _mm256_and_si256(in_16, v_003f);
-  300|       |      // t3 = [000a|aaaa|00bb|bbbb]
-  301|    259|      const __m256i t3 = _mm256_or_si256(t1, t2);
-  302|       |      // t4 = [110a|aaaa|10bb|bbbb]
-  303|    259|      const __m256i t4 = _mm256_or_si256(t3, v_c080);
-  304|       |
-  305|       |      // 2. merge ASCII and 2-byte codewords
-  306|    259|      const __m256i utf8_unpacked = _mm256_blendv_epi8(t4, in_16, one_byte_bytemask);
-  307|       |
-  308|       |      // 3. prepare bitmask for 8-bit lookup
-  309|    259|      const uint32_t M0 = one_byte_bitmask & 0x55555555;
-  310|    259|      const uint32_t M1 = M0 >> 7;
-  311|    259|      const uint32_t M2 = (M1 | M0)  & 0x00ff00ff;
-  312|       |      // 4. pack the bytes
-  313|       |
-  314|    259|      const uint8_t* row = &simdutf::tables::utf16_to_utf8::pack_1_2_utf8_bytes[uint8_t(M2)][0];
-  315|    259|      const uint8_t* row_2 = &simdutf::tables::utf16_to_utf8::pack_1_2_utf8_bytes[uint8_t(M2>>16)][0];
-  316|       |
-  317|    259|      const __m128i shuffle = _mm_loadu_si128((__m128i*)(row + 1));
-  318|    259|      const __m128i shuffle_2 = _mm_loadu_si128((__m128i*)(row_2 + 1));
-  319|       |
-  320|    259|      const __m256i utf8_packed = _mm256_shuffle_epi8(utf8_unpacked, _mm256_setr_m128i(shuffle,shuffle_2));
-  ------------------
-  |  |    4|    259|#define _mm256_setr_m128i(xmm2, xmm1)  _mm256_permute2f128_si256(_mm256_castsi128_si256(xmm1), _mm256_castsi128_si256(xmm2), 2)
-  ------------------
-  321|       |      // 5. store bytes
-  322|    259|      _mm_storeu_si128((__m128i*)utf8_output, _mm256_castsi256_si128(utf8_packed));
-  323|    259|      utf8_output += row[0];
-  324|    259|      _mm_storeu_si128((__m128i*)utf8_output, _mm256_extractf128_si256(utf8_packed,1));
-  325|    259|      utf8_output += row_2[0];
-  326|       |
-  327|       |      // 6. adjust pointers
-  328|    259|      buf += 16;
-  329|    259|      continue;
-  330|    259|    }
-  331|       |    // Must check for overflow in packing
-  332|  2.84k|    const __m256i saturation_bytemask = _mm256_cmpeq_epi32(_mm256_and_si256(_mm256_or_si256(in, nextin), v_ffff0000), v_0000);
-  333|  2.84k|    const uint32_t saturation_bitmask = static_cast<uint32_t>(_mm256_movemask_epi8(saturation_bytemask));
-  334|  2.84k|    if (saturation_bitmask == 0xffffffff) {
-  ------------------
-  |  Branch (334:9): [True: 1.03k, False: 1.80k]
-  ------------------
-  335|       |      // case: code units from register produce either 1, 2 or 3 UTF-8 bytes
-  336|       |
-  337|       |      // Check for illegal surrogate code units
-  338|  1.03k|      const __m256i v_d800 = _mm256_set1_epi16((uint16_t)0xd800);
-  339|  1.03k|      const __m256i forbidden_bytemask = _mm256_cmpeq_epi16(_mm256_and_si256(in_16, v_f800), v_d800);
-  340|  1.03k|      if (static_cast<uint32_t>(_mm256_movemask_epi8(forbidden_bytemask)) != 0x0) {
-  ------------------
-  |  Branch (340:11): [True: 0, False: 1.03k]
-  ------------------
-  341|      0|        return std::make_pair(result(error_code::SURROGATE, buf - start), utf8_output);
-  342|      0|      }
-  343|       |
-  344|  1.03k|      const __m256i dup_even = _mm256_setr_epi16(0x0000, 0x0202, 0x0404, 0x0606,
-  345|  1.03k|                                              0x0808, 0x0a0a, 0x0c0c, 0x0e0e,
-  346|  1.03k|                                              0x0000, 0x0202, 0x0404, 0x0606,
-  347|  1.03k|                                              0x0808, 0x0a0a, 0x0c0c, 0x0e0e);
-  348|       |
-  349|       |      /* In this branch we handle three cases:
-  350|       |        1. [0000|0000|0ccc|cccc] => [0ccc|cccc]                           - single UFT-8 byte
-  351|       |        2. [0000|0bbb|bbcc|cccc] => [110b|bbbb], [10cc|cccc]              - two UTF-8 bytes
-  352|       |        3. [aaaa|bbbb|bbcc|cccc] => [1110|aaaa], [10bb|bbbb], [10cc|cccc] - three UTF-8 bytes
-  353|       |
-  354|       |        We expand the input word (16-bit) into two code units (32-bit), thus
-  355|       |        we have room for four bytes. However, we need five distinct bit
-  356|       |        layouts. Note that the last byte in cases #2 and #3 is the same.
-  357|       |
-  358|       |        We precompute byte 1 for case #1 and the common byte for cases #2 & #3
-  359|       |        in register t2.
-  360|       |
-  361|       |        We precompute byte 1 for case #3 and -- **conditionally** -- precompute
-  362|       |        either byte 1 for case #2 or byte 2 for case #3. Note that they
-  363|       |        differ by exactly one bit.
-  364|       |
-  365|       |        Finally from these two code units we build proper UTF-8 sequence, taking
-  366|       |        into account the case (i.e, the number of bytes to write).
-  367|       |      */
-  368|       |      /**
-  369|       |       * Given [aaaa|bbbb|bbcc|cccc] our goal is to produce:
-  370|       |       * t2 => [0ccc|cccc] [10cc|cccc]
-  371|       |       * s4 => [1110|aaaa] ([110b|bbbb] OR [10bb|bbbb])
-  372|       |       */
-  373|  1.03k|#define simdutf_vec(x) _mm256_set1_epi16(static_cast<uint16_t>(x))
-  374|       |      // [aaaa|bbbb|bbcc|cccc] => [bbcc|cccc|bbcc|cccc]
-  375|  1.03k|      const __m256i t0 = _mm256_shuffle_epi8(in_16, dup_even);
-  376|       |      // [bbcc|cccc|bbcc|cccc] => [00cc|cccc|0bcc|cccc]
-  377|  1.03k|      const __m256i t1 = _mm256_and_si256(t0, simdutf_vec(0b0011111101111111));
-  ------------------
-  |  |  373|  1.03k|#define simdutf_vec(x) _mm256_set1_epi16(static_cast<uint16_t>(x))
-  ------------------
-  378|       |      // [00cc|cccc|0bcc|cccc] => [10cc|cccc|0bcc|cccc]
-  379|  1.03k|      const __m256i t2 = _mm256_or_si256 (t1, simdutf_vec(0b1000000000000000));
-  ------------------
-  |  |  373|  1.03k|#define simdutf_vec(x) _mm256_set1_epi16(static_cast<uint16_t>(x))
-  ------------------
-  380|       |
-  381|       |      // [aaaa|bbbb|bbcc|cccc] =>  [0000|aaaa|bbbb|bbcc]
-  382|  1.03k|      const __m256i s0 = _mm256_srli_epi16(in_16, 4);
-  383|       |      // [0000|aaaa|bbbb|bbcc] => [0000|aaaa|bbbb|bb00]
-  384|  1.03k|      const __m256i s1 = _mm256_and_si256(s0, simdutf_vec(0b0000111111111100));
-  ------------------
-  |  |  373|  1.03k|#define simdutf_vec(x) _mm256_set1_epi16(static_cast<uint16_t>(x))
-  ------------------
-  385|       |      // [0000|aaaa|bbbb|bb00] => [00bb|bbbb|0000|aaaa]
-  386|  1.03k|      const __m256i s2 = _mm256_maddubs_epi16(s1, simdutf_vec(0x0140));
-  ------------------
-  |  |  373|  1.03k|#define simdutf_vec(x) _mm256_set1_epi16(static_cast<uint16_t>(x))
-  ------------------
-  387|       |      // [00bb|bbbb|0000|aaaa] => [11bb|bbbb|1110|aaaa]
-  388|  1.03k|      const __m256i s3 = _mm256_or_si256(s2, simdutf_vec(0b1100000011100000));
-  ------------------
-  |  |  373|  1.03k|#define simdutf_vec(x) _mm256_set1_epi16(static_cast<uint16_t>(x))
-  ------------------
-  389|  1.03k|      const __m256i m0 = _mm256_andnot_si256(one_or_two_bytes_bytemask, simdutf_vec(0b0100000000000000));
-  ------------------
-  |  |  373|  1.03k|#define simdutf_vec(x) _mm256_set1_epi16(static_cast<uint16_t>(x))
-  ------------------
-  390|  1.03k|      const __m256i s4 = _mm256_xor_si256(s3, m0);
-  391|  1.03k|#undef simdutf_vec
-  392|       |
-  393|       |      // 4. expand code units 16-bit => 32-bit
-  394|  1.03k|      const __m256i out0 = _mm256_unpacklo_epi16(t2, s4);
-  395|  1.03k|      const __m256i out1 = _mm256_unpackhi_epi16(t2, s4);
-  396|       |
-  397|       |      // 5. compress 32-bit code units into 1, 2 or 3 bytes -- 2 x shuffle
-  398|  1.03k|      const uint32_t mask = (one_byte_bitmask & 0x55555555) |
-  399|  1.03k|                            (one_or_two_bytes_bitmask & 0xaaaaaaaa);
-  400|       |      // Due to the wider registers, the following path is less likely to be useful.
-  401|       |      /*if(mask == 0) {
-  402|       |        // We only have three-byte code units. Use fast path.
-  403|       |        const __m256i shuffle = _mm256_setr_epi8(2,3,1,6,7,5,10,11,9,14,15,13,-1,-1,-1,-1, 2,3,1,6,7,5,10,11,9,14,15,13,-1,-1,-1,-1);
-  404|       |        const __m256i utf8_0 = _mm256_shuffle_epi8(out0, shuffle);
-  405|       |        const __m256i utf8_1 = _mm256_shuffle_epi8(out1, shuffle);
-  406|       |        _mm_storeu_si128((__m128i*)utf8_output, _mm256_castsi256_si128(utf8_0));
-  407|       |        utf8_output += 12;
-  408|       |        _mm_storeu_si128((__m128i*)utf8_output, _mm256_castsi256_si128(utf8_1));
-  409|       |        utf8_output += 12;
-  410|       |        _mm_storeu_si128((__m128i*)utf8_output, _mm256_extractf128_si256(utf8_0,1));
-  411|       |        utf8_output += 12;
-  412|       |        _mm_storeu_si128((__m128i*)utf8_output, _mm256_extractf128_si256(utf8_1,1));
-  413|       |        utf8_output += 12;
-  414|       |        buf += 16;
-  415|       |        continue;
-  416|       |      }*/
-  417|  1.03k|      const uint8_t mask0 = uint8_t(mask);
-  418|  1.03k|      const uint8_t* row0 = &simdutf::tables::utf16_to_utf8::pack_1_2_3_utf8_bytes[mask0][0];
-  419|  1.03k|      const __m128i shuffle0 = _mm_loadu_si128((__m128i*)(row0 + 1));
-  420|  1.03k|      const __m128i utf8_0 = _mm_shuffle_epi8(_mm256_castsi256_si128(out0), shuffle0);
-  421|       |
-  422|  1.03k|      const uint8_t mask1 = static_cast<uint8_t>(mask >> 8);
-  423|  1.03k|      const uint8_t* row1 = &simdutf::tables::utf16_to_utf8::pack_1_2_3_utf8_bytes[mask1][0];
-  424|  1.03k|      const __m128i shuffle1 = _mm_loadu_si128((__m128i*)(row1 + 1));
-  425|  1.03k|      const __m128i utf8_1 = _mm_shuffle_epi8(_mm256_castsi256_si128(out1), shuffle1);
-  426|       |
-  427|  1.03k|      const uint8_t mask2 = static_cast<uint8_t>(mask >> 16);
-  428|  1.03k|      const uint8_t* row2 = &simdutf::tables::utf16_to_utf8::pack_1_2_3_utf8_bytes[mask2][0];
-  429|  1.03k|      const __m128i shuffle2 = _mm_loadu_si128((__m128i*)(row2 + 1));
-  430|  1.03k|      const __m128i utf8_2 = _mm_shuffle_epi8(_mm256_extractf128_si256(out0,1), shuffle2);
-  431|       |
-  432|       |
-  433|  1.03k|      const uint8_t mask3 = static_cast<uint8_t>(mask >> 24);
-  434|  1.03k|      const uint8_t* row3 = &simdutf::tables::utf16_to_utf8::pack_1_2_3_utf8_bytes[mask3][0];
-  435|  1.03k|      const __m128i shuffle3 = _mm_loadu_si128((__m128i*)(row3 + 1));
-  436|  1.03k|      const __m128i utf8_3 = _mm_shuffle_epi8(_mm256_extractf128_si256(out1,1), shuffle3);
-  437|       |
-  438|  1.03k|      _mm_storeu_si128((__m128i*)utf8_output, utf8_0);
-  439|  1.03k|      utf8_output += row0[0];
-  440|  1.03k|      _mm_storeu_si128((__m128i*)utf8_output, utf8_1);
-  441|  1.03k|      utf8_output += row1[0];
-  442|  1.03k|      _mm_storeu_si128((__m128i*)utf8_output, utf8_2);
-  443|  1.03k|      utf8_output += row2[0];
-  444|  1.03k|      _mm_storeu_si128((__m128i*)utf8_output, utf8_3);
-  445|  1.03k|      utf8_output += row3[0];
-  446|  1.03k|      buf += 16;
-  447|  1.80k|    } else {
-  448|       |      // case: at least one 32-bit word is larger than 0xFFFF <=> it will produce four UTF-8 bytes.
-  449|       |      // Let us do a scalar fallback.
-  450|       |      // It may seem wasteful to use scalar code, but being efficient with SIMD
-  451|       |      // may require large, non-trivial tables?
-  452|  1.80k|      size_t forward = 15;
-  453|  1.80k|      size_t k = 0;
-  454|  1.80k|      if(size_t(end - buf) < forward + 1) { forward = size_t(end - buf - 1);}
-  ------------------
-  |  Branch (454:10): [True: 0, False: 1.80k]
-  ------------------
-  455|  28.9k|      for(; k < forward; k++) {
-  ------------------
-  |  Branch (455:13): [True: 27.1k, False: 1.80k]
-  ------------------
-  456|  27.1k|        uint32_t word = buf[k];
-  457|  27.1k|        if((word & 0xFFFFFF80)==0) {  // 1-byte (ASCII)
-  ------------------
-  |  Branch (457:12): [True: 21.2k, False: 5.91k]
-  ------------------
-  458|  21.2k|          *utf8_output++ = char(word);
-  459|  21.2k|        } else if((word & 0xFFFFF800)==0) { // 2-byte
-  ------------------
-  |  Branch (459:19): [True: 389, False: 5.52k]
-  ------------------
-  460|    389|          *utf8_output++ = char((word>>6) | 0b11000000);
-  461|    389|          *utf8_output++ = char((word & 0b111111) | 0b10000000);
-  462|  5.52k|        } else if((word & 0xFFFF0000 )==0) {  // 3-byte
-  ------------------
-  |  Branch (462:19): [True: 3.51k, False: 2.01k]
-  ------------------
-  463|  3.51k|          if (word >= 0xD800 && word <= 0xDFFF) { return std::make_pair(result(error_code::SURROGATE, buf - start + k), utf8_output); }
-  ------------------
-  |  Branch (463:15): [True: 3.22k, False: 282]
-  |  Branch (463:33): [True: 0, False: 3.22k]
-  ------------------
-  464|  3.51k|          *utf8_output++ = char((word>>12) | 0b11100000);
-  465|  3.51k|          *utf8_output++ = char(((word>>6) & 0b111111) | 0b10000000);
-  466|  3.51k|          *utf8_output++ = char((word & 0b111111) | 0b10000000);
-  467|  3.51k|        } else {  // 4-byte
-  468|  2.01k|          if (word > 0x10FFFF) { return std::make_pair(result(error_code::TOO_LARGE, buf - start + k), utf8_output); }
-  ------------------
-  |  Branch (468:15): [True: 0, False: 2.01k]
-  ------------------
-  469|  2.01k|          *utf8_output++ = char((word>>18) | 0b11110000);
-  470|  2.01k|          *utf8_output++ = char(((word>>12) & 0b111111) | 0b10000000);
-  471|  2.01k|          *utf8_output++ = char(((word>>6) & 0b111111) | 0b10000000);
-  472|  2.01k|          *utf8_output++ = char((word & 0b111111) | 0b10000000);
-  473|  2.01k|        }
-  474|  27.1k|      }
-  475|  1.80k|      buf += k;
-  476|  1.80k|    }
-  477|  2.84k|  } // while
-  478|       |
-  479|  4.57k|  return std::make_pair(result(error_code::SUCCESS, buf - start), utf8_output);
-  480|  4.57k|}
-
-_ZNK7simdutf7haswell14implementation13validate_utf8EPKcm:
-  105|  14.6k|simdutf_warn_unused bool implementation::validate_utf8(const char *buf, size_t len) const noexcept {
-  106|  14.6k|  return haswell::utf8_validation::generic_validate_utf8(buf,len);
-  107|  14.6k|}
-_ZNK7simdutf7haswell14implementation25validate_utf8_with_errorsEPKcm:
-  109|  21.0k|simdutf_warn_unused result implementation::validate_utf8_with_errors(const char *buf, size_t len) const noexcept {
-  110|  21.0k|  return haswell::utf8_validation::generic_validate_utf8_with_errors(buf,len);
-  111|  21.0k|}
-_ZNK7simdutf7haswell14implementation21convert_utf8_to_utf32EPKcmPDi:
-  275|   145k|simdutf_warn_unused size_t implementation::convert_utf8_to_utf32(const char* buf, size_t len, char32_t* utf32_output) const noexcept {
-  276|   145k|  utf8_to_utf32::validating_transcoder converter;
-  277|   145k|  return converter.convert(buf, len, utf32_output);
-  278|   145k|}
-_ZNK7simdutf7haswell14implementation33convert_utf8_to_utf32_with_errorsEPKcmPDi:
-  280|  16.9k|simdutf_warn_unused result implementation::convert_utf8_to_utf32_with_errors(const char* buf, size_t len, char32_t* utf32_output) const noexcept {
-  281|  16.9k|  utf8_to_utf32::validating_transcoder converter;
-  282|  16.9k|  return converter.convert_with_errors(buf, len, utf32_output);
-  283|  16.9k|}
-_ZNK7simdutf7haswell14implementation33convert_utf32_to_utf8_with_errorsEPKDimPc:
-  478|  4.57k|simdutf_warn_unused result implementation::convert_utf32_to_utf8_with_errors(const char32_t* buf, size_t len, char* utf8_output) const noexcept {
-  479|       |  // ret.first.count is always the position in the buffer, not the number of code units written even if finished
-  480|  4.57k|  std::pair<result, char*> ret = haswell::avx2_convert_utf32_to_utf8_with_errors(buf, len, utf8_output);
-  481|  4.57k|  if (ret.first.count != len) {
-  ------------------
-  |  Branch (481:7): [True: 4.57k, False: 0]
-  ------------------
-  482|  4.57k|    result scalar_res = scalar::utf32_to_utf8::convert_with_errors(
-  483|  4.57k|                                        buf + ret.first.count, len - ret.first.count, ret.second);
-  484|  4.57k|    if (scalar_res.error) {
-  ------------------
-  |  Branch (484:9): [True: 0, False: 4.57k]
-  ------------------
-  485|      0|      scalar_res.count += ret.first.count;
-  486|      0|      return scalar_res;
-  487|  4.57k|    } else {
-  488|  4.57k|      ret.second += scalar_res.count;
-  489|  4.57k|    }
-  490|  4.57k|  }
-  491|  4.57k|  ret.first.count = ret.second - utf8_output;   // Set count to the number of 8-bit code units written
-  492|  4.57k|  return ret.first;
-  493|  4.57k|}
-_ZNK7simdutf7haswell14implementation22utf32_length_from_utf8EPKcm:
-  777|  14.6k|simdutf_warn_unused size_t implementation::utf32_length_from_utf8(const char * input, size_t length) const noexcept {
-  778|  14.6k|  return utf8::count_code_points(input, length);
-  779|  14.6k|}
-simdutf.cpp:_ZN7simdutf7haswell12_GLOBAL__N_18is_asciiERKNS1_4simd8simd8x64IhEE:
-   23|  35.6k|simdutf_really_inline bool is_ascii(const simd8x64<uint8_t>& input) {
-   24|  35.6k|  return input.reduce_or().is_ascii();
-   25|  35.6k|}
-simdutf.cpp:_ZN7simdutf7haswell12_GLOBAL__N_124must_be_2_3_continuationENS1_4simd5simd8IhEES4_:
-   35|  25.1k|simdutf_really_inline simd8<bool> must_be_2_3_continuation(const simd8<uint8_t> prev2, const simd8<uint8_t> prev3) {
-   36|  25.1k|  simd8<uint8_t> is_third_byte  = prev2.saturating_sub(0xe0u-0x80); // Only 111_____ will be > 0x80
-   37|  25.1k|  simd8<uint8_t> is_fourth_byte = prev3.saturating_sub(0xf0u-0x80); // Only 1111____ will be > 0x80
-   38|  25.1k|  return simd8<bool>(is_third_byte | is_fourth_byte);
-   39|  25.1k|}
-
-_ZNK7simdutf8internal29available_implementation_list21detect_best_supportedEv:
-  861|      1|const implementation *available_implementation_list::detect_best_supported() const noexcept {
-  862|       |  // They are prelisted in priority order, so we just go down the list
-  863|      1|  uint32_t supported_instruction_sets = internal::detect_supported_architectures();
-  864|      2|  for (const implementation *impl : internal::get_available_implementation_pointers()) {
-  ------------------
-  |  Branch (864:35): [True: 2, False: 0]
-  ------------------
-  865|      2|    uint32_t required_instruction_sets = impl->required_instruction_sets();
-  866|      2|    if ((supported_instruction_sets & required_instruction_sets) == required_instruction_sets) { return impl; }
-  ------------------
-  |  Branch (866:9): [True: 1, False: 1]
-  ------------------
-  867|      2|  }
-  868|      0|  return &unsupported_singleton; // this should never happen?
-  869|      1|}
-_ZNK7simdutf8internal49detect_best_supported_implementation_on_first_use8set_bestEv:
-  871|      1|const implementation *detect_best_supported_implementation_on_first_use::set_best() const noexcept {
-  872|      1|  SIMDUTF_PUSH_DISABLE_WARNINGS
-  873|       |  SIMDUTF_DISABLE_DEPRECATED_WARNING // Disable CRT_SECURE warning on MSVC: manually verified this is safe
-  874|      1|  char *force_implementation_name = getenv("SIMDUTF_FORCE_IMPLEMENTATION");
-  875|      1|  SIMDUTF_POP_DISABLE_WARNINGS
-  876|       |
-  877|      1|  if (force_implementation_name) {
-  ------------------
-  |  Branch (877:7): [True: 0, False: 1]
-  ------------------
-  878|      0|    auto force_implementation = get_available_implementations()[force_implementation_name];
-  879|      0|    if (force_implementation) {
-  ------------------
-  |  Branch (879:9): [True: 0, False: 0]
-  ------------------
-  880|      0|      return get_active_implementation() = force_implementation;
-  881|      0|    } else {
-  882|       |      // Note: abort() and stderr usage within the library is forbidden.
-  883|      0|      return get_active_implementation() = &unsupported_singleton;
-  884|      0|    }
-  885|      0|  }
-  886|      1|  return get_active_implementation() = get_available_implementations().detect_best_supported();
-  887|      1|}
-_ZN7simdutf29get_available_implementationsEv:
-  896|      1|SIMDUTF_DLLIMPORTEXPORT const internal::available_implementation_list& get_available_implementations() {
-  897|      1|  static const internal::available_implementation_list available_implementations{};
-  898|      1|  return available_implementations;
-  899|      1|}
-_ZN7simdutf25get_active_implementationEv:
-  904|   217k|SIMDUTF_DLLIMPORTEXPORT internal::atomic_ptr<const implementation>& get_active_implementation() {
-  905|       |#if SIMDUTF_SINGLE_IMPLEMENTATION
-  906|       |    // skip runtime detection
-  907|       |    static internal::atomic_ptr<const implementation> active_implementation{internal::get_single_implementation()};
-  908|       |    return active_implementation;
-  909|       |#else
-  910|   217k|    static const internal::detect_best_supported_implementation_on_first_use detect_best_supported_implementation_on_first_use_singleton;
-  911|   217k|    static internal::atomic_ptr<const implementation> active_implementation{&detect_best_supported_implementation_on_first_use_singleton};
-  912|   217k|    return active_implementation;
-  913|   217k|#endif
-  914|   217k|}
-_ZN7simdutf26get_default_implementationEv:
-  922|   217k|internal::atomic_ptr<const implementation>& get_default_implementation() {
-  923|   217k|  return get_active_implementation();
-  924|   217k|}
-_ZN7simdutf13validate_utf8EPKcm:
-  928|  14.6k|simdutf_warn_unused bool validate_utf8(const char *buf, size_t len) noexcept {
-  929|  14.6k|  return get_default_implementation()->validate_utf8(buf, len);
-  930|  14.6k|}
-_ZN7simdutf25validate_utf8_with_errorsEPKcm:
-  931|  21.0k|simdutf_warn_unused result validate_utf8_with_errors(const char *buf, size_t len) noexcept {
-  932|  21.0k|  return get_default_implementation()->validate_utf8_with_errors(buf, len);
-  933|  21.0k|}
-_ZN7simdutf21convert_utf8_to_utf32EPKcmPDi:
-  987|   145k|simdutf_warn_unused size_t convert_utf8_to_utf32(const char * input, size_t length, char32_t* utf32_output) noexcept {
-  988|   145k|  return get_default_implementation()->convert_utf8_to_utf32(input, length, utf32_output);
-  989|   145k|}
-_ZN7simdutf33convert_utf8_to_utf32_with_errorsEPKcmPDi:
-  990|  16.9k|simdutf_warn_unused result convert_utf8_to_utf32_with_errors(const char * input, size_t length, char32_t* utf32_output) noexcept {
-  991|  16.9k|  return get_default_implementation()->convert_utf8_to_utf32_with_errors(input, length, utf32_output);
-  992|  16.9k|}
-_ZN7simdutf33convert_utf32_to_utf8_with_errorsEPKDimPc:
- 1129|  4.57k|simdutf_warn_unused result convert_utf32_to_utf8_with_errors(const char32_t * buf, size_t len, char* utf8_buffer) noexcept {
- 1130|  4.57k|  return get_default_implementation()->convert_utf32_to_utf8_with_errors(buf, len, utf8_buffer);
- 1131|  4.57k|}
-_ZN7simdutf22utf32_length_from_utf8EPKcm:
- 1285|  14.6k|simdutf_warn_unused size_t utf32_length_from_utf8(const char * input, size_t length) noexcept {
- 1286|  14.6k|  return get_default_implementation()->utf32_length_from_utf8(input, length);
- 1287|  14.6k|}
-_ZN7simdutf8internal26unsupported_implementationC2Ev:
-  847|      2|  unsupported_implementation() : implementation("unsupported", "Unsupported CPU (no detected SIMD instructions)", 0) {}
-simdutf.cpp:_ZN7simdutf8internalL37get_available_implementation_pointersEv:
-  488|      1|static const std::initializer_list<const implementation *>& get_available_implementation_pointers() {
-  489|      1|  static const std::initializer_list<const implementation *> available_implementation_pointers {
-  490|      1|#if SIMDUTF_IMPLEMENTATION_ICELAKE
-  491|      1|    get_icelake_singleton(),
-  492|      1|#endif
-  493|      1|#if SIMDUTF_IMPLEMENTATION_HASWELL
-  494|      1|    get_haswell_singleton(),
-  495|      1|#endif
-  496|      1|#if SIMDUTF_IMPLEMENTATION_WESTMERE
-  497|      1|    get_westmere_singleton(),
-  498|      1|#endif
-  499|       |#if SIMDUTF_IMPLEMENTATION_ARM64
-  500|       |    get_arm64_singleton(),
-  501|       |#endif
-  502|       |#if SIMDUTF_IMPLEMENTATION_PPC64
-  503|       |    get_ppc64_singleton(),
-  504|       |#endif
-  505|       |#if SIMDUTF_IMPLEMENTATION_RVV
-  506|       |    get_rvv_singleton(),
-  507|       |#endif
-  508|      1|#if SIMDUTF_IMPLEMENTATION_FALLBACK
-  509|      1|    get_fallback_singleton(),
-  510|      1|#endif
-  511|      1|  }; // available_implementation_pointers
-  512|      1|  return available_implementation_pointers;
-  513|      1|}
-simdutf.cpp:_ZN7simdutf8internalL21get_icelake_singletonEv:
-   83|      1|static const icelake::implementation* get_icelake_singleton() {
-   84|      1|  static const icelake::implementation icelake_singleton{};
-   85|      1|  return &icelake_singleton;
-   86|      1|}
-simdutf.cpp:_ZN7simdutf8internalL21get_haswell_singletonEv:
-   89|      1|static const haswell::implementation* get_haswell_singleton() {
-   90|      1|  static const haswell::implementation haswell_singleton{};
-   91|      1|  return &haswell_singleton;
-   92|      1|}
-simdutf.cpp:_ZN7simdutf8internalL22get_westmere_singletonEv:
-   95|      1|static const westmere::implementation* get_westmere_singleton() {
-   96|      1|  static const westmere::implementation westmere_singleton{};
-   97|      1|  return &westmere_singleton;
-   98|      1|}
-simdutf.cpp:_ZN7simdutf8internalL22get_fallback_singletonEv:
-  119|      1|static const fallback::implementation* get_fallback_singleton() {
-  120|      1|  static const fallback::implementation fallback_singleton{};
-  121|      1|  return &fallback_singleton;
-  122|      1|}
-_ZN7simdutf8internal49detect_best_supported_implementation_on_first_useC2Ev:
-  482|      1|  simdutf_really_inline detect_best_supported_implementation_on_first_use() noexcept : implementation("best_supported_detector", "Detects the best supported implementation and sets it", 0) {}
-_ZNK7simdutf8internal49detect_best_supported_implementation_on_first_use33convert_utf8_to_utf32_with_errorsEPKcmPDi:
-  258|      1|  simdutf_warn_unused result convert_utf8_to_utf32_with_errors(const char * buf, size_t len, char32_t* utf32_output) const noexcept final override {
-  259|      1|    return set_best()->convert_utf8_to_utf32_with_errors(buf, len, utf32_output);
-  260|      1|  }
-
-simdutf.cpp:_ZN7simdutf6scalar12_GLOBAL__N_113utf32_to_utf819convert_with_errorsEPKDimPc:
-   58|  4.57k|inline result convert_with_errors(const char32_t* buf, size_t len, char* utf8_output) {
-   59|  4.57k|  const uint32_t *data = reinterpret_cast<const uint32_t *>(buf);
-   60|  4.57k|  size_t pos = 0;
-   61|  4.57k|  char* start{utf8_output};
-   62|  51.9k|  while (pos < len) {
-  ------------------
-  |  Branch (62:10): [True: 47.3k, False: 4.57k]
-  ------------------
-   63|       |    // try to convert the next block of 2 ASCII characters
-   64|  47.3k|    if (pos + 2 <= len) { // if it is safe to read 8 more bytes, check that they are ascii
-  ------------------
-  |  Branch (64:9): [True: 44.5k, False: 2.76k]
-  ------------------
-   65|  44.5k|      uint64_t v;
-   66|  44.5k|      ::memcpy(&v, data + pos, sizeof(uint64_t));
-   67|  44.5k|      if ((v & 0xFFFFFF80FFFFFF80) == 0) {
-  ------------------
-  |  Branch (67:11): [True: 23.7k, False: 20.8k]
-  ------------------
-   68|  23.7k|        *utf8_output++ = char(buf[pos]);
-   69|  23.7k|				*utf8_output++ = char(buf[pos+1]);
-   70|  23.7k|        pos += 2;
-   71|  23.7k|        continue;
-   72|  23.7k|      }
-   73|  44.5k|    }
-   74|  23.5k|    uint32_t word = data[pos];
-   75|  23.5k|    if((word & 0xFFFFFF80)==0) {
-  ------------------
-  |  Branch (75:8): [True: 7.46k, False: 16.1k]
-  ------------------
-   76|       |      // will generate one UTF-8 bytes
-   77|  7.46k|      *utf8_output++ = char(word);
-   78|  7.46k|      pos++;
-   79|  16.1k|    } else if((word & 0xFFFFF800)==0) {
-  ------------------
-  |  Branch (79:15): [True: 4.54k, False: 11.5k]
-  ------------------
-   80|       |      // will generate two UTF-8 bytes
-   81|       |      // we have 0b110XXXXX 0b10XXXXXX
-   82|  4.54k|      *utf8_output++ = char((word>>6) | 0b11000000);
-   83|  4.54k|      *utf8_output++ = char((word & 0b111111) | 0b10000000);
-   84|  4.54k|      pos++;
-   85|  11.5k|    } else if((word & 0xFFFF0000)==0) {
-  ------------------
-  |  Branch (85:15): [True: 10.2k, False: 1.35k]
-  ------------------
-   86|       |      // will generate three UTF-8 bytes
-   87|       |      // we have 0b1110XXXX 0b10XXXXXX 0b10XXXXXX
-   88|  10.2k|			if (word >= 0xD800 && word <= 0xDFFF) { return result(error_code::SURROGATE, pos); }
-  ------------------
-  |  Branch (88:8): [True: 7.96k, False: 2.24k]
-  |  Branch (88:26): [True: 0, False: 7.96k]
-  ------------------
-   89|  10.2k|      *utf8_output++ = char((word>>12) | 0b11100000);
-   90|  10.2k|      *utf8_output++ = char(((word>>6) & 0b111111) | 0b10000000);
-   91|  10.2k|      *utf8_output++ = char((word & 0b111111) | 0b10000000);
-   92|  10.2k|      pos++;
-   93|  10.2k|    } else {
-   94|       |      // will generate four UTF-8 bytes
-   95|       |      // we have 0b11110XXX 0b10XXXXXX 0b10XXXXXX 0b10XXXXXX
-   96|  1.35k|			if (word > 0x10FFFF) { return result(error_code::TOO_LARGE, pos); }
-  ------------------
-  |  Branch (96:8): [True: 0, False: 1.35k]
-  ------------------
-   97|  1.35k|      *utf8_output++ = char((word>>18) | 0b11110000);
-   98|  1.35k|      *utf8_output++ = char(((word>>12) & 0b111111) | 0b10000000);
-   99|  1.35k|      *utf8_output++ = char(((word>>6) & 0b111111) | 0b10000000);
-  100|  1.35k|      *utf8_output++ = char((word & 0b111111) | 0b10000000);
-  101|  1.35k|      pos ++;
-  102|  1.35k|    }
-  103|  23.5k|  }
-  104|  4.57k|  return result(error_code::SUCCESS, utf8_output - start);
-  105|  4.57k|}
-
-simdutf.cpp:_ZN7simdutf6scalar12_GLOBAL__N_14utf820validate_with_errorsEPKcm:
-   77|  6.24k|inline simdutf_warn_unused result validate_with_errors(const char *buf, size_t len) noexcept {
-   78|  6.24k|  const uint8_t *data = reinterpret_cast<const uint8_t *>(buf);
-   79|  6.24k|  size_t pos = 0;
-   80|  6.24k|  uint32_t code_point = 0;
-   81|  6.24k|  while (pos < len) {
-  ------------------
-  |  Branch (81:10): [True: 6.24k, False: 0]
-  ------------------
-   82|       |    // check of the next 16 bytes are ascii.
-   83|  6.24k|    size_t next_pos = pos + 16;
-   84|  6.24k|    if (next_pos <= len) { // if it is safe to read 16 more bytes, check that they are ascii
-  ------------------
-  |  Branch (84:9): [True: 0, False: 6.24k]
-  ------------------
-   85|      0|      uint64_t v1;
-   86|      0|      std::memcpy(&v1, data + pos, sizeof(uint64_t));
-   87|      0|      uint64_t v2;
-   88|      0|      std::memcpy(&v2, data + pos + sizeof(uint64_t), sizeof(uint64_t));
-   89|      0|      uint64_t v{v1 | v2};
-   90|      0|      if ((v & 0x8080808080808080) == 0) {
-  ------------------
-  |  Branch (90:11): [True: 0, False: 0]
-  ------------------
-   91|      0|        pos = next_pos;
-   92|      0|        continue;
-   93|      0|      }
-   94|      0|    }
-   95|  6.24k|    unsigned char byte = data[pos];
-   96|       |
-   97|  6.24k|    while (byte < 0b10000000) {
-  ------------------
-  |  Branch (97:12): [True: 0, False: 6.24k]
-  ------------------
-   98|      0|      if (++pos == len) { return result(error_code::SUCCESS, len); }
-  ------------------
-  |  Branch (98:11): [True: 0, False: 0]
-  ------------------
-   99|      0|      byte = data[pos];
-  100|      0|    }
-  101|       |
-  102|  6.24k|    if ((byte & 0b11100000) == 0b11000000) {
-  ------------------
-  |  Branch (102:9): [True: 1.40k, False: 4.84k]
-  ------------------
-  103|  1.40k|      next_pos = pos + 2;
-  104|  1.40k|      if (next_pos > len) { return result(error_code::TOO_SHORT, pos); }
-  ------------------
-  |  Branch (104:11): [True: 0, False: 1.40k]
-  ------------------
-  105|  1.40k|      if ((data[pos + 1] & 0b11000000) != 0b10000000) { return result(error_code::TOO_SHORT, pos); }
-  ------------------
-  |  Branch (105:11): [True: 1.11k, False: 282]
-  ------------------
-  106|       |      // range check
-  107|    282|      code_point = (byte & 0b00011111) << 6 | (data[pos + 1] & 0b00111111);
-  108|    282|      if ((code_point < 0x80) || (0x7ff < code_point)) { return result(error_code::OVERLONG, pos); }
-  ------------------
-  |  Branch (108:11): [True: 282, False: 0]
-  |  Branch (108:34): [True: 0, False: 0]
-  ------------------
-  109|  4.84k|    } else if ((byte & 0b11110000) == 0b11100000) {
-  ------------------
-  |  Branch (109:16): [True: 2.60k, False: 2.24k]
-  ------------------
-  110|  2.60k|      next_pos = pos + 3;
-  111|  2.60k|      if (next_pos > len) { return result(error_code::TOO_SHORT, pos); }
-  ------------------
-  |  Branch (111:11): [True: 0, False: 2.60k]
-  ------------------
-  112|  2.60k|      if ((data[pos + 1] & 0b11000000) != 0b10000000) { return result(error_code::TOO_SHORT, pos); }
-  ------------------
-  |  Branch (112:11): [True: 537, False: 2.06k]
-  ------------------
-  113|  2.06k|      if ((data[pos + 2] & 0b11000000) != 0b10000000) { return result(error_code::TOO_SHORT, pos); }
-  ------------------
-  |  Branch (113:11): [True: 675, False: 1.39k]
-  ------------------
-  114|       |      // range check
-  115|  1.39k|      code_point = (byte & 0b00001111) << 12 |
-  116|  1.39k|                   (data[pos + 1] & 0b00111111) << 6 |
-  117|  1.39k|                   (data[pos + 2] & 0b00111111);
-  118|  1.39k|      if ((code_point < 0x800) || (0xffff < code_point)) { return result(error_code::OVERLONG, pos);}
-  ------------------
-  |  Branch (118:11): [True: 678, False: 713]
-  |  Branch (118:35): [True: 0, False: 713]
-  ------------------
-  119|    713|      if (0xd7ff < code_point && code_point < 0xe000) { return result(error_code::SURROGATE, pos); }
-  ------------------
-  |  Branch (119:11): [True: 713, False: 0]
-  |  Branch (119:34): [True: 713, False: 0]
-  ------------------
-  120|  2.24k|    } else if ((byte & 0b11111000) == 0b11110000) { // 0b11110000
-  ------------------
-  |  Branch (120:16): [True: 2.24k, False: 0]
-  ------------------
-  121|  2.24k|      next_pos = pos + 4;
-  122|  2.24k|      if (next_pos > len) { return result(error_code::TOO_SHORT, pos); }
-  ------------------
-  |  Branch (122:11): [True: 0, False: 2.24k]
-  ------------------
-  123|  2.24k|      if ((data[pos + 1] & 0b11000000) != 0b10000000) { return result(error_code::TOO_SHORT, pos); }
-  ------------------
-  |  Branch (123:11): [True: 942, False: 1.30k]
-  ------------------
-  124|  1.30k|      if ((data[pos + 2] & 0b11000000) != 0b10000000) { return result(error_code::TOO_SHORT, pos); }
-  ------------------
-  |  Branch (124:11): [True: 367, False: 933]
-  ------------------
-  125|    933|      if ((data[pos + 3] & 0b11000000) != 0b10000000) { return result(error_code::TOO_SHORT, pos); }
-  ------------------
-  |  Branch (125:11): [True: 403, False: 530]
-  ------------------
-  126|       |      // range check
-  127|    530|      code_point =
-  128|    530|          (byte & 0b00000111) << 18 | (data[pos + 1] & 0b00111111) << 12 |
-  129|    530|          (data[pos + 2] & 0b00111111) << 6 | (data[pos + 3] & 0b00111111);
-  130|    530|      if (code_point <= 0xffff) { return result(error_code::OVERLONG, pos); }
-  ------------------
-  |  Branch (130:11): [True: 261, False: 269]
-  ------------------
-  131|    269|      if (0x10ffff < code_point) { return result(error_code::TOO_LARGE, pos); }
-  ------------------
-  |  Branch (131:11): [True: 269, False: 0]
-  ------------------
-  132|    269|    } else {
-  133|       |      // we either have too many continuation bytes or an invalid leading byte
-  134|      0|      if ((byte & 0b11000000) == 0b10000000) { return result(error_code::TOO_LONG, pos); }
-  ------------------
-  |  Branch (134:11): [True: 0, False: 0]
-  ------------------
-  135|      0|      else { return result(error_code::HEADER_BITS, pos); }
-  136|      0|    }
-  137|      0|    pos = next_pos;
-  138|      0|  }
-  139|      0|  return result(error_code::SUCCESS, len);
-  140|  6.24k|}
-simdutf.cpp:_ZN7simdutf6scalar12_GLOBAL__N_14utf817count_code_pointsEPKcm:
-  168|  14.6k|inline size_t count_code_points(const char* buf, size_t len) {
-  169|  14.6k|    const int8_t * p = reinterpret_cast<const int8_t *>(buf);
-  170|  14.6k|    size_t counter{0};
-  171|   108k|    for(size_t i = 0; i < len; i++) {
-  ------------------
-  |  Branch (171:23): [True: 93.6k, False: 14.6k]
-  ------------------
-  172|       |        // -65 is 0b10111111, anything larger in two-complement's should start a new code point.
-  173|  93.6k|        if(p[i] > -65) { counter++; }
-  ------------------
-  |  Branch (173:12): [True: 70.7k, False: 22.9k]
-  ------------------
-  174|  93.6k|    }
-  175|  14.6k|    return counter;
-  176|  14.6k|}
-simdutf.cpp:_ZN7simdutf6scalar12_GLOBAL__N_14utf831rewind_and_validate_with_errorsEPKcS4_m:
-  146|  6.24k|inline simdutf_warn_unused result rewind_and_validate_with_errors(const char *start, const char *buf, size_t len) noexcept {
-  147|       |    // First check that we start with a leading byte
-  148|  6.24k|  if ((*start & 0b11000000) == 0b10000000) {
-  ------------------
-  |  Branch (148:7): [True: 0, False: 6.24k]
-  ------------------
-  149|      0|    return result(error_code::TOO_LONG, 0);
-  150|      0|  }
-  151|  6.24k|  size_t extra_len{0};
-  152|       |  // A leading byte cannot be further than 4 bytes away
-  153|  6.24k|  for(int i = 0; i < 5; i++) {
-  ------------------
-  |  Branch (153:18): [True: 6.24k, False: 0]
-  ------------------
-  154|  6.24k|    unsigned char byte = *buf;
-  155|  6.24k|    if ((byte & 0b11000000) != 0b10000000) {
-  ------------------
-  |  Branch (155:9): [True: 6.24k, False: 0]
-  ------------------
-  156|  6.24k|      break;
-  157|  6.24k|    } else {
-  158|      0|      buf--;
-  159|      0|      extra_len++;
-  160|      0|    }
-  161|  6.24k|  }
-  162|       |
-  163|  6.24k|  result res = validate_with_errors(buf, len + extra_len);
-  164|  6.24k|  res.count -= extra_len;
-  165|  6.24k|  return res;
-  166|  6.24k|}
-
-simdutf.cpp:_ZN7simdutf6scalar12_GLOBAL__N_113utf8_to_utf327convertEPKcmPDi:
-    9|   145k|inline size_t convert(const char* buf, size_t len, char32_t* utf32_output) {
-   10|   145k| const uint8_t *data = reinterpret_cast<const uint8_t *>(buf);
-   11|   145k|  size_t pos = 0;
-   12|   145k|  char32_t* start{utf32_output};
-   13|   272k|  while (pos < len) {
-  ------------------
-  |  Branch (13:10): [True: 145k, False: 126k]
-  ------------------
-   14|       |    // try to convert the next block of 16 ASCII bytes
-   15|   145k|    if (pos + 16 <= len) { // if it is safe to read 16 more bytes, check that they are ascii
-  ------------------
-  |  Branch (15:9): [True: 0, False: 145k]
-  ------------------
-   16|      0|      uint64_t v1;
-   17|      0|      ::memcpy(&v1, data + pos, sizeof(uint64_t));
-   18|      0|      uint64_t v2;
-   19|      0|      ::memcpy(&v2, data + pos + sizeof(uint64_t), sizeof(uint64_t));
-   20|      0|      uint64_t v{v1 | v2};
-   21|      0|      if ((v & 0x8080808080808080) == 0) {
-  ------------------
-  |  Branch (21:11): [True: 0, False: 0]
-  ------------------
-   22|      0|        size_t final_pos = pos + 16;
-   23|      0|        while(pos < final_pos) {
-  ------------------
-  |  Branch (23:15): [True: 0, False: 0]
-  ------------------
-   24|      0|          *utf32_output++ = char32_t(buf[pos]);
-   25|      0|          pos++;
-   26|      0|        }
-   27|      0|        continue;
-   28|      0|      }
-   29|      0|    }
-   30|   145k|    uint8_t leading_byte = data[pos]; // leading byte
-   31|   145k|    if (leading_byte < 0b10000000) {
-  ------------------
-  |  Branch (31:9): [True: 91.8k, False: 53.3k]
-  ------------------
-   32|       |      // converting one ASCII byte !!!
-   33|  91.8k|      *utf32_output++ = char32_t(leading_byte);
-   34|  91.8k|      pos++;
-   35|  91.8k|    } else if ((leading_byte & 0b11100000) == 0b11000000) {
-  ------------------
-  |  Branch (35:16): [True: 23.4k, False: 29.8k]
-  ------------------
-   36|       |      // We have a two-byte UTF-8
-   37|  23.4k|      if(pos + 1 >= len) { return 0; } // minimal bound checking
-  ------------------
-  |  Branch (37:10): [True: 0, False: 23.4k]
-  ------------------
-   38|  23.4k|      if ((data[pos + 1] & 0b11000000) != 0b10000000) { return 0; }
-  ------------------
-  |  Branch (38:11): [True: 3.65k, False: 19.8k]
-  ------------------
-   39|       |      // range check
-   40|  19.8k|      uint32_t code_point = (leading_byte & 0b00011111) << 6 | (data[pos + 1] & 0b00111111);
-   41|  19.8k|      if (code_point < 0x80 || 0x7ff < code_point) { return 0; }
-  ------------------
-  |  Branch (41:11): [True: 632, False: 19.2k]
-  |  Branch (41:32): [True: 0, False: 19.2k]
-  ------------------
-   42|  19.2k|      *utf32_output++ = char32_t(code_point);
-   43|  19.2k|      pos += 2;
-   44|  29.8k|    } else if ((leading_byte & 0b11110000) == 0b11100000) {
-  ------------------
-  |  Branch (44:16): [True: 15.8k, False: 14.0k]
-  ------------------
-   45|       |      // We have a three-byte UTF-8
-   46|  15.8k|      if(pos + 2 >= len) { return 0; } // minimal bound checking
-  ------------------
-  |  Branch (46:10): [True: 0, False: 15.8k]
-  ------------------
-   47|       |
-   48|  15.8k|      if ((data[pos + 1] & 0b11000000) != 0b10000000) { return 0; }
-  ------------------
-  |  Branch (48:11): [True: 2.58k, False: 13.2k]
-  ------------------
-   49|  13.2k|      if ((data[pos + 2] & 0b11000000) != 0b10000000) { return 0; }
-  ------------------
-  |  Branch (49:11): [True: 1.45k, False: 11.8k]
-  ------------------
-   50|       |      // range check
-   51|  11.8k|      uint32_t code_point = (leading_byte & 0b00001111) << 12 |
-   52|  11.8k|                   (data[pos + 1] & 0b00111111) << 6 |
-   53|  11.8k|                   (data[pos + 2] & 0b00111111);
-   54|  11.8k|      if (code_point < 0x800 || 0xffff < code_point ||
-  ------------------
-  |  Branch (54:11): [True: 1.36k, False: 10.4k]
-  |  Branch (54:33): [True: 0, False: 10.4k]
-  ------------------
-   55|  11.8k|          (0xd7ff < code_point && code_point < 0xe000)) {
-  ------------------
-  |  Branch (55:12): [True: 1.97k, False: 8.47k]
-  |  Branch (55:35): [True: 1.42k, False: 552]
-  ------------------
-   56|  2.78k|        return 0;
-   57|  2.78k|      }
-   58|  9.02k|      *utf32_output++ = char32_t(code_point);
-   59|  9.02k|      pos += 3;
-   60|  14.0k|    } else if ((leading_byte & 0b11111000) == 0b11110000) { // 0b11110000
-  ------------------
-  |  Branch (60:16): [True: 14.0k, False: 0]
-  ------------------
-   61|       |      // we have a 4-byte UTF-8 word.
-   62|  14.0k|      if(pos + 3 >= len) { return 0; } // minimal bound checking
-  ------------------
-  |  Branch (62:10): [True: 0, False: 14.0k]
-  ------------------
-   63|  14.0k|      if ((data[pos + 1] & 0b11000000) != 0b10000000) { return 0; }
-  ------------------
-  |  Branch (63:11): [True: 4.45k, False: 9.59k]
-  ------------------
-   64|  9.59k|      if ((data[pos + 2] & 0b11000000) != 0b10000000) { return 0; }
-  ------------------
-  |  Branch (64:11): [True: 920, False: 8.67k]
-  ------------------
-   65|  8.67k|      if ((data[pos + 3] & 0b11000000) != 0b10000000) { return 0; }
-  ------------------
-  |  Branch (65:11): [True: 872, False: 7.80k]
-  ------------------
-   66|       |
-   67|       |      // range check
-   68|  7.80k|      uint32_t code_point =
-   69|  7.80k|          (leading_byte & 0b00000111) << 18 | (data[pos + 1] & 0b00111111) << 12 |
-   70|  7.80k|          (data[pos + 2] & 0b00111111) << 6 | (data[pos + 3] & 0b00111111);
-   71|  7.80k|      if (code_point <= 0xffff || 0x10ffff < code_point) { return 0; }
-  ------------------
-  |  Branch (71:11): [True: 522, False: 7.27k]
-  |  Branch (71:35): [True: 538, False: 6.74k]
-  ------------------
-   72|  6.74k|      *utf32_output++ = char32_t(code_point);
-   73|  6.74k|      pos += 4;
-   74|  6.74k|    } else {
-   75|      0|      return 0;
-   76|      0|    }
-   77|   145k|  }
-   78|   126k|  return utf32_output - start;
-   79|   145k|}
-simdutf.cpp:_ZN7simdutf6scalar12_GLOBAL__N_113utf8_to_utf3219convert_with_errorsEPKcmPDi:
-   81|  16.7k|inline result convert_with_errors(const char* buf, size_t len, char32_t* utf32_output) {
-   82|  16.7k| const uint8_t *data = reinterpret_cast<const uint8_t *>(buf);
-   83|  16.7k|  size_t pos = 0;
-   84|  16.7k|  char32_t* start{utf32_output};
-   85|  91.5k|  while (pos < len) {
-  ------------------
-  |  Branch (85:10): [True: 89.6k, False: 1.90k]
-  ------------------
-   86|       |    // try to convert the next block of 16 ASCII bytes
-   87|  89.6k|    if (pos + 16 <= len) { // if it is safe to read 16 more bytes, check that they are ascii
-  ------------------
-  |  Branch (87:9): [True: 67.5k, False: 22.1k]
-  ------------------
-   88|  67.5k|      uint64_t v1;
-   89|  67.5k|      ::memcpy(&v1, data + pos, sizeof(uint64_t));
-   90|  67.5k|      uint64_t v2;
-   91|  67.5k|      ::memcpy(&v2, data + pos + sizeof(uint64_t), sizeof(uint64_t));
-   92|  67.5k|      uint64_t v{v1 | v2};
-   93|  67.5k|      if ((v & 0x8080808080808080) == 0) {
-  ------------------
-  |  Branch (93:11): [True: 3.08k, False: 64.4k]
-  ------------------
-   94|  3.08k|        size_t final_pos = pos + 16;
-   95|  52.3k|        while(pos < final_pos) {
-  ------------------
-  |  Branch (95:15): [True: 49.2k, False: 3.08k]
-  ------------------
-   96|  49.2k|          *utf32_output++ = char32_t(buf[pos]);
-   97|  49.2k|          pos++;
-   98|  49.2k|        }
-   99|  3.08k|        continue;
-  100|  3.08k|      }
-  101|  67.5k|    }
-  102|  86.5k|    uint8_t leading_byte = data[pos]; // leading byte
-  103|  86.5k|    if (leading_byte < 0b10000000) {
-  ------------------
-  |  Branch (103:9): [True: 54.4k, False: 32.1k]
-  ------------------
-  104|       |      // converting one ASCII byte !!!
-  105|  54.4k|      *utf32_output++ = char32_t(leading_byte);
-  106|  54.4k|      pos++;
-  107|  54.4k|    } else if ((leading_byte & 0b11100000) == 0b11000000) {
-  ------------------
-  |  Branch (107:16): [True: 10.7k, False: 21.3k]
-  ------------------
-  108|       |      // We have a two-byte UTF-8
-  109|  10.7k|      if(pos + 1 >= len) { return result(error_code::TOO_SHORT, pos); } // minimal bound checking
-  ------------------
-  |  Branch (109:10): [True: 421, False: 10.3k]
-  ------------------
-  110|  10.3k|      if ((data[pos + 1] & 0b11000000) != 0b10000000) { return result(error_code::TOO_SHORT, pos); }
-  ------------------
-  |  Branch (110:11): [True: 676, False: 9.69k]
-  ------------------
-  111|       |      // range check
-  112|  9.69k|      uint32_t code_point = (leading_byte & 0b00011111) << 6 | (data[pos + 1] & 0b00111111);
-  113|  9.69k|      if (code_point < 0x80 || 0x7ff < code_point) { return result(error_code::OVERLONG, pos); }
-  ------------------
-  |  Branch (113:11): [True: 237, False: 9.45k]
-  |  Branch (113:32): [True: 0, False: 9.45k]
-  ------------------
-  114|  9.45k|      *utf32_output++ = char32_t(code_point);
-  115|  9.45k|      pos += 2;
-  116|  21.3k|    } else if ((leading_byte & 0b11110000) == 0b11100000) {
-  ------------------
-  |  Branch (116:16): [True: 6.49k, False: 14.8k]
-  ------------------
-  117|       |      // We have a three-byte UTF-8
-  118|  6.49k|      if(pos + 2 >= len) { return result(error_code::TOO_SHORT, pos); } // minimal bound checking
-  ------------------
-  |  Branch (118:10): [True: 299, False: 6.19k]
-  ------------------
+_ZN3scn2v34impl30find_classic_space_narrow_fastENSt3__117basic_string_viewIcNS2_11char_traitsIcEEEE:
+  193|  16.0k|{
+  194|  16.0k|    return find_classic_impl(
+  195|  16.0k|        source, [](char ch) { return is_ascii_space(ch); },
+  196|  16.0k|        [](char32_t cp) { return is_cp_space(cp); });
+  197|  16.0k|}
+_ZN3scn2v34impl33find_classic_nonspace_narrow_fastENSt3__117basic_string_viewIcNS2_11char_traitsIcEEEE:
+  201|   135k|{
+  202|   135k|    return find_classic_impl(
+  203|   135k|        source, [](char ch) { return !is_ascii_space(ch); },
+  204|   135k|        [](char32_t cp) { return !is_cp_space(cp); });
+  205|   135k|}
+_ZN3scn2v34impl33find_nondecimal_digit_narrow_fastENSt3__117basic_string_viewIcNS2_11char_traitsIcEEEE:
+  209|   149k|{
+  210|   149k|    return find_nondecimal_digit_simple_impl(source);
+  211|   149k|}
+impl.cpp:_ZN3scn2v34impl12_GLOBAL__N_133find_nondecimal_digit_simple_implENSt3__117basic_string_viewIcNS3_11char_traitsIcEEEE:
+  185|   149k|{
+  186|   149k|    return std::find_if(source.begin(), source.end(),
+  187|   149k|                        [](char ch) noexcept { return !is_decimal_digit(ch); });
+  188|   149k|}
+impl.cpp:_ZZN3scn2v34impl12_GLOBAL__N_133find_nondecimal_digit_simple_implENSt3__117basic_string_viewIcNS3_11char_traitsIcEEEEENK3$_0clEc:
+  187|   152k|                        [](char ch) noexcept { return !is_decimal_digit(ch); });
+impl.cpp:_ZN3scn2v34impl12_GLOBAL__N_116is_decimal_digitEc:
+  151|   152k|{
+  152|   152k|    static constexpr std::array<bool, 256> lookup = {
+  153|   152k|        {false, false, false, false, false, false, false, false, false, false,
+  154|   152k|         false, false, false, false, false, false, false, false, false, false,
+  155|   152k|         false, false, false, false, false, false, false, false, false, false,
+  156|   152k|         false, false, false, false, false, false, false, false, false, false,
+  157|   152k|         false, false, false, false, false, false, false, false, true,  true,
+  158|   152k|         true,  true,  true,  true,  true,  true,  true,  true,  false, false,
+  159|   152k|         false, false, false, false, false, false, false, false, false, false,
+  160|   152k|         false, false, false, false, false, false, false, false, false, false,
+  161|   152k|         false, false, false, false, false, false, false, false, false, false,
+  162|   152k|         false, false, false, false, false, false, false, false, false, false,
+  163|   152k|         false, false, false, false, false, false, false, false, false, false,
+  164|   152k|         false, false, false, false, false, false, false, false, false, false,
+  165|   152k|         false, false, false, false, false, false, false, false, false, false,
+  166|   152k|         false, false, false, false, false, false, false, false, false, false,
+  167|   152k|         false, false, false, false, false, false, false, false, false, false,
+  168|   152k|         false, false, false, false, false, false, false, false, false, false,
+  169|   152k|         false, false, false, false, false, false, false, false, false, false,
+  170|   152k|         false, false, false, false, false, false, false, false, false, false,
+  171|   152k|         false, false, false, false, false, false, false, false, false, false,
+  172|   152k|         false, false, false, false, false, false, false, false, false, false,
+  173|   152k|         false, false, false, false, false, false, false, false, false, false,
+  174|   152k|         false, false, false, false, false, false, false, false, false, false,
+  175|   152k|         false, false, false, false, false, false, false, false, false, false,
+  176|   152k|         false, false, false, false, false, false, false, false, false, false,
+  177|   152k|         false, false, false, false, false, false, false, false, false, false,
+  178|   152k|         false, false, false, false, false, false}};
+  179|       |
+  180|   152k|    return lookup[static_cast<size_t>(static_cast<unsigned char>(ch))];
+  181|   152k|}
+impl.cpp:_ZN3scn2v34impl12_GLOBAL__N_117find_classic_implIZNS1_30find_classic_space_narrow_fastENSt3__117basic_string_viewIcNS4_11char_traitsIcEEEEE3$_0ZNS1_30find_classic_space_narrow_fastES8_E3$_1EEPKcS8_T_T0_:
+  117|  16.0k|{
+  118|  16.0k|    auto it = source.begin();
   119|       |
-  120|  6.19k|      if ((data[pos + 1] & 0b11000000) != 0b10000000) { return result(error_code::TOO_SHORT, pos); }
+  120|  34.6k|    while (it != source.end()) {
   ------------------
-  |  Branch (120:11): [True: 314, False: 5.88k]
+  |  Branch (120:12): [True: 34.1k, False: 441]
   ------------------
-  121|  5.88k|      if ((data[pos + 2] & 0b11000000) != 0b10000000) { return result(error_code::TOO_SHORT, pos); }
+  121|  34.1k|        auto sv =
+  122|  34.1k|            detail::make_string_view_from_iterators<char>(it, source.end())
+  123|  34.1k|                .substr(0, 8);
+  124|       |
+  125|  34.1k|        if (!has_nonascii_char_64(sv)) {
   ------------------
-  |  Branch (121:11): [True: 491, False: 5.39k]
+  |  Branch (125:13): [True: 11.2k, False: 22.8k]
   ------------------
-  122|       |      // range check
-  123|  5.39k|      uint32_t code_point = (leading_byte & 0b00001111) << 12 |
-  124|  5.39k|                   (data[pos + 1] & 0b00111111) << 6 |
-  125|  5.39k|                   (data[pos + 2] & 0b00111111);
-  126|  5.39k|      if (code_point < 0x800 || 0xffff < code_point) { return result(error_code::OVERLONG, pos); }
+  126|  11.2k|            auto tmp_it = std::find_if(sv.begin(), sv.end(), cu_cb);
+  127|  11.2k|            it = detail::make_string_view_iterator(source, tmp_it);
+  128|  11.2k|            if (tmp_it != sv.end()) {
   ------------------
-  |  Branch (126:11): [True: 456, False: 4.93k]
-  |  Branch (126:33): [True: 0, False: 4.93k]
+  |  Branch (128:17): [True: 8.03k, False: 3.22k]
   ------------------
-  127|  4.93k|      if (0xd7ff < code_point && code_point < 0xe000) { return result(error_code::SURROGATE, pos); }
+  129|  8.03k|                break;
+  130|  8.03k|            }
+  131|  3.22k|            continue;
+  132|  11.2k|        }
+  133|       |
+  134|  78.1k|        for (size_t i = 0; i < sv.size(); ++i) {
   ------------------
-  |  Branch (127:11): [True: 705, False: 4.23k]
-  |  Branch (127:34): [True: 430, False: 275]
+  |  Branch (134:28): [True: 62.7k, False: 15.3k]
   ------------------
-  128|  4.50k|      *utf32_output++ = char32_t(code_point);
-  129|  4.50k|      pos += 3;
-  130|  14.8k|    } else if ((leading_byte & 0b11111000) == 0b11110000) { // 0b11110000
+  135|  62.7k|            auto tmp =
+  136|  62.7k|                detail::make_string_view_from_iterators<char>(it, source.end());
+  137|  62.7k|            auto res = get_next_code_point(tmp);
+  138|  62.7k|            if (cp_cb(res.value)) {
   ------------------
-  |  Branch (130:16): [True: 5.28k, False: 9.56k]
+  |  Branch (138:17): [True: 7.55k, False: 55.2k]
   ------------------
-  131|       |      // we have a 4-byte UTF-8 word.
-  132|  5.28k|      if(pos + 3 >= len) { return result(error_code::TOO_SHORT, pos); } // minimal bound checking
+  139|  7.55k|                return it;
+  140|  7.55k|            }
+  141|  55.2k|            i += ranges::distance(tmp.data(), detail::to_address(res.iterator));
+  142|  55.2k|            it = detail::make_string_view_iterator(source, res.iterator);
+  143|  55.2k|            SCN_ENSURE(it <= source.end());
   ------------------
-  |  Branch (132:10): [True: 546, False: 4.74k]
+  |  |  925|  55.2k|#define SCN_ENSURE(cond) SCN_ASSERT(cond, "Postcondition violation")
+  |  |  ------------------
+  |  |  |  |  921|  55.2k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
+  |  |  ------------------
   ------------------
-  133|  4.74k|      if ((data[pos + 1] & 0b11000000) != 0b10000000) { return result(error_code::TOO_SHORT, pos);}
+  144|  55.2k|        }
+  145|  22.8k|    }
+  146|       |
+  147|  8.47k|    return detail::make_string_view_iterator(source, it);
+  148|  16.0k|}
+impl.cpp:_ZN3scn2v34impl12_GLOBAL__N_120has_nonascii_char_64INSt3__117basic_string_viewIcNS4_11char_traitsIcEEEEEEbT_:
+  104|   170k|{
+  105|   170k|    static_assert(sizeof(*source.data()) == 1);
+  106|   170k|    SCN_EXPECT(source.size() <= 8);
   ------------------
-  |  Branch (133:11): [True: 347, False: 4.39k]
+  |  |  924|   170k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
+  |  |  ------------------
+  |  |  |  |  921|   170k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
+  |  |  ------------------
   ------------------
-  134|  4.39k|      if ((data[pos + 2] & 0b11000000) != 0b10000000) { return result(error_code::TOO_SHORT, pos); }
+  107|   170k|    uint64_t word{};
+  108|   170k|    std::memcpy(&word, source.data(), source.size());
+  109|       |
+  110|   170k|    return has_byte_greater(word, 127) != 0;
+  111|   170k|}
+impl.cpp:_ZZN3scn2v34impl30find_classic_space_narrow_fastENSt3__117basic_string_viewIcNS2_11char_traitsIcEEEEENK3$_0clEc:
+  195|  53.5k|        source, [](char ch) { return is_ascii_space(ch); },
+impl.cpp:_ZZN3scn2v34impl30find_classic_space_narrow_fastENSt3__117basic_string_viewIcNS2_11char_traitsIcEEEEENK3$_1clEDi:
+  196|  62.7k|        [](char32_t cp) { return is_cp_space(cp); });
+impl.cpp:_ZN3scn2v34impl12_GLOBAL__N_117find_classic_implIZNS1_33find_classic_nonspace_narrow_fastENSt3__117basic_string_viewIcNS4_11char_traitsIcEEEEE3$_0ZNS1_33find_classic_nonspace_narrow_fastES8_E3$_1EEPKcS8_T_T0_:
+  117|   135k|{
+  118|   135k|    auto it = source.begin();
+  119|       |
+  120|   136k|    while (it != source.end()) {
   ------------------
-  |  Branch (134:11): [True: 269, False: 4.12k]
+  |  Branch (120:12): [True: 136k, False: 136]
   ------------------
-  135|  4.12k|      if ((data[pos + 3] & 0b11000000) != 0b10000000) { return result(error_code::TOO_SHORT, pos); }
+  121|   136k|        auto sv =
+  122|   136k|            detail::make_string_view_from_iterators<char>(it, source.end())
+  123|   136k|                .substr(0, 8);
+  124|       |
+  125|   136k|        if (!has_nonascii_char_64(sv)) {
   ------------------
-  |  Branch (135:11): [True: 359, False: 3.76k]
+  |  Branch (125:13): [True: 42.3k, False: 93.8k]
   ------------------
-  136|       |
-  137|       |      // range check
-  138|  3.76k|      uint32_t code_point =
-  139|  3.76k|          (leading_byte & 0b00000111) << 18 | (data[pos + 1] & 0b00111111) << 12 |
-  140|  3.76k|          (data[pos + 2] & 0b00111111) << 6 | (data[pos + 3] & 0b00111111);
-  141|  3.76k|      if (code_point <= 0xffff) { return result(error_code::OVERLONG, pos); }
+  126|  42.3k|            auto tmp_it = std::find_if(sv.begin(), sv.end(), cu_cb);
+  127|  42.3k|            it = detail::make_string_view_iterator(source, tmp_it);
+  128|  42.3k|            if (tmp_it != sv.end()) {
   ------------------
-  |  Branch (141:11): [True: 196, False: 3.57k]
+  |  Branch (128:17): [True: 42.0k, False: 365]
   ------------------
-  142|  3.57k|      if (0x10ffff < code_point) { return result(error_code::TOO_LARGE, pos); }
+  129|  42.0k|                break;
+  130|  42.0k|            }
+  131|    365|            continue;
+  132|  42.3k|        }
+  133|       |
+  134|   101k|        for (size_t i = 0; i < sv.size(); ++i) {
   ------------------
-  |  Branch (142:11): [True: 203, False: 3.36k]
+  |  Branch (134:28): [True: 101k, False: 821]
   ------------------
-  143|  3.36k|      *utf32_output++ = char32_t(code_point);
-  144|  3.36k|      pos += 4;
-  145|  9.56k|    } else {
-  146|       |      // we either have too many continuation bytes or an invalid leading byte
-  147|  9.56k|      if ((leading_byte & 0b11000000) == 0b10000000) { return result(error_code::TOO_LONG, pos); }
+  135|   101k|            auto tmp =
+  136|   101k|                detail::make_string_view_from_iterators<char>(it, source.end());
+  137|   101k|            auto res = get_next_code_point(tmp);
+  138|   101k|            if (cp_cb(res.value)) {
   ------------------
-  |  Branch (147:11): [True: 4.82k, False: 4.73k]
+  |  Branch (138:17): [True: 93.0k, False: 8.01k]
   ------------------
-  148|  4.73k|      else { return result(error_code::HEADER_BITS, pos); }
-  149|  9.56k|    }
-  150|  86.5k|  }
-  151|  1.90k|  return result(error_code::SUCCESS, utf32_output - start);
-  152|  16.7k|}
-simdutf.cpp:_ZN7simdutf6scalar12_GLOBAL__N_113utf8_to_utf3230rewind_and_convert_with_errorsEmPKcmPDi:
-  167|  16.9k|inline result rewind_and_convert_with_errors(size_t prior_bytes, const char* buf, size_t len, char32_t* utf32_output) {
-  168|  16.9k|  size_t extra_len{0};
-  169|       |  // We potentially need to go back in time and find a leading byte.
-  170|  16.9k|  size_t how_far_back = 3; // 3 bytes in the past + current position
-  171|  16.9k|  if(how_far_back > prior_bytes) { how_far_back = prior_bytes; }
+  139|  93.0k|                return it;
+  140|  93.0k|            }
+  141|  8.01k|            i += ranges::distance(tmp.data(), detail::to_address(res.iterator));
+  142|  8.01k|            it = detail::make_string_view_iterator(source, res.iterator);
+  143|  8.01k|            SCN_ENSURE(it <= source.end());
   ------------------
-  |  Branch (171:6): [True: 16.9k, False: 0]
+  |  |  925|  8.01k|#define SCN_ENSURE(cond) SCN_ASSERT(cond, "Postcondition violation")
+  |  |  ------------------
+  |  |  |  |  921|  8.01k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
+  |  |  ------------------
   ------------------
-  172|  16.9k|  bool found_leading_bytes{false};
-  173|       |  // important: it is i <= how_far_back and not 'i < how_far_back'.
-  174|  17.2k|  for(size_t i = 0; i <= how_far_back; i++) {
-  ------------------
-  |  Branch (174:21): [True: 16.9k, False: 281]
-  ------------------
-  175|  16.9k|    unsigned char byte = buf[0-i];
-  176|  16.9k|    found_leading_bytes = ((byte & 0b11000000) != 0b10000000);
-  177|  16.9k|    if(found_leading_bytes) {
-  ------------------
-  |  Branch (177:8): [True: 16.7k, False: 281]
-  ------------------
-  178|  16.7k|      buf -= i;
-  179|  16.7k|      extra_len = i;
-  180|  16.7k|      break;
-  181|  16.7k|    }
-  182|  16.9k|  }
-  183|       |  //
-  184|       |  // It is possible for this function to return a negative count in its result.
-  185|       |  // C++ Standard Section 18.1 defines size_t is in <cstddef> which is described in C Standard as <stddef.h>.
-  186|       |  // C Standard Section 4.1.5 defines size_t as an unsigned integral type of the result of the sizeof operator
-  187|       |  //
-  188|       |  // An unsigned type will simply wrap round arithmetically (well defined).
-  189|       |  //
-  190|  16.9k|  if(!found_leading_bytes) {
-  ------------------
-  |  Branch (190:6): [True: 281, False: 16.7k]
-  ------------------
-  191|       |    // If how_far_back == 3, we may have four consecutive continuation bytes!!!
-  192|       |    // [....] [continuation] [continuation] [continuation] | [buf is continuation]
-  193|       |    // Or we possibly have a stream that does not start with a leading byte.
-  194|    281|    return result(error_code::TOO_LONG, 0-how_far_back);
-  195|    281|  }
-  196|       |
-  197|  16.7k|  result res = convert_with_errors(buf, len + extra_len, utf32_output);
-  198|  16.7k|  if (res.error) {
-  ------------------
-  |  Branch (198:7): [True: 14.8k, False: 1.90k]
-  ------------------
-  199|  14.8k|    res.count -= extra_len;
-  200|  14.8k|  }
-  201|  16.7k|  return res;
-  202|  16.9k|}
+  144|  8.01k|        }
+  145|  93.8k|    }
+  146|       |
+  147|  42.1k|    return detail::make_string_view_iterator(source, it);
+  148|   135k|}
+impl.cpp:_ZZN3scn2v34impl33find_classic_nonspace_narrow_fastENSt3__117basic_string_viewIcNS2_11char_traitsIcEEEEENK3$_0clEc:
+  203|  50.0k|        source, [](char ch) { return !is_ascii_space(ch); },
+impl.cpp:_ZZN3scn2v34impl33find_classic_nonspace_narrow_fastENSt3__117basic_string_viewIcNS2_11char_traitsIcEEEEENK3$_1clEDi:
+  204|   101k|        [](char32_t cp) { return !is_cp_space(cp); });
 
-_ZN7simdutf8fallback14implementationC2Ev:
-   19|      1|  ) {}
-
-_ZN7simdutf7haswell14implementationC2Ev:
-   18|      1|  ) {}
-
-simdutf.cpp:_ZN7simdutf7haswell12_GLOBAL__N_14simd5simd8IhEC2Ev:
-  195|   106k|    simdutf_really_inline simd8() : base8_numeric<uint8_t>() {}
-simdutf.cpp:_ZN7simdutf7haswell12_GLOBAL__N_14simd13base8_numericIhEC2Ev:
-  112|   106k|    simdutf_really_inline base8_numeric() : base8<T>() {}
-simdutf.cpp:_ZN7simdutf7haswell12_GLOBAL__N_14simd5base8IhNS2_5simd8IbEEEC2Ev:
-   61|   106k|    simdutf_really_inline base8() : base<simd8<T>>() {}
-simdutf.cpp:_ZN7simdutf7haswell12_GLOBAL__N_14simd4baseINS2_5simd8IhEEEC2Ev:
-   16|   106k|    simdutf_really_inline base() : value{__m256i()} {}
-simdutf.cpp:_ZN7simdutf7haswell12_GLOBAL__N_14simd8simd8x64IhEC2EPKh:
-  276|  35.6k|    simdutf_really_inline simd8x64(const T* ptr) : chunks{simd8<T>::load(ptr), simd8<T>::load(ptr+sizeof(simd8<T>)/sizeof(T))} {}
-simdutf.cpp:_ZN7simdutf7haswell12_GLOBAL__N_14simd13base8_numericIhE4loadEPKh:
-   96|  83.8k|    static simdutf_really_inline simd8<T> load(const T values[32]) {
-   97|  83.8k|      return _mm256_loadu_si256(reinterpret_cast<const __m256i *>(values));
-   98|  83.8k|    }
-simdutf.cpp:_ZN7simdutf7haswell12_GLOBAL__N_14simd5simd8IhEC2EDv4_x:
-  196|  1.08M|    simdutf_really_inline simd8(const __m256i _value) : base8_numeric<uint8_t>(_value) {}
-simdutf.cpp:_ZN7simdutf7haswell12_GLOBAL__N_14simd13base8_numericIhEC2EDv4_x:
-  113|  1.08M|    simdutf_really_inline base8_numeric(const __m256i _value) : base8<T>(_value) {}
-simdutf.cpp:_ZN7simdutf7haswell12_GLOBAL__N_14simd5base8IhNS2_5simd8IbEEEC2EDv4_x:
-   62|  1.08M|    simdutf_really_inline base8(const __m256i _value) : base<simd8<T>>(_value) {}
-simdutf.cpp:_ZN7simdutf7haswell12_GLOBAL__N_14simd4baseINS2_5simd8IhEEEC2EDv4_x:
-   19|  1.08M|    simdutf_really_inline base(const __m256i _value) : value(_value) {}
-simdutf.cpp:_ZNK7simdutf7haswell12_GLOBAL__N_14simd8simd8x64IhE9reduce_orEv:
-  295|  35.6k|    simdutf_really_inline simd8<T> reduce_or() const {
-  296|  35.6k|      return this->chunks[0] | this->chunks[1];
-  297|  35.6k|    }
-simdutf.cpp:_ZNK7simdutf7haswell12_GLOBAL__N_14simd4baseINS2_5simd8IhEEEorES5_:
-   43|   144k|    simdutf_really_inline Child operator|(const Child other) const { return _mm256_or_si256(*this, other); }
-simdutf.cpp:_ZNK7simdutf7haswell12_GLOBAL__N_14simd4baseINS2_5simd8IhEEEcvRKDv4_xEv:
-   21|  1.54M|    simdutf_really_inline operator const __m256i&() const { return this->value; }
-simdutf.cpp:_ZNK7simdutf7haswell12_GLOBAL__N_14simd5simd8IhE8is_asciiEv:
-  248|  35.6k|    simdutf_really_inline bool is_ascii() const { return _mm256_movemask_epi8(*this) == 0; }
-simdutf.cpp:_ZN7simdutf7haswell12_GLOBAL__N_14simd4baseINS2_5simd8IhEEEoRES5_:
-   47|  83.8k|    simdutf_really_inline Child& operator|=(const Child other) { auto this_cast = static_cast<Child*>(this); *this_cast = *this_cast | other; return *this_cast; }
-simdutf.cpp:_ZNK7simdutf7haswell12_GLOBAL__N_14simd5base8IhNS2_5simd8IbEEE4prevILi1EEENS4_IhEES8_:
-   70|  25.1k|    simdutf_really_inline simd8<T> prev(const simd8<T> prev_chunk) const {
-   71|  25.1k|      return _mm256_alignr_epi8(*this, _mm256_permute2x128_si256(prev_chunk, *this, 0x21), 16 - N);
-   72|  25.1k|    }
-simdutf.cpp:_ZNK7simdutf7haswell12_GLOBAL__N_14simd5simd8IhE3shrILi4EEES4_v:
-  254|  50.2k|    simdutf_really_inline simd8<uint8_t> shr() const { return simd8<uint8_t>(_mm256_srli_epi16(*this, N)) & uint8_t(0xFFu >> N); }
-simdutf.cpp:_ZNK7simdutf7haswell12_GLOBAL__N_14simd13base8_numericIhE9lookup_16IhEENS2_5simd8IT_EES7_S7_S7_S7_S7_S7_S7_S7_S7_S7_S7_S7_S7_S7_S7_S7_:
-  138|  75.3k|        L replace12, L replace13, L replace14, L replace15) const {
-  139|  75.3k|      return lookup_16(simd8<L>::repeat_16(
-  140|  75.3k|        replace0,  replace1,  replace2,  replace3,
-  141|  75.3k|        replace4,  replace5,  replace6,  replace7,
-  142|  75.3k|        replace8,  replace9,  replace10, replace11,
-  143|  75.3k|        replace12, replace13, replace14, replace15
-  144|  75.3k|      ));
-  145|  75.3k|    }
-simdutf.cpp:_ZNK7simdutf7haswell12_GLOBAL__N_14simd13base8_numericIhE9lookup_16IhEENS2_5simd8IT_EES8_:
-  129|  75.3k|    simdutf_really_inline simd8<L> lookup_16(simd8<L> lookup_table) const {
-  130|  75.3k|      return _mm256_shuffle_epi8(lookup_table, *this);
-  131|  75.3k|    }
-simdutf.cpp:_ZN7simdutf7haswell12_GLOBAL__N_14simd4baseINS2_5simd8IhEEEcvRDv4_xEv:
-   22|   100k|    simdutf_really_inline operator __m256i&() { return this->value; }
-simdutf.cpp:_ZN7simdutf7haswell12_GLOBAL__N_14simd5simd8IhE9repeat_16Ehhhhhhhhhhhhhhhh:
-  217|  75.3k|    ) {
-  218|  75.3k|      return simd8<uint8_t>(
-  219|  75.3k|        v0, v1, v2, v3, v4, v5, v6, v7,
-  220|  75.3k|        v8, v9, v10,v11,v12,v13,v14,v15,
-  221|  75.3k|        v0, v1, v2, v3, v4, v5, v6, v7,
-  222|  75.3k|        v8, v9, v10,v11,v12,v13,v14,v15
-  223|  75.3k|      );
-  224|  75.3k|    }
-simdutf.cpp:_ZN7simdutf7haswell12_GLOBAL__N_14simd5simd8IhEC2Ehhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh:
-  212|  75.3k|    )) {}
-simdutf.cpp:_ZNK7simdutf7haswell12_GLOBAL__N_14simd4baseINS2_5simd8IhEEEanES5_:
-   44|   150k|    simdutf_really_inline Child operator&(const Child other) const { return _mm256_and_si256(*this, other); }
-simdutf.cpp:_ZN7simdutf7haswell12_GLOBAL__N_14simd5simd8IhEC2Eh:
-  198|   312k|    simdutf_really_inline simd8(uint8_t _value) : simd8(splat(_value)) {}
-simdutf.cpp:_ZN7simdutf7haswell12_GLOBAL__N_14simd13base8_numericIhE5splatEh:
-   94|   312k|    static simdutf_really_inline simd8<T> splat(T _value) { return _mm256_set1_epi8(_value); }
-simdutf.cpp:_ZNK7simdutf7haswell12_GLOBAL__N_14simd5base8IhNS2_5simd8IbEEE4prevILi2EEENS4_IhEES8_:
-   70|  25.1k|    simdutf_really_inline simd8<T> prev(const simd8<T> prev_chunk) const {
-   71|  25.1k|      return _mm256_alignr_epi8(*this, _mm256_permute2x128_si256(prev_chunk, *this, 0x21), 16 - N);
-   72|  25.1k|    }
-simdutf.cpp:_ZNK7simdutf7haswell12_GLOBAL__N_14simd5base8IhNS2_5simd8IbEEE4prevILi3EEENS4_IhEES8_:
-   70|  25.1k|    simdutf_really_inline simd8<T> prev(const simd8<T> prev_chunk) const {
-   71|  25.1k|      return _mm256_alignr_epi8(*this, _mm256_permute2x128_si256(prev_chunk, *this, 0x21), 16 - N);
-   72|  25.1k|    }
-simdutf.cpp:_ZNK7simdutf7haswell12_GLOBAL__N_14simd5simd8IhE14saturating_subES4_:
-  229|  62.7k|    simdutf_really_inline simd8<uint8_t> saturating_sub(const simd8<uint8_t> other) const { return _mm256_subs_epu8(*this, other); }
-simdutf.cpp:_ZN7simdutf7haswell12_GLOBAL__N_14simd5simd8IbEC2EDv4_x:
-   81|  25.1k|    simdutf_really_inline simd8<bool>(const __m256i _value) : base8<bool>(_value) {}
-simdutf.cpp:_ZN7simdutf7haswell12_GLOBAL__N_14simd5base8IbNS2_5simd8IbEEEC2EDv4_x:
-   62|  25.1k|    simdutf_really_inline base8(const __m256i _value) : base<simd8<T>>(_value) {}
-simdutf.cpp:_ZN7simdutf7haswell12_GLOBAL__N_14simd4baseINS2_5simd8IbEEEC2EDv4_x:
-   19|  25.1k|    simdutf_really_inline base(const __m256i _value) : value(_value) {}
-simdutf.cpp:_ZN7simdutf7haswell12_GLOBAL__N_14simd4baseINS2_5simd8IbEEEcvRDv4_xEv:
-   22|  25.1k|    simdutf_really_inline operator __m256i&() { return this->value; }
-simdutf.cpp:_ZNK7simdutf7haswell12_GLOBAL__N_14simd4baseINS2_5simd8IhEEEeoES5_:
-   45|  25.1k|    simdutf_really_inline Child operator^(const Child other) const { return _mm256_xor_si256(*this, other); }
-simdutf.cpp:_ZN7simdutf7haswell12_GLOBAL__N_14simd5simd8IhEC2EPKh:
-  200|  12.5k|    simdutf_really_inline simd8(const uint8_t values[32]) : simd8(load(values)) {}
-simdutf.cpp:_ZNK7simdutf7haswell12_GLOBAL__N_14simd5simd8IhE7gt_bitsES4_:
-  235|  12.5k|    simdutf_really_inline simd8<uint8_t> gt_bits(const simd8<uint8_t> other) const { return this->saturating_sub(other); }
-simdutf.cpp:_ZNK7simdutf7haswell12_GLOBAL__N_14simd5simd8IhE21any_bits_set_anywhereEv:
-  250|   197k|    simdutf_really_inline bool any_bits_set_anywhere() const { return !bits_not_set_anywhere(); }
-simdutf.cpp:_ZNK7simdutf7haswell12_GLOBAL__N_14simd5simd8IhE21bits_not_set_anywhereEv:
-  249|   197k|    simdutf_really_inline bool bits_not_set_anywhere() const { return _mm256_testz_si256(*this, *this); }
-
-_ZN7simdutf7icelake14implementationC2Ev:
-   18|      1|      internal::instruction_set::AVX2 | internal::instruction_set::BMI1 | internal::instruction_set::BMI2 | internal::instruction_set::AVX512BW | internal::instruction_set::AVX512CD | internal::instruction_set::AVX512VL | internal::instruction_set::AVX512VBMI2 | internal::instruction_set::AVX512VPOPCNTDQ ) {}
-
-_ZN7simdutf8westmere14implementationC2Ev:
-   16|      1|  simdutf_really_inline implementation() : simdutf::implementation("westmere", "Intel/AMD SSE4.2", internal::instruction_set::SSE42) {}
-
-_ZN3scn2v26detail43utf_code_point_length_by_starting_code_unitIcEEmT_:
-   71|   439k|{
-   72|   439k|    if constexpr (sizeof(U) == 1) {
+_ZN3scn2v34impl19transcode_to_stringIcwEEvNSt3__117basic_string_viewIT_NS3_11char_traitsIS5_EEEERNS3_12basic_stringIT0_NS6_ISA_EENS3_9allocatorISA_EEEE:
+ 1362|    524|{
+ 1363|    524|    static_assert(sizeof(SourceCharT) != sizeof(DestCharT));
+ 1364|       |
+ 1365|    524|    if constexpr (sizeof(SourceCharT) == 1) {
   ------------------
-  |  Branch (72:19): [Folded - Ignored]
+  |  Branch (1365:19): [Folded - Ignored]
   ------------------
-   73|   439k|        return utf8_code_point_length_by_starting_code_unit(ch);
-   74|   439k|    }
-   75|   439k|    else if constexpr (sizeof(U) == 2) {
-   76|   439k|        return utf16_code_point_length_by_starting_code_unit(ch);
-   77|   439k|    }
-   78|   439k|    else {
-   79|       |        // utf-32
-   80|   439k|        static_assert(sizeof(U) == 4);
-   81|   439k|        SCN_UNUSED(ch);
-   82|   439k|        return 1;
-   83|   439k|    }
-   84|   439k|}
-_ZN3scn2v26detail44utf8_code_point_length_by_starting_code_unitIcEEmT_:
-   35|   439k|{
-   36|   439k|    static_assert(sizeof(U8) == 1);
-   37|       |
-   38|   439k|    SCN_GCC_COMPAT_PUSH
-   39|   439k|    SCN_GCC_COMPAT_IGNORE("-Wsign-conversion")
-   40|   439k|    constexpr char lengths[] =
-   41|   439k|        "\1\1\1\1\1\1\1\1"  // highest bit is 0 -> single-byte
-   42|   439k|        "\1\1\1\1\1\1\1\1"
-   43|   439k|        "\0\0\0\0\0\0\0\0"  // highest bits 10 -> error, non-initial
-   44|       |                            // byte
-   45|   439k|        "\2\2\2\2"          // highest bits 110 -> 2-byte cp
-   46|   439k|        "\3\3"              // highest bits 1110 -> 3-byte cp
-   47|   439k|        "\4";               // highest bits 11110 -> 4-byte cp
-   48|   439k|    return lengths[static_cast<unsigned char>(ch) >> 3];
-   49|   439k|    SCN_GCC_COMPAT_POP
-   50|   439k|}
-
-_ZNK4nano6ranges6detail9distance_2fnclIPKcS6_EENSt3__19enable_ifIXaa24input_or_output_iteratorIT_E12sentinel_forIT0_S9_EENS0_20incrementable_traitsIS9_E15difference_typeEE4typeES9_SA_:
- 3755|   102k|            {
- 3756|   102k|                return fn::impl(std::move(first), std::move(last));
- 3757|   102k|            }
-_ZN4nano6ranges6detail9distance_2fn4implIPKcS6_EENSt3__19enable_ifIX18sized_sentinel_forIT0_T_EENS0_20incrementable_traitsISA_E15difference_typeEE4typeESA_S9_:
- 3715|   102k|            {
- 3716|   102k|                return s - i;
- 3717|   102k|            }
-find_whitespace.cpp:_ZNK4nano6ranges6detail10find_if_fnclIRNSt3__117basic_string_viewIcNS4_11char_traitsIcEEEENS0_8identityEZN3scn2v24impl12_GLOBAL__N_133find_nondecimal_digit_simple_implES8_E3$_0EENS4_9enable_ifIXaa11input_rangeIT_E24indirect_unary_predicateIT1_NS1_11conditionalIX7same_asIT0_SA_EEE4typeIDTclL_ZNS0_16function_objects5beginEEclsr3stdE7declvalIRSH_EEEENS1_16projected_helperISP_SK_vEEEEEENSJ_IX14borrowed_rangeISH_EEE4typeISP_NS0_8danglingEEEE4typeEOSH_SI_SK_:
- 6792|   178k|        {
- 6793|   178k|            return find_if_fn::impl(nano::begin(rng), nano::end(rng), pred,
- 6794|   178k|                                    proj);
- 6795|   178k|        }
-find_whitespace.cpp:_ZN4nano6ranges6detail10find_if_fn4implIPKcS5_ZN3scn2v24impl12_GLOBAL__N_133find_nondecimal_digit_simple_implENSt3__117basic_string_viewIcNSA_11char_traitsIcEEEEE3$_0NS0_8identityEEET_SH_T0_RT1_RT2_:
- 6760|   178k|        {
- 6761|   182k|            while (first != last) {
+ 1366|    524|        if constexpr (sizeof(DestCharT) == 2) {
   ------------------
-  |  Branch (6761:20): [True: 182k, False: 16]
+  |  Branch (1366:23): [Folded - Ignored]
   ------------------
- 6762|   182k|                if (nano::invoke(pred, nano::invoke(proj, *first))) {
+ 1367|    524|            std::u32string tmp;
+ 1368|    524|            transcode_to_string_impl_to32(src, tmp);
+ 1369|    524|            return transcode_to_string_impl_32to16<false>(
+ 1370|    524|                std::u32string_view{tmp}, dest);
+ 1371|    524|        }
+ 1372|    524|        else if constexpr (sizeof(DestCharT) == 4) {
   ------------------
-  |  Branch (6762:21): [True: 178k, False: 3.75k]
+  |  Branch (1372:28): [Folded - Ignored]
   ------------------
- 6763|   178k|                    return first;
- 6764|   178k|                }
- 6765|  3.75k|                ++first;
- 6766|  3.75k|            }
- 6767|     16|            return first;
- 6768|   178k|        }
-find_whitespace.cpp:_ZNK4nano6ranges6detail7invoke_2fnclIRZN3scn2v24impl12_GLOBAL__N_133find_nondecimal_digit_simple_implENSt3__117basic_string_viewIcNS9_11char_traitsIcEEEEE3$_0JRKcEEEDTclsr2fnE4implclsr3stdE7forwardIT_Efp_Espclsr3stdE7forwardIT0_Efp0_EEEOSI_DpOSJ_:
- 1299|   182k|            {
- 1300|   182k|                return fn::impl(std::forward<F>(f),
- 1301|   182k|                                std::forward<Args>(args)...);
- 1302|   182k|            }
-find_whitespace.cpp:_ZN4nano6ranges6detail7invoke_2fn4implIRZN3scn2v24impl12_GLOBAL__N_133find_nondecimal_digit_simple_implENSt3__117basic_string_viewIcNS9_11char_traitsIcEEEEE3$_0JRKcEEENS9_9enable_ifIXntsr3std17is_member_pointerIu7__decayIT_EEE5valueEDTclclsr3stdE7forwardISJ_Efp_Espclsr3stdE7forwardIT0_Efp0_EEEE4typeEOSJ_DpOSL_:
- 1288|   182k|            {
- 1289|   182k|                return std::forward<F>(f)(std::forward<Args>(args)...);
- 1290|   182k|            }
-_ZNK4nano6ranges6detail7invoke_2fnclIRNS0_8identityEJRKcEEEDTclsr2fnE4implclsr3stdE7forwardIT_Efp_Espclsr3stdE7forwardIT0_Efp0_EEEOS9_DpOSA_:
- 1299|   304k|            {
- 1300|   304k|                return fn::impl(std::forward<F>(f),
- 1301|   304k|                                std::forward<Args>(args)...);
- 1302|   304k|            }
-_ZN4nano6ranges6detail7invoke_2fn4implIRNS0_8identityEJRKcEEENSt3__19enable_ifIXntsr3std17is_member_pointerIu7__decayIT_EEE5valueEDTclclsr3stdE7forwardISB_Efp_Espclsr3stdE7forwardIT0_Efp0_EEEE4typeEOSB_DpOSD_:
- 1288|   304k|            {
- 1289|   304k|                return std::forward<F>(f)(std::forward<Args>(args)...);
- 1290|   304k|            }
-_ZNK4nano6ranges8identityclIRKcEEOT_S6_:
- 1141|   304k|    {
- 1142|   304k|        return std::forward<T>(t);
- 1143|   304k|    }
-_ZNK4nano6ranges6detail6begin_2fnclIRNSt3__117basic_string_viewIcNS5_11char_traitsIcEEEEEEDTclsr2fnE4implclsr3stdE7forwardIT_Efp_EtlNS1_12priority_tagILm3EEEEEEOSB_:
- 2692|   241k|            {
- 2693|   241k|                return fn::impl(std::forward<T>(t), priority_tag<3>{});
- 2694|   241k|            }
-_ZN4nano6ranges6detail6begin_2fn4implIRNSt3__117basic_string_viewIcNS5_11char_traitsIcEEEEEENS5_9enable_ifIX24input_or_output_iteratorIDTcl10decay_copycldtclsr3stdE7forwardIT_Efp_E5beginEEEEESD_E4typeEOSC_NS1_12priority_tagILm1EEE:
- 2671|   241k|            {
- 2672|   241k|                return decay_copy(t.begin());
- 2673|   241k|            }
-_ZN4nano6ranges6detail10decay_copyIPKcEEu7__decayIT_EOS5_:
- 2605|   483k|    {
- 2606|   483k|        return std::forward<T>(t);
- 2607|   483k|    }
-_ZNK4nano6ranges6detail4end_2fnclIRNSt3__117basic_string_viewIcNS5_11char_traitsIcEEEEEEDTclsr2fnE4implclsr3stdE7forwardIT_Efp_EtlNS1_12priority_tagILm3EEEEEEOSB_:
- 2758|   241k|            {
- 2759|   241k|                return fn::impl(std::forward<T>(t), priority_tag<3>{});
- 2760|   241k|            }
-_ZN4nano6ranges6detail4end_2fn4implIRNSt3__117basic_string_viewIcNS5_11char_traitsIcEEEEPKcSC_EENS5_9enable_ifIX12sentinel_forIT0_T1_EEDTcl10decay_copycldtclsr3stdE7forwardIT_Efp_E3endEEEE4typeEOSG_NS1_12priority_tagILm1EEE:
- 2738|   241k|            {
- 2739|   241k|                return decay_copy(std::forward<T>(t).end());
- 2740|   241k|            }
-find_whitespace.cpp:_ZNK4nano6ranges6detail10find_if_fnclIRNSt3__117basic_string_viewIcNS4_11char_traitsIcEEEENS0_8identityEZN3scn2v24impl30find_classic_space_narrow_fastES8_E3$_0EENS4_9enable_ifIXaa11input_rangeIT_E24indirect_unary_predicateIT1_NS1_11conditionalIX7same_asIT0_SA_EEE4typeIDTclL_ZNS0_16function_objects5beginEEclsr3stdE7declvalIRSG_EEEENS1_16projected_helperISO_SJ_vEEEEEENSI_IX14borrowed_rangeISG_EEE4typeISO_NS0_8danglingEEEE4typeEOSG_SH_SJ_:
- 6792|  13.2k|        {
- 6793|  13.2k|            return find_if_fn::impl(nano::begin(rng), nano::end(rng), pred,
- 6794|  13.2k|                                    proj);
- 6795|  13.2k|        }
-find_whitespace.cpp:_ZN4nano6ranges6detail10find_if_fn4implIPKcS5_ZN3scn2v24impl30find_classic_space_narrow_fastENSt3__117basic_string_viewIcNS9_11char_traitsIcEEEEE3$_0NS0_8identityEEET_SG_T0_RT1_RT2_:
- 6760|  13.2k|        {
- 6761|  67.9k|            while (first != last) {
+ 1373|    524|            return transcode_to_string_impl_to32(src, dest);
+ 1374|    524|        }
+ 1375|    524|    }
+ 1376|      0|    else if constexpr (sizeof(SourceCharT) == 2) {
+ 1377|      0|        if constexpr (sizeof(DestCharT) == 1) {
+ 1378|      0|            std::u32string tmp;
+ 1379|      0|            transcode_to_string_impl_to32(src, tmp);
+ 1380|      0|            return transcode_to_string_impl_32to8<false>(
+ 1381|      0|                std::u32string_view{tmp}, dest);
+ 1382|      0|        }
+ 1383|      0|        else if constexpr (sizeof(DestCharT) == 4) {
+ 1384|      0|            return trasncode_to_string_impl_to32(src, dest);
+ 1385|      0|        }
+ 1386|      0|    }
+ 1387|      0|    else if constexpr (sizeof(SourceCharT) == 4) {
+ 1388|      0|        if constexpr (sizeof(DestCharT) == 1) {
+ 1389|      0|            return transcode_to_string_impl_32to8<false>(src, dest);
+ 1390|      0|        }
+ 1391|      0|        else if constexpr (sizeof(DestCharT) == 2) {
+ 1392|      0|            return transcode_to_string_impl_32to16<false>(src, dest);
+ 1393|      0|        }
+ 1394|      0|    }
+ 1395|       |
+ 1396|      0|    SCN_EXPECT(false);
   ------------------
-  |  Branch (6761:20): [True: 63.8k, False: 4.07k]
-  ------------------
- 6762|  63.8k|                if (nano::invoke(pred, nano::invoke(proj, *first))) {
-  ------------------
-  |  Branch (6762:21): [True: 9.16k, False: 54.7k]
-  ------------------
- 6763|  9.16k|                    return first;
- 6764|  9.16k|                }
- 6765|  54.7k|                ++first;
- 6766|  54.7k|            }
- 6767|  4.07k|            return first;
- 6768|  13.2k|        }
-find_whitespace.cpp:_ZNK4nano6ranges6detail7invoke_2fnclIRZN3scn2v24impl30find_classic_space_narrow_fastENSt3__117basic_string_viewIcNS8_11char_traitsIcEEEEE3$_0JRKcEEEDTclsr2fnE4implclsr3stdE7forwardIT_Efp_Espclsr3stdE7forwardIT0_Efp0_EEEOSH_DpOSI_:
- 1299|  63.8k|            {
- 1300|  63.8k|                return fn::impl(std::forward<F>(f),
- 1301|  63.8k|                                std::forward<Args>(args)...);
- 1302|  63.8k|            }
-find_whitespace.cpp:_ZN4nano6ranges6detail7invoke_2fn4implIRZN3scn2v24impl30find_classic_space_narrow_fastENSt3__117basic_string_viewIcNS8_11char_traitsIcEEEEE3$_0JRKcEEENS8_9enable_ifIXntsr3std17is_member_pointerIu7__decayIT_EEE5valueEDTclclsr3stdE7forwardISI_Efp_Espclsr3stdE7forwardIT0_Efp0_EEEE4typeEOSI_DpOSK_:
- 1288|  63.8k|            {
- 1289|  63.8k|                return std::forward<F>(f)(std::forward<Args>(args)...);
- 1290|  63.8k|            }
-find_whitespace.cpp:_ZNK4nano6ranges6detail10find_if_fnclIRNSt3__117basic_string_viewIcNS4_11char_traitsIcEEEENS0_8identityEZN3scn2v24impl33find_classic_nonspace_narrow_fastES8_E3$_0EENS4_9enable_ifIXaa11input_rangeIT_E24indirect_unary_predicateIT1_NS1_11conditionalIX7same_asIT0_SA_EEE4typeIDTclL_ZNS0_16function_objects5beginEEclsr3stdE7declvalIRSG_EEEENS1_16projected_helperISO_SJ_vEEEEEENSI_IX14borrowed_rangeISG_EEE4typeISO_NS0_8danglingEEEE4typeEOSG_SH_SJ_:
- 6792|  49.3k|        {
- 6793|  49.3k|            return find_if_fn::impl(nano::begin(rng), nano::end(rng), pred,
- 6794|  49.3k|                                    proj);
- 6795|  49.3k|        }
-find_whitespace.cpp:_ZN4nano6ranges6detail10find_if_fn4implIPKcS5_ZN3scn2v24impl33find_classic_nonspace_narrow_fastENSt3__117basic_string_viewIcNS9_11char_traitsIcEEEEE3$_0NS0_8identityEEET_SG_T0_RT1_RT2_:
- 6760|  49.3k|        {
- 6761|  58.2k|            while (first != last) {
-  ------------------
-  |  Branch (6761:20): [True: 57.8k, False: 359]
-  ------------------
- 6762|  57.8k|                if (nano::invoke(pred, nano::invoke(proj, *first))) {
-  ------------------
-  |  Branch (6762:21): [True: 48.9k, False: 8.93k]
-  ------------------
- 6763|  48.9k|                    return first;
- 6764|  48.9k|                }
- 6765|  8.93k|                ++first;
- 6766|  8.93k|            }
- 6767|    359|            return first;
- 6768|  49.3k|        }
-find_whitespace.cpp:_ZNK4nano6ranges6detail7invoke_2fnclIRZN3scn2v24impl33find_classic_nonspace_narrow_fastENSt3__117basic_string_viewIcNS8_11char_traitsIcEEEEE3$_0JRKcEEEDTclsr2fnE4implclsr3stdE7forwardIT_Efp_Espclsr3stdE7forwardIT0_Efp0_EEEOSH_DpOSI_:
- 1299|  57.8k|            {
- 1300|  57.8k|                return fn::impl(std::forward<F>(f),
- 1301|  57.8k|                                std::forward<Args>(args)...);
- 1302|  57.8k|            }
-find_whitespace.cpp:_ZN4nano6ranges6detail7invoke_2fn4implIRZN3scn2v24impl33find_classic_nonspace_narrow_fastENSt3__117basic_string_viewIcNS8_11char_traitsIcEEEEE3$_0JRKcEEENS8_9enable_ifIXntsr3std17is_member_pointerIu7__decayIT_EEE5valueEDTclclsr3stdE7forwardISI_Efp_Espclsr3stdE7forwardIT0_Efp0_EEEE4typeEOSI_DpOSK_:
- 1288|  57.8k|            {
- 1289|  57.8k|                return std::forward<F>(f)(std::forward<Args>(args)...);
- 1290|  57.8k|            }
-
-_ZN3scn2v26detail10to_addressIRPKcEEDTclgssr3scn6detailE15to_address_implscDtfp_Efp_tlNS1_12priority_tagILm2EEEEEEOT_:
-  199|  1.42M|{
-  200|  1.42M|    return ::scn::detail::to_address_impl(SCN_FWD(p), priority_tag<2>{});
-  ------------------
-  |  |  252|  1.42M|#define SCN_FWD(x)          static_cast<decltype(x)&&>(x)
-  ------------------
-  201|  1.42M|}
-_ZN3scn2v26detail15to_address_implIKcEEPT_S5_NS1_12priority_tagILm2EEE:
-  179|  1.42M|{
-  180|  1.42M|    return p;
-  181|  1.42M|}
-_ZN3scn2v26detail10to_addressIRPKwEEDTclgssr3scn6detailE15to_address_implscDtfp_Efp_tlNS1_12priority_tagILm2EEEEEEOT_:
-  199|  13.7k|{
-  200|  13.7k|    return ::scn::detail::to_address_impl(SCN_FWD(p), priority_tag<2>{});
-  ------------------
-  |  |  252|  13.7k|#define SCN_FWD(x)          static_cast<decltype(x)&&>(x)
-  ------------------
-  201|  13.7k|}
-_ZN3scn2v26detail15to_address_implIKwEEPT_S5_NS1_12priority_tagILm2EEE:
-  179|  13.7k|{
-  180|  13.7k|    return p;
-  181|  13.7k|}
-
-_ZN3scn2v24spanIwEC2IwLm32ELPv0EEERNSt3__15arrayIT_XT0_EEE:
-  148|  16.9k|    {
-  149|  16.9k|    }
-_ZNK3scn2v24spanIwE4dataEv:
-  237|  16.9k|    {
-  238|  16.9k|        return m_ptr;
-  239|  16.9k|    }
-_ZN3scn2v24spanIcEC2IcLm128ELPv0EEERNSt3__15arrayIT_XT0_EEE:
-  148|  4.57k|    {
-  149|  4.57k|    }
-_ZNK3scn2v24spanIcE4dataEv:
-  237|  4.57k|    {
-  238|  4.57k|        return m_ptr;
-  239|  4.57k|    }
-
-_ZN3scn2v26detail31make_string_view_from_iteratorsIcEENSt3__117basic_string_viewIT_NS3_11char_traitsIS5_EEEENS8_8iteratorES9_:
-   43|   441k|{
-   44|   441k|    if constexpr (std::is_constructible_v<std::basic_string_view<CharT>,
-  ------------------
-  |  Branch (44:19): [Folded - Ignored]
-  |  Branch (44:19): [Folded - Ignored]
-  ------------------
-   45|   441k|                                          decltype(first), decltype(last)> &&
-   46|   441k|                  !SCN_MSVC_DEBUG_ITERATORS) {
-  ------------------
-  |  |  153|      0|#define SCN_MSVC_DEBUG_ITERATORS 0
-  ------------------
-  |  Branch (46:19): [Folded - Ignored]
-  ------------------
-   47|   441k|        return {first, last};
-   48|   441k|    }
-   49|   441k|    else {
-   50|   441k|        return {to_address(first), static_cast<size_t>(std::distance(
-   51|   441k|                                       to_address(first), to_address(last)))};
-   52|   441k|    }
-   53|   441k|}
-_ZN3scn2v26detail25make_string_view_iteratorIcEENSt3__117basic_string_viewIT_NS3_11char_traitsIS5_EEE8iteratorES8_S9_:
-   74|   219k|{
-   75|   219k|    if constexpr (std::is_constructible_v<
-  ------------------
-  |  Branch (75:19): [Folded - Ignored]
-  |  Branch (75:19): [Folded - Ignored]
-  ------------------
-   76|   219k|                      typename std::basic_string_view<CharT>::iterator,
-   77|   219k|                      decltype(it)> &&
-   78|   219k|                  !SCN_MSVC_DEBUG_ITERATORS) {
-  ------------------
-  |  |  153|      0|#define SCN_MSVC_DEBUG_ITERATORS 0
-  ------------------
-  |  Branch (78:19): [Folded - Ignored]
-  ------------------
-   79|   219k|        SCN_UNUSED(sv);
-  ------------------
-  |  |  231|   219k|#define SCN_UNUSED(x) static_cast<void>(sizeof(x))
-  ------------------
-   80|   219k|        return it;
-   81|   219k|    }
-   82|   219k|    else {
-   83|   219k|        return sv.begin() + std::distance(sv.data(), detail::to_address(it));
-   84|   219k|    }
-   85|   219k|}
-_ZN3scn2v26detail31make_string_view_from_iteratorsIwEENSt3__117basic_string_viewIT_NS3_11char_traitsIS5_EEEENS8_8iteratorES9_:
-   43|  4.57k|{
-   44|  4.57k|    if constexpr (std::is_constructible_v<std::basic_string_view<CharT>,
-  ------------------
-  |  Branch (44:19): [Folded - Ignored]
-  |  Branch (44:19): [Folded - Ignored]
-  ------------------
-   45|  4.57k|                                          decltype(first), decltype(last)> &&
-   46|  4.57k|                  !SCN_MSVC_DEBUG_ITERATORS) {
-  ------------------
-  |  |  153|      0|#define SCN_MSVC_DEBUG_ITERATORS 0
-  ------------------
-  |  Branch (46:19): [Folded - Ignored]
-  ------------------
-   47|  4.57k|        return {first, last};
-   48|  4.57k|    }
-   49|  4.57k|    else {
-   50|  4.57k|        return {to_address(first), static_cast<size_t>(std::distance(
-   51|  4.57k|                                       to_address(first), to_address(last)))};
-   52|  4.57k|    }
-   53|  4.57k|}
-_ZN3scn2v26detail25make_string_view_iteratorIwEENSt3__117basic_string_viewIT_NS3_11char_traitsIS5_EEE8iteratorES8_S9_:
-   74|  4.57k|{
-   75|  4.57k|    if constexpr (std::is_constructible_v<
-  ------------------
-  |  Branch (75:19): [Folded - Ignored]
-  |  Branch (75:19): [Folded - Ignored]
-  ------------------
-   76|  4.57k|                      typename std::basic_string_view<CharT>::iterator,
-   77|  4.57k|                      decltype(it)> &&
-   78|  4.57k|                  !SCN_MSVC_DEBUG_ITERATORS) {
-  ------------------
-  |  |  153|      0|#define SCN_MSVC_DEBUG_ITERATORS 0
-  ------------------
-  |  Branch (78:19): [Folded - Ignored]
-  ------------------
-   79|  4.57k|        SCN_UNUSED(sv);
-  ------------------
-  |  |  231|  4.57k|#define SCN_UNUSED(x) static_cast<void>(sizeof(x))
-  ------------------
-   80|  4.57k|        return it;
-   81|  4.57k|    }
-   82|  4.57k|    else {
-   83|  4.57k|        return sv.begin() + std::distance(sv.data(), detail::to_address(it));
-   84|  4.57k|    }
-   85|  4.57k|}
-
-_ZN3scn2v24impl30find_classic_space_narrow_fastENSt3__117basic_string_viewIcNS2_11char_traitsIcEEEE:
-  119|  19.6k|{
-  120|  19.6k|    return find_classic_impl(
-  121|  19.6k|        source, [](char ch) { return is_ascii_space(ch); },
-  122|  19.6k|        [](char32_t cp) { return is_cp_space(cp); });
-  123|  19.6k|}
-_ZN3scn2v24impl33find_classic_nonspace_narrow_fastENSt3__117basic_string_viewIcNS2_11char_traitsIcEEEE:
-  127|   162k|{
-  128|   162k|    return find_classic_impl(
-  129|   162k|        source, [](char ch) { return !is_ascii_space(ch); },
-  130|   162k|        [](char32_t cp) { return !is_cp_space(cp); });
-  131|   162k|}
-_ZN3scn2v24impl33find_nondecimal_digit_narrow_fastENSt3__117basic_string_viewIcNS2_11char_traitsIcEEEE:
-  135|   178k|{
-  136|   178k|    return find_nondecimal_digit_simple_impl(source);
-  137|   178k|}
-find_whitespace.cpp:_ZN3scn2v24impl12_GLOBAL__N_133find_nondecimal_digit_simple_implENSt3__117basic_string_viewIcNS3_11char_traitsIcEEEE:
-  111|   178k|{
-  112|   178k|    return ranges::find_if(
-  113|   178k|        source, [](char ch) SCN_NOEXCEPT { return !is_decimal_digit(ch); });
-  114|   178k|}
-find_whitespace.cpp:_ZZN3scn2v24impl12_GLOBAL__N_133find_nondecimal_digit_simple_implENSt3__117basic_string_viewIcNS3_11char_traitsIcEEEEENK3$_0clEc:
-  113|   182k|        source, [](char ch) SCN_NOEXCEPT { return !is_decimal_digit(ch); });
-find_whitespace.cpp:_ZN3scn2v24impl12_GLOBAL__N_116is_decimal_digitEc:
-   77|   182k|{
-   78|   182k|    static constexpr std::array<bool, 256> lookup = {
-   79|   182k|        {false, false, false, false, false, false, false, false, false, false,
-   80|   182k|         false, false, false, false, false, false, false, false, false, false,
-   81|   182k|         false, false, false, false, false, false, false, false, false, false,
-   82|   182k|         false, false, false, false, false, false, false, false, false, false,
-   83|   182k|         false, false, false, false, false, false, false, false, true,  true,
-   84|   182k|         true,  true,  true,  true,  true,  true,  true,  true,  false, false,
-   85|   182k|         false, false, false, false, false, false, false, false, false, false,
-   86|   182k|         false, false, false, false, false, false, false, false, false, false,
-   87|   182k|         false, false, false, false, false, false, false, false, false, false,
-   88|   182k|         false, false, false, false, false, false, false, false, false, false,
-   89|   182k|         false, false, false, false, false, false, false, false, false, false,
-   90|   182k|         false, false, false, false, false, false, false, false, false, false,
-   91|   182k|         false, false, false, false, false, false, false, false, false, false,
-   92|   182k|         false, false, false, false, false, false, false, false, false, false,
-   93|   182k|         false, false, false, false, false, false, false, false, false, false,
-   94|   182k|         false, false, false, false, false, false, false, false, false, false,
-   95|   182k|         false, false, false, false, false, false, false, false, false, false,
-   96|   182k|         false, false, false, false, false, false, false, false, false, false,
-   97|   182k|         false, false, false, false, false, false, false, false, false, false,
-   98|   182k|         false, false, false, false, false, false, false, false, false, false,
-   99|   182k|         false, false, false, false, false, false, false, false, false, false,
-  100|   182k|         false, false, false, false, false, false, false, false, false, false,
-  101|   182k|         false, false, false, false, false, false, false, false, false, false,
-  102|   182k|         false, false, false, false, false, false, false, false, false, false,
-  103|   182k|         false, false, false, false, false, false, false, false, false, false,
-  104|   182k|         false, false, false, false, false, false}};
-  105|       |
-  106|   182k|    return lookup[static_cast<size_t>(static_cast<unsigned char>(ch))];
-  107|   182k|}
-find_whitespace.cpp:_ZN3scn2v24impl12_GLOBAL__N_117find_classic_implIZNS1_30find_classic_space_narrow_fastENSt3__117basic_string_viewIcNS4_11char_traitsIcEEEEE3$_0ZNS1_30find_classic_space_narrow_fastES8_E3$_1EEPKcS8_T_T0_:
-   43|  19.6k|{
-   44|  19.6k|    auto it = source.begin();
-   45|       |
-   46|  42.4k|    while (it != source.end()) {
-  ------------------
-  |  Branch (46:12): [True: 42.0k, False: 432]
-  ------------------
-   47|  42.0k|        auto sv =
-   48|  42.0k|            detail::make_string_view_from_iterators<char>(it, source.end())
-   49|  42.0k|                .substr(0, 8);
-   50|       |
-   51|  42.0k|        if (!has_nonascii_char_64(sv)) {
-  ------------------
-  |  Branch (51:13): [True: 13.2k, False: 28.8k]
-  ------------------
-   52|  13.2k|            auto tmp_it = ranges::find_if(sv, cu_cb);
-   53|  13.2k|            it = detail::make_string_view_iterator(source, tmp_it);
-   54|  13.2k|            if (tmp_it != sv.end()) {
-  ------------------
-  |  Branch (54:17): [True: 9.16k, False: 4.07k]
-  ------------------
-   55|  9.16k|                break;
-   56|  9.16k|            }
-   57|  4.07k|            continue;
-   58|  13.2k|        }
-   59|       |
-   60|  99.5k|        for (size_t i = 0; i < sv.size(); ++i) {
-  ------------------
-  |  Branch (60:28): [True: 80.7k, False: 18.7k]
-  ------------------
-   61|  80.7k|            auto tmp =
-   62|  80.7k|                detail::make_string_view_from_iterators<char>(it, source.end());
-   63|  80.7k|            auto res = get_next_code_point(tmp);
-   64|  80.7k|            if (cp_cb(res.value)) {
-  ------------------
-  |  Branch (64:17): [True: 10.0k, False: 70.6k]
-  ------------------
-   65|  10.0k|                return it;
-   66|  10.0k|            }
-   67|  70.6k|            i += ranges::distance(tmp.data(), detail::to_address(res.iterator));
-   68|  70.6k|            it = detail::make_string_view_iterator(source, res.iterator);
-   69|  70.6k|            SCN_ENSURE(it <= source.end());
-  ------------------
-  |  |  247|  70.6k|#define SCN_ENSURE(cond) SCN_ASSERT(cond, "Postcondition violation")
+  |  |  924|      0|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
   |  |  ------------------
-  |  |  |  |  243|  70.6k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
+  |  |  |  |  921|      0|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
   |  |  ------------------
   ------------------
-   70|  70.6k|        }
-   71|  28.8k|    }
-   72|       |
-   73|  9.59k|    return detail::make_string_view_iterator(source, it);
-   74|  19.6k|}
-find_whitespace.cpp:_ZN3scn2v24impl12_GLOBAL__N_120has_nonascii_char_64INSt3__117basic_string_viewIcNS4_11char_traitsIcEEEEEEbT_:
-   30|   205k|{
-   31|   205k|    static_assert(sizeof(*source.data()) == 1);
-   32|   205k|    SCN_EXPECT(source.size() <= 8);
+ 1397|      0|    SCN_UNREACHABLE;
   ------------------
-  |  |  246|   205k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
+  |  |  887|      0|#define SCN_UNREACHABLE __builtin_unreachable()
+  ------------------
+ 1398|      0|}
+_ZN3scn2v34impl29transcode_to_string_impl_to32IcwEEvNSt3__117basic_string_viewIT_NS3_11char_traitsIS5_EEEERNS3_12basic_stringIT0_NS6_ISA_EENS3_9allocatorISA_EEEE:
+ 1255|    524|{
+ 1256|    524|    static_assert(sizeof(DestCharT) == 4);
+ 1257|       |
+ 1258|    524|    auto it = src.begin();
+ 1259|   115k|    while (it != src.end()) {
+  ------------------
+  |  Branch (1259:12): [True: 115k, False: 524]
+  ------------------
+ 1260|   115k|        auto res = get_next_code_point(
+ 1261|   115k|            detail::make_string_view_from_iterators<SourceCharT>(it,
+ 1262|   115k|                                                                 src.end()));
+ 1263|   115k|        if (SCN_UNLIKELY(res.value == detail::invalid_code_point)) {
+  ------------------
+  |  |  859|   115k|#define SCN_UNLIKELY(x) __builtin_expect(!!(x), 0)
   |  |  ------------------
-  |  |  |  |  243|   205k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
-  |  |  ------------------
-  ------------------
-   33|   205k|    uint64_t word{};
-   34|   205k|    std::memcpy(&word, source.data(), source.size());
-   35|       |
-   36|   205k|    return has_byte_greater(word, 127) != 0;
-   37|   205k|}
-find_whitespace.cpp:_ZZN3scn2v24impl30find_classic_space_narrow_fastENSt3__117basic_string_viewIcNS2_11char_traitsIcEEEEENK3$_0clEc:
-  121|  63.8k|        source, [](char ch) { return is_ascii_space(ch); },
-find_whitespace.cpp:_ZZN3scn2v24impl30find_classic_space_narrow_fastENSt3__117basic_string_viewIcNS2_11char_traitsIcEEEEENK3$_1clEDi:
-  122|  80.7k|        [](char32_t cp) { return is_cp_space(cp); });
-find_whitespace.cpp:_ZN3scn2v24impl12_GLOBAL__N_117find_classic_implIZNS1_33find_classic_nonspace_narrow_fastENSt3__117basic_string_viewIcNS4_11char_traitsIcEEEEE3$_0ZNS1_33find_classic_nonspace_narrow_fastES8_E3$_1EEPKcS8_T_T0_:
-   43|   162k|{
-   44|   162k|    auto it = source.begin();
-   45|       |
-   46|   163k|    while (it != source.end()) {
-  ------------------
-  |  Branch (46:12): [True: 163k, False: 133]
-  ------------------
-   47|   163k|        auto sv =
-   48|   163k|            detail::make_string_view_from_iterators<char>(it, source.end())
-   49|   163k|                .substr(0, 8);
-   50|       |
-   51|   163k|        if (!has_nonascii_char_64(sv)) {
-  ------------------
-  |  Branch (51:13): [True: 49.3k, False: 113k]
-  ------------------
-   52|  49.3k|            auto tmp_it = ranges::find_if(sv, cu_cb);
-   53|  49.3k|            it = detail::make_string_view_iterator(source, tmp_it);
-   54|  49.3k|            if (tmp_it != sv.end()) {
-  ------------------
-  |  Branch (54:17): [True: 48.9k, False: 359]
-  ------------------
-   55|  48.9k|                break;
-   56|  48.9k|            }
-   57|    359|            continue;
-   58|  49.3k|        }
-   59|       |
-   60|   124k|        for (size_t i = 0; i < sv.size(); ++i) {
-  ------------------
-  |  Branch (60:28): [True: 123k, False: 858]
-  ------------------
-   61|   123k|            auto tmp =
-   62|   123k|                detail::make_string_view_from_iterators<char>(it, source.end());
-   63|   123k|            auto res = get_next_code_point(tmp);
-   64|   123k|            if (cp_cb(res.value)) {
-  ------------------
-  |  Branch (64:17): [True: 113k, False: 10.2k]
-  ------------------
-   65|   113k|                return it;
-   66|   113k|            }
-   67|  10.2k|            i += ranges::distance(tmp.data(), detail::to_address(res.iterator));
-   68|  10.2k|            it = detail::make_string_view_iterator(source, res.iterator);
-   69|  10.2k|            SCN_ENSURE(it <= source.end());
-  ------------------
-  |  |  247|  10.2k|#define SCN_ENSURE(cond) SCN_ASSERT(cond, "Postcondition violation")
-  |  |  ------------------
-  |  |  |  |  243|  10.2k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
+  |  |  |  Branch (859:25): [True: 13.8k, False: 101k]
   |  |  ------------------
   ------------------
-   70|  10.2k|        }
-   71|   113k|    }
-   72|       |
-   73|  49.0k|    return detail::make_string_view_iterator(source, it);
-   74|   162k|}
-find_whitespace.cpp:_ZZN3scn2v24impl33find_classic_nonspace_narrow_fastENSt3__117basic_string_viewIcNS2_11char_traitsIcEEEEENK3$_0clEc:
-  129|  57.8k|        source, [](char ch) { return !is_ascii_space(ch); },
-find_whitespace.cpp:_ZZN3scn2v24impl33find_classic_nonspace_narrow_fastENSt3__117basic_string_viewIcNS2_11char_traitsIcEEEEENK3$_1clEDi:
-  130|   123k|        [](char32_t cp) { return !is_cp_space(cp); });
-
-_ZN3scn2v24impl19transcode_to_stringIcwEEvNSt3__117basic_string_viewIT_NS3_11char_traitsIS5_EEEERNS3_12basic_stringIT0_NS6_ISA_EENS3_9allocatorISA_EEEE:
-  585|    529|{
-  586|    529|    static_assert(!std::is_same_v<SourceCharT, DestCharT>);
-  587|       |
-  588|    529|    auto do_transcode = [&](std::basic_string_view<SourceCharT> src,
-  589|    529|                            span<DestCharT> dst) {
-  590|    529|        if constexpr (sizeof(SourceCharT) == 1 && sizeof(DestCharT) == 2) {
-  591|    529|            return simdutf::convert_utf8_to_utf16_with_errors(
-  592|    529|                src.data(), src.size(),
-  593|    529|                reinterpret_cast<char16_t*>(dst.data()));
-  594|    529|        }
-  595|    529|        else if constexpr (sizeof(SourceCharT) == 1 && sizeof(DestCharT) == 4) {
-  596|    529|            return simdutf::convert_utf8_to_utf32_with_errors(
-  597|    529|                src.data(), src.size(),
-  598|    529|                reinterpret_cast<char32_t*>(dst.data()));
-  599|    529|        }
-  600|    529|        else if constexpr (sizeof(SourceCharT) == 2 && sizeof(DestCharT) == 1) {
-  601|    529|            return simdutf::convert_utf16_to_utf8_with_errors(
-  602|    529|                reinterpret_cast<const char16_t*>(src.data()), src.size(),
-  603|    529|                dst.data());
-  604|    529|        }
-  605|    529|        else if constexpr (sizeof(SourceCharT) == 2 && sizeof(DestCharT) == 4) {
-  606|    529|            return simdutf::convert_utf16_to_utf32_with_errors(
-  607|    529|                reinterpret_cast<const char16_t*>(src.data()), src.size(),
-  608|    529|                reinterpret_cast<char32_t*>(dst.data()));
-  609|    529|        }
-  610|    529|        else if constexpr (sizeof(SourceCharT) == 4 && sizeof(DestCharT) == 1) {
-  611|    529|            return simdutf::convert_utf32_to_utf8_with_errors(
-  612|    529|                reinterpret_cast<const char32_t*>(src.data()), src.size(),
-  613|    529|                dst.data());
-  614|    529|        }
-  615|    529|        else if constexpr (sizeof(SourceCharT) == 4 && sizeof(DestCharT) == 2) {
-  616|    529|            return simdutf::convert_utf32_to_utf16_with_errors(
-  617|    529|                reinterpret_cast<const char32_t*>(src.data()), src.size(),
-  618|    529|                reinterpret_cast<char16_t*>(dst.data()));
-  619|    529|        }
-  620|    529|    };
-  621|       |
-  622|    529|    auto it = source.begin();
-  623|    529|    std::array<DestCharT, 32 * std::max(sizeof(SourceCharT) / sizeof(DestCharT),
-  624|    529|                                        size_t{1})>
-  625|    529|        tmp{};
-  626|  17.5k|    while (it != source.end()) {
+ 1264|  13.8k|            dest.push_back(DestCharT{0xfffd});
+ 1265|  13.8k|        }
+ 1266|   101k|        else {
+ 1267|   101k|            dest.push_back(res.value);
+ 1268|   101k|        }
+ 1269|   115k|        it = detail::make_string_view_iterator(src, res.iterator);
+ 1270|   115k|    }
+ 1271|    524|}
+_ZN3scn2v34impl19get_next_code_pointIcEENS1_21iterator_value_resultINSt3__117basic_string_viewIT_NS4_11char_traitsIS6_EEE8iteratorEDiEES9_:
+ 1168|   279k|{
+ 1169|   279k|    SCN_EXPECT(!input.empty());
   ------------------
-  |  Branch (626:12): [True: 16.9k, False: 529]
-  ------------------
-  627|  16.9k|        auto sv = detail::make_string_view_from_iterators<SourceCharT>(
-  628|  16.9k|                      it, source.end())
-  629|  16.9k|                      .substr(0, 32);
-  630|       |
-  631|  16.9k|        auto tmp_view = span{tmp};
-  632|  16.9k|        auto res = do_transcode(sv, tmp_view);
-  633|  16.9k|        if (SCN_LIKELY(res.error == simdutf::SUCCESS)) {
-  ------------------
-  |  |  156|  16.9k|#define SCN_LIKELY(x)   __builtin_expect(!!(x), 1)
+  |  |  924|   279k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
   |  |  ------------------
-  |  |  |  Branch (156:25): [True: 1.90k, False: 15.0k]
+  |  |  |  |  921|   279k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
   |  |  ------------------
   ------------------
-  634|  1.90k|            dest.append(tmp.data(), std::min(res.count, tmp.size()));
-  635|  1.90k|            it = detail::make_string_view_iterator(source, sv.end());
-  636|  1.90k|            continue;
-  637|  1.90k|        }
-  638|       |
-  639|  15.0k|        {
-  640|  15.0k|            auto valid_sv = sv.substr(0, res.count);
-  641|  15.0k|            auto n = count_valid_transcoded_code_units<DestCharT>(valid_sv);
-  642|  15.0k|            dest.append(tmp.data(), n);
-  643|  15.0k|            it += res.count;
-  644|  15.0k|        }
-  645|       |
-  646|       |        // Replacement character U+fffd
-  647|  15.0k|        if constexpr (sizeof(DestCharT) == 1) {
+ 1170|       |
+ 1171|   279k|    const auto len = detail::code_point_length_by_starting_code_unit(input[0]);
+ 1172|   279k|    if (SCN_UNLIKELY(len == 0)) {
   ------------------
-  |  Branch (647:23): [Folded - Ignored]
-  ------------------
-  648|  15.0k|            tmp[0] = static_cast<DestCharT>(0xef);
-  649|  15.0k|            tmp[1] = static_cast<DestCharT>(0xbf);
-  650|  15.0k|            tmp[2] = static_cast<DestCharT>(0xbd);
-  651|  15.0k|            dest.append(tmp.data(), 3);
-  652|  15.0k|        }
-  653|  15.0k|        else {
-  654|  15.0k|            dest.push_back(DestCharT{0xfffd});
-  655|  15.0k|        }
-  656|       |
-  657|  15.0k|        auto tmp_it = find_start_of_next_valid_code_point(
-  658|  15.0k|            detail::make_string_view_from_iterators<SourceCharT>(it,
-  659|  15.0k|                                                                 source.end()));
-  660|  15.0k|        it = detail::make_string_view_iterator(source, tmp_it);
-  661|  15.0k|    }
-  662|    529|}
-_ZZN3scn2v24impl19transcode_to_stringIcwEEvNSt3__117basic_string_viewIT_NS3_11char_traitsIS5_EEEERNS3_12basic_stringIT0_NS6_ISA_EENS3_9allocatorISA_EEEEENKUlNS4_IcNS6_IcEEEENS0_4spanIwEEE_clESH_SJ_:
-  589|  16.9k|                            span<DestCharT> dst) {
-  590|  16.9k|        if constexpr (sizeof(SourceCharT) == 1 && sizeof(DestCharT) == 2) {
-  ------------------
-  |  Branch (590:23): [Folded - Ignored]
-  |  Branch (590:23): [Folded - Ignored]
-  |  Branch (590:51): [Folded - Ignored]
-  ------------------
-  591|  16.9k|            return simdutf::convert_utf8_to_utf16_with_errors(
-  592|  16.9k|                src.data(), src.size(),
-  593|  16.9k|                reinterpret_cast<char16_t*>(dst.data()));
-  594|  16.9k|        }
-  595|  16.9k|        else if constexpr (sizeof(SourceCharT) == 1 && sizeof(DestCharT) == 4) {
-  ------------------
-  |  Branch (595:28): [Folded - Ignored]
-  |  Branch (595:28): [Folded - Ignored]
-  |  Branch (595:56): [Folded - Ignored]
-  ------------------
-  596|  16.9k|            return simdutf::convert_utf8_to_utf32_with_errors(
-  597|  16.9k|                src.data(), src.size(),
-  598|  16.9k|                reinterpret_cast<char32_t*>(dst.data()));
-  599|  16.9k|        }
-  600|  16.9k|        else if constexpr (sizeof(SourceCharT) == 2 && sizeof(DestCharT) == 1) {
-  601|  16.9k|            return simdutf::convert_utf16_to_utf8_with_errors(
-  602|  16.9k|                reinterpret_cast<const char16_t*>(src.data()), src.size(),
-  603|  16.9k|                dst.data());
-  604|  16.9k|        }
-  605|  16.9k|        else if constexpr (sizeof(SourceCharT) == 2 && sizeof(DestCharT) == 4) {
-  606|  16.9k|            return simdutf::convert_utf16_to_utf32_with_errors(
-  607|  16.9k|                reinterpret_cast<const char16_t*>(src.data()), src.size(),
-  608|  16.9k|                reinterpret_cast<char32_t*>(dst.data()));
-  609|  16.9k|        }
-  610|  16.9k|        else if constexpr (sizeof(SourceCharT) == 4 && sizeof(DestCharT) == 1) {
-  611|  16.9k|            return simdutf::convert_utf32_to_utf8_with_errors(
-  612|  16.9k|                reinterpret_cast<const char32_t*>(src.data()), src.size(),
-  613|  16.9k|                dst.data());
-  614|  16.9k|        }
-  615|  16.9k|        else if constexpr (sizeof(SourceCharT) == 4 && sizeof(DestCharT) == 2) {
-  616|  16.9k|            return simdutf::convert_utf32_to_utf16_with_errors(
-  617|  16.9k|                reinterpret_cast<const char32_t*>(src.data()), src.size(),
-  618|  16.9k|                reinterpret_cast<char16_t*>(dst.data()));
-  619|  16.9k|        }
-  620|  16.9k|    };
-_ZN3scn2v24impl33count_valid_transcoded_code_unitsIwcEEmNSt3__117basic_string_viewIT0_NS3_11char_traitsIS5_EEEE:
-  367|  15.0k|{
-  368|  15.0k|    if (input.empty()) {
-  ------------------
-  |  Branch (368:9): [True: 488, False: 14.6k]
-  ------------------
-  369|    488|        return 0;
-  370|    488|    }
-  371|       |
-  372|  14.6k|    SCN_EXPECT(validate_unicode(input));
-  ------------------
-  |  |  246|  14.6k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
+  |  |  859|   279k|#define SCN_UNLIKELY(x) __builtin_expect(!!(x), 0)
   |  |  ------------------
-  |  |  |  |  243|  14.6k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
+  |  |  |  Branch (859:25): [True: 61.8k, False: 217k]
   |  |  ------------------
   ------------------
-  373|       |
-  374|  14.6k|    constexpr auto src_enc = get_encoding<SourceCharT>();
-  375|  14.6k|    constexpr auto dest_enc = get_encoding<DestCharT>();
-  376|       |
-  377|  14.6k|    if constexpr (src_enc == dest_enc) {
+ 1173|  61.8k|        return {get_start_for_next_code_point(input),
+ 1174|  61.8k|                detail::invalid_code_point};
+ 1175|  61.8k|    }
+ 1176|   217k|    if (SCN_UNLIKELY(len > input.size())) {
   ------------------
-  |  Branch (377:19): [Folded - Ignored]
-  ------------------
-  378|  14.6k|        return input.size();
-  379|  14.6k|    }
-  380|       |
-  381|  14.6k|    if constexpr (src_enc == encoding::utf8) {
-  ------------------
-  |  Branch (381:19): [Folded - Ignored]
-  ------------------
-  382|  14.6k|        if constexpr (dest_enc == encoding::utf16) {
-  ------------------
-  |  Branch (382:23): [Folded - Ignored]
-  ------------------
-  383|  14.6k|            return simdutf::utf16_length_from_utf8(input.data(), input.size());
-  384|  14.6k|        }
-  385|  14.6k|        else {
-  386|  14.6k|            return simdutf::utf32_length_from_utf8(input.data(), input.size());
-  387|  14.6k|        }
-  388|  14.6k|    }
-  389|  14.6k|    else if constexpr (src_enc == encoding::utf16) {
-  390|  14.6k|        if constexpr (dest_enc == encoding::utf8) {
-  391|  14.6k|            return simdutf::utf8_length_from_utf16(
-  392|  14.6k|                reinterpret_cast<const char16_t*>(input.data()), input.size());
-  393|  14.6k|        }
-  394|  14.6k|        else {
-  395|  14.6k|            return simdutf::utf32_length_from_utf16(
-  396|  14.6k|                reinterpret_cast<const char16_t*>(input.data()), input.size());
-  397|  14.6k|        }
-  398|  14.6k|    }
-  399|  14.6k|    else if constexpr (src_enc == encoding::utf32) {
-  400|  14.6k|        if constexpr (dest_enc == encoding::utf8) {
-  401|  14.6k|            return simdutf::utf8_length_from_utf32(
-  402|  14.6k|                reinterpret_cast<const char32_t*>(input.data()), input.size());
-  403|  14.6k|        }
-  404|  14.6k|        else {
-  405|  14.6k|            return simdutf::utf16_length_from_utf32(
-  406|  14.6k|                reinterpret_cast<const char32_t*>(input.data()), input.size());
-  407|  14.6k|        }
-  408|  14.6k|    }
-  409|  14.6k|}
-_ZN3scn2v24impl16validate_unicodeIcEEbNSt3__117basic_string_viewIT_NS3_11char_traitsIS5_EEEE:
-   88|  14.6k|{
-   89|  14.6k|    if (input.empty()) {
-  ------------------
-  |  Branch (89:9): [True: 0, False: 14.6k]
-  ------------------
-   90|      0|        return true;
-   91|      0|    }
-   92|       |
-   93|  14.6k|    constexpr auto enc = get_encoding<CharT>();
-   94|  14.6k|    if constexpr (enc == encoding::utf8) {
-  ------------------
-  |  Branch (94:19): [Folded - Ignored]
-  ------------------
-   95|  14.6k|        return simdutf::validate_utf8(input.data(), input.size());
-   96|  14.6k|    }
-   97|  14.6k|    else if constexpr (enc == encoding::utf16) {
-   98|  14.6k|        return simdutf::validate_utf16(
-   99|  14.6k|            reinterpret_cast<const char16_t*>(input.data()), input.size());
-  100|  14.6k|    }
-  101|  14.6k|    else if constexpr (enc == encoding::utf32) {
-  102|  14.6k|        return simdutf::validate_utf32(
-  103|  14.6k|            reinterpret_cast<const char32_t*>(input.data()), input.size());
-  104|  14.6k|    }
-  105|  14.6k|}
-_ZN3scn2v24impl35find_start_of_next_valid_code_pointIcEEDTclL_ZN4nano6ranges16function_objects5beginEEclsr3stdE7declvalIRNSt3__117basic_string_viewIT_NS6_11char_traitsIS8_EEEEEEEESB_:
-  301|  15.0k|{
-  302|  15.0k|    auto it = input.begin();
-  303|  34.7k|    while (it != input.end()) {
-  ------------------
-  |  Branch (303:12): [True: 34.4k, False: 219]
-  ------------------
-  304|  34.4k|        const auto len = code_point_length_by_starting_code_unit(*it);
-  305|  34.4k|        if (len == 0) {
-  ------------------
-  |  Branch (305:13): [True: 13.3k, False: 21.1k]
-  ------------------
-  306|  13.3k|            ++it;
-  307|  13.3k|            continue;
-  308|  13.3k|        }
-  309|  21.1k|        if (len > static_cast<size_t>(ranges::distance(it, input.end()))) {
-  ------------------
-  |  Branch (309:13): [True: 85, False: 21.0k]
-  ------------------
-  310|     85|            return input.end();
-  311|     85|        }
-  312|       |
-  313|  21.0k|        bool is_valid_cp =
-  314|  21.0k|            [&]() {
-  315|  21.0k|                constexpr auto enc = get_encoding<CharT>();
-  316|  21.0k|                if constexpr (enc == encoding::utf8) {
-  317|  21.0k|                    return simdutf::validate_utf8_with_errors(
-  318|  21.0k|                        detail::to_address(it), len);
-  319|  21.0k|                }
-  320|  21.0k|                else if (enc == encoding::utf16) {
-  321|  21.0k|                    return simdutf::validate_utf16_with_errors(
-  322|  21.0k|                        reinterpret_cast<const char16_t*>(
-  323|  21.0k|                            detail::to_address(it)),
-  324|  21.0k|                        len);
-  325|  21.0k|                }
-  326|  21.0k|                else if (enc == encoding::utf32) {
-  327|  21.0k|                    return simdutf::validate_utf32_with_errors(
-  328|  21.0k|                        reinterpret_cast<const char32_t*>(
-  329|  21.0k|                            detail::to_address(it)),
-  330|  21.0k|                        len);
-  331|  21.0k|                }
-  332|  21.0k|            }()
-  333|  21.0k|                .error == simdutf::SUCCESS;
-  334|  21.0k|        if (is_valid_cp) {
-  ------------------
-  |  Branch (334:13): [True: 14.7k, False: 6.24k]
-  ------------------
-  335|  14.7k|            return it;
-  336|  14.7k|        }
-  337|  6.24k|        it += len;
-  338|  6.24k|    }
-  339|    219|    return input.end();
-  340|  15.0k|}
-_ZN3scn2v24impl39code_point_length_by_starting_code_unitIcEEmT_:
-  109|   439k|{
-  110|   439k|    return detail::utf_code_point_length_by_starting_code_unit(ch);
-  111|   439k|}
-_ZZN3scn2v24impl35find_start_of_next_valid_code_pointIcEEDTclL_ZN4nano6ranges16function_objects5beginEEclsr3stdE7declvalIRNSt3__117basic_string_viewIT_NS6_11char_traitsIS8_EEEEEEEESB_ENKUlvE_clEv:
-  314|  21.0k|            [&]() {
-  315|  21.0k|                constexpr auto enc = get_encoding<CharT>();
-  316|  21.0k|                if constexpr (enc == encoding::utf8) {
-  ------------------
-  |  Branch (316:31): [Folded - Ignored]
-  ------------------
-  317|  21.0k|                    return simdutf::validate_utf8_with_errors(
-  318|  21.0k|                        detail::to_address(it), len);
-  319|  21.0k|                }
-  320|  21.0k|                else if (enc == encoding::utf16) {
-  321|  21.0k|                    return simdutf::validate_utf16_with_errors(
-  322|  21.0k|                        reinterpret_cast<const char16_t*>(
-  323|  21.0k|                            detail::to_address(it)),
-  324|  21.0k|                        len);
-  325|  21.0k|                }
-  326|  21.0k|                else if (enc == encoding::utf32) {
-  327|  21.0k|                    return simdutf::validate_utf32_with_errors(
-  328|  21.0k|                        reinterpret_cast<const char32_t*>(
-  329|  21.0k|                            detail::to_address(it)),
-  330|  21.0k|                        len);
-  331|  21.0k|                }
-  332|  21.0k|            }()
-_ZN3scn2v24impl19transcode_to_stringIwcEEvNSt3__117basic_string_viewIT_NS3_11char_traitsIS5_EEEERNS3_12basic_stringIT0_NS6_ISA_EENS3_9allocatorISA_EEEE:
-  585|    529|{
-  586|    529|    static_assert(!std::is_same_v<SourceCharT, DestCharT>);
-  587|       |
-  588|    529|    auto do_transcode = [&](std::basic_string_view<SourceCharT> src,
-  589|    529|                            span<DestCharT> dst) {
-  590|    529|        if constexpr (sizeof(SourceCharT) == 1 && sizeof(DestCharT) == 2) {
-  591|    529|            return simdutf::convert_utf8_to_utf16_with_errors(
-  592|    529|                src.data(), src.size(),
-  593|    529|                reinterpret_cast<char16_t*>(dst.data()));
-  594|    529|        }
-  595|    529|        else if constexpr (sizeof(SourceCharT) == 1 && sizeof(DestCharT) == 4) {
-  596|    529|            return simdutf::convert_utf8_to_utf32_with_errors(
-  597|    529|                src.data(), src.size(),
-  598|    529|                reinterpret_cast<char32_t*>(dst.data()));
-  599|    529|        }
-  600|    529|        else if constexpr (sizeof(SourceCharT) == 2 && sizeof(DestCharT) == 1) {
-  601|    529|            return simdutf::convert_utf16_to_utf8_with_errors(
-  602|    529|                reinterpret_cast<const char16_t*>(src.data()), src.size(),
-  603|    529|                dst.data());
-  604|    529|        }
-  605|    529|        else if constexpr (sizeof(SourceCharT) == 2 && sizeof(DestCharT) == 4) {
-  606|    529|            return simdutf::convert_utf16_to_utf32_with_errors(
-  607|    529|                reinterpret_cast<const char16_t*>(src.data()), src.size(),
-  608|    529|                reinterpret_cast<char32_t*>(dst.data()));
-  609|    529|        }
-  610|    529|        else if constexpr (sizeof(SourceCharT) == 4 && sizeof(DestCharT) == 1) {
-  611|    529|            return simdutf::convert_utf32_to_utf8_with_errors(
-  612|    529|                reinterpret_cast<const char32_t*>(src.data()), src.size(),
-  613|    529|                dst.data());
-  614|    529|        }
-  615|    529|        else if constexpr (sizeof(SourceCharT) == 4 && sizeof(DestCharT) == 2) {
-  616|    529|            return simdutf::convert_utf32_to_utf16_with_errors(
-  617|    529|                reinterpret_cast<const char32_t*>(src.data()), src.size(),
-  618|    529|                reinterpret_cast<char16_t*>(dst.data()));
-  619|    529|        }
-  620|    529|    };
-  621|       |
-  622|    529|    auto it = source.begin();
-  623|    529|    std::array<DestCharT, 32 * std::max(sizeof(SourceCharT) / sizeof(DestCharT),
-  624|    529|                                        size_t{1})>
-  625|    529|        tmp{};
-  626|  5.10k|    while (it != source.end()) {
-  ------------------
-  |  Branch (626:12): [True: 4.57k, False: 529]
-  ------------------
-  627|  4.57k|        auto sv = detail::make_string_view_from_iterators<SourceCharT>(
-  628|  4.57k|                      it, source.end())
-  629|  4.57k|                      .substr(0, 32);
-  630|       |
-  631|  4.57k|        auto tmp_view = span{tmp};
-  632|  4.57k|        auto res = do_transcode(sv, tmp_view);
-  633|  4.57k|        if (SCN_LIKELY(res.error == simdutf::SUCCESS)) {
-  ------------------
-  |  |  156|  4.57k|#define SCN_LIKELY(x)   __builtin_expect(!!(x), 1)
+  |  |  859|   217k|#define SCN_UNLIKELY(x) __builtin_expect(!!(x), 0)
   |  |  ------------------
-  |  |  |  Branch (156:25): [True: 4.57k, False: 0]
+  |  |  |  Branch (859:25): [True: 310, False: 217k]
   |  |  ------------------
   ------------------
-  634|  4.57k|            dest.append(tmp.data(), std::min(res.count, tmp.size()));
-  635|  4.57k|            it = detail::make_string_view_iterator(source, sv.end());
-  636|  4.57k|            continue;
-  637|  4.57k|        }
-  638|       |
-  639|      0|        {
-  640|      0|            auto valid_sv = sv.substr(0, res.count);
-  641|      0|            auto n = count_valid_transcoded_code_units<DestCharT>(valid_sv);
-  642|      0|            dest.append(tmp.data(), n);
-  643|      0|            it += res.count;
-  644|      0|        }
-  645|       |
-  646|       |        // Replacement character U+fffd
-  647|      0|        if constexpr (sizeof(DestCharT) == 1) {
+ 1177|    310|        return {input.end(), detail::invalid_code_point};
+ 1178|    310|    }
+ 1179|       |
+ 1180|   217k|    return {input.begin() + len,
+ 1181|   217k|            detail::decode_code_point_exhaustive(input.substr(0, len))};
+ 1182|   217k|}
+_ZN3scn2v34impl29get_start_for_next_code_pointINSt3__117basic_string_viewIcNS3_11char_traitsIcEEEEEEDTclL_ZNS0_6ranges5beginEEclsr3stdE7declvalIRNS3_9add_constIT_E4typeEEEEESA_:
+ 1154|  61.8k|{
+ 1155|  61.8k|    auto it = input.begin();
+ 1156|   169k|    for (; it != input.end(); ++it) {
   ------------------
-  |  Branch (647:23): [Folded - Ignored]
+  |  Branch (1156:12): [True: 168k, False: 746]
   ------------------
-  648|      0|            tmp[0] = static_cast<DestCharT>(0xef);
-  649|      0|            tmp[1] = static_cast<DestCharT>(0xbf);
-  650|      0|            tmp[2] = static_cast<DestCharT>(0xbd);
-  651|      0|            dest.append(tmp.data(), 3);
-  652|      0|        }
-  653|      0|        else {
-  654|      0|            dest.push_back(DestCharT{0xfffd});
-  655|      0|        }
-  656|       |
-  657|      0|        auto tmp_it = find_start_of_next_valid_code_point(
-  658|      0|            detail::make_string_view_from_iterators<SourceCharT>(it,
-  659|      0|                                                                 source.end()));
-  660|      0|        it = detail::make_string_view_iterator(source, tmp_it);
-  661|      0|    }
-  662|    529|}
-_ZZN3scn2v24impl19transcode_to_stringIwcEEvNSt3__117basic_string_viewIT_NS3_11char_traitsIS5_EEEERNS3_12basic_stringIT0_NS6_ISA_EENS3_9allocatorISA_EEEEENKUlNS4_IwNS6_IwEEEENS0_4spanIcEEE_clESH_SJ_:
-  589|  4.57k|                            span<DestCharT> dst) {
-  590|  4.57k|        if constexpr (sizeof(SourceCharT) == 1 && sizeof(DestCharT) == 2) {
+ 1157|   168k|        if (detail::code_point_length_by_starting_code_unit(*it) != 0) {
   ------------------
-  |  Branch (590:23): [Folded - Ignored]
-  |  Branch (590:23): [Folded - Ignored]
-  |  Branch (590:51): [Folded - Ignored]
+  |  Branch (1157:13): [True: 61.0k, False: 107k]
   ------------------
-  591|  4.57k|            return simdutf::convert_utf8_to_utf16_with_errors(
-  592|  4.57k|                src.data(), src.size(),
-  593|  4.57k|                reinterpret_cast<char16_t*>(dst.data()));
-  594|  4.57k|        }
-  595|  4.57k|        else if constexpr (sizeof(SourceCharT) == 1 && sizeof(DestCharT) == 4) {
+ 1158|  61.0k|            break;
+ 1159|  61.0k|        }
+ 1160|   168k|    }
+ 1161|  61.8k|    return it;
+ 1162|  61.8k|}
+_ZN3scn2v34impl19transcode_to_stringIwcEEvNSt3__117basic_string_viewIT_NS3_11char_traitsIS5_EEEERNS3_12basic_stringIT0_NS6_ISA_EENS3_9allocatorISA_EEEE:
+ 1362|    524|{
+ 1363|    524|    static_assert(sizeof(SourceCharT) != sizeof(DestCharT));
+ 1364|       |
+ 1365|    524|    if constexpr (sizeof(SourceCharT) == 1) {
   ------------------
-  |  Branch (595:28): [Folded - Ignored]
-  |  Branch (595:28): [Folded - Ignored]
-  |  Branch (595:56): [Folded - Ignored]
+  |  Branch (1365:19): [Folded - Ignored]
   ------------------
-  596|  4.57k|            return simdutf::convert_utf8_to_utf32_with_errors(
-  597|  4.57k|                src.data(), src.size(),
-  598|  4.57k|                reinterpret_cast<char32_t*>(dst.data()));
-  599|  4.57k|        }
-  600|  4.57k|        else if constexpr (sizeof(SourceCharT) == 2 && sizeof(DestCharT) == 1) {
+ 1366|    524|        if constexpr (sizeof(DestCharT) == 2) {
+ 1367|    524|            std::u32string tmp;
+ 1368|    524|            transcode_to_string_impl_to32(src, tmp);
+ 1369|    524|            return transcode_to_string_impl_32to16<false>(
+ 1370|    524|                std::u32string_view{tmp}, dest);
+ 1371|    524|        }
+ 1372|    524|        else if constexpr (sizeof(DestCharT) == 4) {
+ 1373|    524|            return transcode_to_string_impl_to32(src, dest);
+ 1374|    524|        }
+ 1375|    524|    }
+ 1376|    524|    else if constexpr (sizeof(SourceCharT) == 2) {
   ------------------
-  |  Branch (600:28): [Folded - Ignored]
-  |  Branch (600:28): [Folded - Ignored]
-  |  Branch (600:56): [Folded - Ignored]
+  |  Branch (1376:24): [Folded - Ignored]
   ------------------
-  601|  4.57k|            return simdutf::convert_utf16_to_utf8_with_errors(
-  602|  4.57k|                reinterpret_cast<const char16_t*>(src.data()), src.size(),
-  603|  4.57k|                dst.data());
-  604|  4.57k|        }
-  605|  4.57k|        else if constexpr (sizeof(SourceCharT) == 2 && sizeof(DestCharT) == 4) {
+ 1377|    524|        if constexpr (sizeof(DestCharT) == 1) {
+ 1378|    524|            std::u32string tmp;
+ 1379|    524|            transcode_to_string_impl_to32(src, tmp);
+ 1380|    524|            return transcode_to_string_impl_32to8<false>(
+ 1381|    524|                std::u32string_view{tmp}, dest);
+ 1382|    524|        }
+ 1383|    524|        else if constexpr (sizeof(DestCharT) == 4) {
+ 1384|    524|            return trasncode_to_string_impl_to32(src, dest);
+ 1385|    524|        }
+ 1386|    524|    }
+ 1387|    524|    else if constexpr (sizeof(SourceCharT) == 4) {
   ------------------
-  |  Branch (605:28): [Folded - Ignored]
-  |  Branch (605:28): [Folded - Ignored]
-  |  Branch (605:56): [Folded - Ignored]
+  |  Branch (1387:24): [Folded - Ignored]
   ------------------
-  606|  4.57k|            return simdutf::convert_utf16_to_utf32_with_errors(
-  607|  4.57k|                reinterpret_cast<const char16_t*>(src.data()), src.size(),
-  608|  4.57k|                reinterpret_cast<char32_t*>(dst.data()));
-  609|  4.57k|        }
-  610|  4.57k|        else if constexpr (sizeof(SourceCharT) == 4 && sizeof(DestCharT) == 1) {
+ 1388|    524|        if constexpr (sizeof(DestCharT) == 1) {
   ------------------
-  |  Branch (610:28): [Folded - Ignored]
-  |  Branch (610:28): [Folded - Ignored]
-  |  Branch (610:56): [Folded - Ignored]
+  |  Branch (1388:23): [Folded - Ignored]
   ------------------
-  611|  4.57k|            return simdutf::convert_utf32_to_utf8_with_errors(
-  612|  4.57k|                reinterpret_cast<const char32_t*>(src.data()), src.size(),
-  613|  4.57k|                dst.data());
-  614|  4.57k|        }
-  615|  4.57k|        else if constexpr (sizeof(SourceCharT) == 4 && sizeof(DestCharT) == 2) {
-  616|  4.57k|            return simdutf::convert_utf32_to_utf16_with_errors(
-  617|  4.57k|                reinterpret_cast<const char32_t*>(src.data()), src.size(),
-  618|  4.57k|                reinterpret_cast<char16_t*>(dst.data()));
-  619|  4.57k|        }
-  620|  4.57k|    };
-_ZN3scn2v24impl19get_next_code_pointIcEENS1_21iterator_value_resultIDTclL_ZN4nano6ranges16function_objects5beginEEclsr3stdE7declvalIRNSt3__117basic_string_viewIT_NS7_11char_traitsIS9_EEEEEEEEDiEESC_:
-  262|   204k|{
-  263|   204k|    SCN_EXPECT(!input.empty());
+ 1389|    524|            return transcode_to_string_impl_32to8<false>(src, dest);
+ 1390|    524|        }
+ 1391|    524|        else if constexpr (sizeof(DestCharT) == 2) {
+ 1392|    524|            return transcode_to_string_impl_32to16<false>(src, dest);
+ 1393|    524|        }
+ 1394|    524|    }
+ 1395|       |
+ 1396|      0|    SCN_EXPECT(false);
   ------------------
-  |  |  246|   204k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
+  |  |  924|      0|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
   |  |  ------------------
-  |  |  |  |  243|   204k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
+  |  |  |  |  921|      0|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
   |  |  ------------------
   ------------------
-  264|       |
-  265|   204k|    const auto len = code_point_length_by_starting_code_unit(input[0]);
-  266|   204k|    if (SCN_UNLIKELY(len == 0)) {
+ 1397|      0|    SCN_UNREACHABLE;
   ------------------
-  |  |  157|   204k|#define SCN_UNLIKELY(x) __builtin_expect(!!(x), 0)
+  |  |  887|      0|#define SCN_UNREACHABLE __builtin_unreachable()
+  ------------------
+ 1398|      0|}
+_ZN3scn2v34impl30transcode_to_string_impl_32to8ILb0EwcEEvNSt3__117basic_string_viewIT0_NS3_11char_traitsIS5_EEEERNS3_12basic_stringIT1_NS6_ISA_EENS3_9allocatorISA_EEEE:
+ 1293|    524|{
+ 1294|    524|    static_assert(sizeof(SourceCharT) == 4);
+ 1295|    524|    static_assert(sizeof(DestCharT) == 1);
+ 1296|       |
+ 1297|   115k|    for (auto cp : src) {
+  ------------------
+  |  Branch (1297:18): [True: 115k, False: 524]
+  ------------------
+ 1298|   115k|        const auto u32cp = static_cast<uint32_t>(cp);
+ 1299|   115k|        if (SCN_UNLIKELY(!VerifiedValid && cp >= detail::invalid_code_point)) {
+  ------------------
+  |  |  859|   230k|#define SCN_UNLIKELY(x) __builtin_expect(!!(x), 0)
   |  |  ------------------
-  |  |  |  Branch (157:25): [True: 58.6k, False: 145k]
-  |  |  ------------------
-  ------------------
-  267|  58.6k|        return {get_start_of_next_code_point(input),
-  268|  58.6k|                detail::invalid_code_point};
-  269|  58.6k|    }
-  270|   145k|    if (SCN_UNLIKELY(len > input.size())) {
-  ------------------
-  |  |  157|   145k|#define SCN_UNLIKELY(x) __builtin_expect(!!(x), 0)
-  |  |  ------------------
-  |  |  |  Branch (157:25): [True: 257, False: 145k]
-  |  |  ------------------
-  ------------------
-  271|    257|        return {input.end(), detail::invalid_code_point};
-  272|    257|    }
-  273|       |
-  274|   145k|    constexpr auto enc = get_encoding<CharT>();
-  275|   145k|    std::size_t result{1};
-  276|   145k|    char32_t output{};
-  277|   145k|    if constexpr (enc == encoding::utf8) {
-  ------------------
-  |  Branch (277:19): [Folded - Ignored]
-  ------------------
-  278|   145k|        result = simdutf::convert_utf8_to_utf32(
-  279|   145k|            reinterpret_cast<const char*>(input.data()), len, &output);
-  280|   145k|    }
-  281|   145k|    else if constexpr (enc == encoding::utf16) {
-  282|   145k|        result = simdutf::convert_utf16_to_utf32(
-  283|   145k|            reinterpret_cast<const char16_t*>(input.data()), len, &output);
-  284|   145k|    }
-  285|   145k|    else if constexpr (enc == encoding::utf32) {
-  286|   145k|        SCN_EXPECT(len == 1);
-  287|   145k|        output = static_cast<char32_t>(input[0]);
-  288|   145k|    }
-  289|       |
-  290|   145k|    if (SCN_UNLIKELY(result != 1)) {
-  ------------------
-  |  |  157|   145k|#define SCN_UNLIKELY(x) __builtin_expect(!!(x), 0)
-  |  |  ------------------
-  |  |  |  Branch (157:25): [True: 18.4k, False: 126k]
+  |  |  |  Branch (859:25): [True: 0, False: 115k]
+  |  |  |  Branch (859:45): [Folded - Ignored]
+  |  |  |  Branch (859:45): [True: 0, False: 115k]
   |  |  ------------------
   ------------------
-  291|  18.4k|        return {get_start_of_next_code_point(input.substr(1)),
-  292|  18.4k|                detail::invalid_code_point};
-  293|  18.4k|    }
-  294|       |
-  295|   126k|    return {input.begin() + len, output};
-  296|   145k|}
-_ZN3scn2v24impl28get_start_of_next_code_pointIcEEDTclL_ZN4nano6ranges16function_objects5beginEEclsr3stdE7declvalIRNSt3__117basic_string_viewIT_NS6_11char_traitsIS8_EEEEEEEESB_:
-  247|  77.0k|{
-  248|  77.0k|    auto it = input.begin();
-  249|   201k|    for (; it != input.end(); ++it) {
+ 1300|       |            // Replacement character
+ 1301|      0|            dest.push_back(static_cast<char>(0xef));
+ 1302|      0|            dest.push_back(static_cast<char>(0xbf));
+ 1303|      0|            dest.push_back(static_cast<char>(0xbd));
+ 1304|      0|        }
+ 1305|   115k|        else if (cp < 128) {
   ------------------
-  |  Branch (249:12): [True: 200k, False: 811]
+  |  Branch (1305:18): [True: 84.5k, False: 30.8k]
   ------------------
-  250|   200k|        if (code_point_length_by_starting_code_unit(*it) != 0) {
+ 1306|  84.5k|            dest.push_back(static_cast<char>(cp));
+ 1307|  84.5k|        }
+ 1308|  30.8k|        else if (cp < 2048) {
   ------------------
-  |  Branch (250:13): [True: 76.2k, False: 124k]
+  |  Branch (1308:18): [True: 10.0k, False: 20.8k]
   ------------------
-  251|  76.2k|            break;
-  252|  76.2k|        }
-  253|   200k|    }
-  254|       |
-  255|  77.0k|    return it;
-  256|  77.0k|}
-
-_ZN3scn2v24impl11is_cp_spaceEDi:
-   28|   204k|{
-   29|       |    // Pattern_White_Space property
-   30|   204k|    return (cp >= 0x09 && cp <= 0x0d) ||
+ 1309|  10.0k|            dest.push_back(
+ 1310|  10.0k|                static_cast<char>(0xc0 | (static_cast<char>(u32cp >> 6))));
+ 1311|  10.0k|            dest.push_back(
+ 1312|  10.0k|                static_cast<char>(0x80 | (static_cast<char>(u32cp) & 0x3f)));
+ 1313|  10.0k|        }
+ 1314|  20.8k|        else if (cp < 65536) {
   ------------------
-  |  Branch (30:13): [True: 179k, False: 24.3k]
-  |  Branch (30:27): [True: 7.37k, False: 172k]
+  |  Branch (1314:18): [True: 18.7k, False: 2.09k]
   ------------------
-   31|   204k|           cp == 0x20 ||    // ASCII space characters
+ 1315|  18.7k|            dest.push_back(
+ 1316|  18.7k|                static_cast<char>(0xe0 | (static_cast<char>(u32cp >> 12))));
+ 1317|  18.7k|            dest.push_back(static_cast<char>(
+ 1318|  18.7k|                0x80 | (static_cast<char>(u32cp >> 6) & 0x3f)));
+ 1319|  18.7k|            dest.push_back(
+ 1320|  18.7k|                static_cast<char>(0x80 | (static_cast<char>(u32cp) & 0x3f)));
+ 1321|  18.7k|        }
+ 1322|  2.09k|        else {
+ 1323|  2.09k|            dest.push_back(
+ 1324|  2.09k|                static_cast<char>(0xf0 | (static_cast<char>(u32cp >> 18))));
+ 1325|  2.09k|            dest.push_back(static_cast<char>(
+ 1326|  2.09k|                0x80 | (static_cast<char>(u32cp >> 12) & 0x3f)));
+ 1327|  2.09k|            dest.push_back(static_cast<char>(
+ 1328|  2.09k|                0x80 | (static_cast<char>(u32cp >> 6) & 0x3f)));
+ 1329|  2.09k|            dest.push_back(
+ 1330|  2.09k|                static_cast<char>(0x80 | (static_cast<char>(u32cp) & 0x3f)));
+ 1331|  2.09k|        }
+ 1332|   115k|    }
+ 1333|    524|}
+_ZN3scn2v34impl14is_ascii_spaceEc:
+  457|   103k|{
+  458|   103k|    return is_ascii_space_lookup[static_cast<size_t>(
+  459|   103k|        static_cast<unsigned char>(ch))];
+  460|   103k|}
+_ZN3scn2v34impl16has_byte_greaterEmh:
+  538|   170k|{
+  539|   170k|    return (word + ~0ull / 255 * (127 - n) | word) & ~0ull / 255 * 128;
+  540|   170k|}
+_ZN3scn2v34impl11is_cp_spaceEDi:
+ 1199|   163k|{
+ 1200|       |    // Pattern_White_Space property
+ 1201|   163k|    return (cp >= 0x09 && cp <= 0x0d) ||
   ------------------
-  |  Branch (31:12): [True: 11.2k, False: 185k]
+  |  Branch (1201:13): [True: 143k, False: 20.7k]
+  |  Branch (1201:27): [True: 5.16k, False: 137k]
   ------------------
-   32|   204k|           cp == 0x85 ||    // NEXT LINE (NEL)
+ 1202|   163k|           cp == 0x20 ||    // ASCII space characters
   ------------------
-  |  Branch (32:12): [True: 432, False: 185k]
+  |  Branch (1202:12): [True: 8.67k, False: 150k]
   ------------------
-   33|   204k|           cp == 0x200e ||  // LEFT-TO-RIGHT MARK
+ 1203|   163k|           cp == 0x85 ||    // NEXT LINE (NEL)
   ------------------
-  |  Branch (33:12): [True: 400, False: 184k]
+  |  Branch (1203:12): [True: 442, False: 149k]
   ------------------
-   34|   204k|           cp == 0x200f ||  // RIGHT-TO-LEFT MARK
+ 1204|   163k|           cp == 0x200e ||  // LEFT-TO-RIGHT MARK
   ------------------
-  |  Branch (34:12): [True: 392, False: 184k]
+  |  Branch (1204:12): [True: 400, False: 149k]
   ------------------
-   35|   204k|           cp == 0x2028 ||  // LINE SEPARATOR
+ 1205|   163k|           cp == 0x200f ||  // RIGHT-TO-LEFT MARK
   ------------------
-  |  Branch (35:12): [True: 486, False: 183k]
+  |  Branch (1205:12): [True: 392, False: 148k]
   ------------------
-   36|   204k|           cp == 0x2029;    // PARAGRAPH SEPARATOR
+ 1206|   163k|           cp == 0x2028 ||  // LINE SEPARATOR
   ------------------
-  |  Branch (36:12): [True: 0, False: 183k]
+  |  Branch (1206:12): [True: 486, False: 148k]
   ------------------
-   37|   204k|}
-
-_ZN3scn2v24impl14is_ascii_spaceEc:
-   57|   121k|{
-   58|   121k|    return is_ascii_space_lookup[static_cast<size_t>(
-   59|   121k|        static_cast<unsigned char>(ch))];
-   60|   121k|}
-
-_ZN3scn2v24impl16has_byte_greaterEmh:
-   91|   205k|{
-   92|   205k|    return (word + ~0ull / 255 * (127 - n) | word) & ~0ull / 255 * 128;
-   93|   205k|}
+ 1207|   163k|           cp == 0x2029;    // PARAGRAPH SEPARATOR
+  ------------------
+  |  Branch (1207:12): [True: 0, False: 148k]
+  ------------------
+ 1208|   163k|}
+_ZNK3scn2v36ranges6detail9distance_2fnclIPKcS7_EENSt3__19enable_ifIXaa24input_or_output_iteratorIT_E12sentinel_forIT0_SA_EENS1_20incrementable_traitsISA_E15difference_typeEE4typeESA_SB_:
+  107|  63.2k|    {
+  108|  63.2k|        return fn::impl(std::move(first), std::move(last), priority_tag<0>{});
+  109|  63.2k|    }
+_ZN3scn2v36ranges6detail9distance_2fn4implIPKcS7_EENSt3__19enable_ifIX18sized_sentinel_forIT0_T_EENS1_20incrementable_traitsISB_E15difference_typeEE4typeESB_SA_NS0_6detail12priority_tagILm0EEE:
+   86|  63.2k|    {
+   87|  63.2k|        return s - i;
+   88|  63.2k|    }
 
 LLVMFuzzerTestOneInput:
-   42|    529|{
-   43|    529|    auto sv = std::string_view{reinterpret_cast<const char*>(data), size};
-   44|    529|    do_find(sv, scn::impl::find_classic_space_narrow_fast);
-   45|    529|    do_find(sv, scn::impl::find_classic_nonspace_narrow_fast);
-   46|    529|    do_find(sv, scn::impl::find_nondecimal_digit_narrow_fast);
-   47|       |
-   48|    529|    std::wstring widened{};
-   49|    529|    scn::impl::transcode_to_string(sv, widened);
-   50|       |
-   51|    529|    std::string narrowed{};
-   52|    529|    scn::impl::transcode_to_string(std::wstring_view{widened}, narrowed);
-   53|       |
-   54|    529|    return 0;
-   55|    529|}
+   41|    524|{
+   42|    524|    auto sv = std::string_view{reinterpret_cast<const char*>(data), size};
+   43|    524|    do_find(sv, scn::impl::find_classic_space_narrow_fast);
+   44|    524|    do_find(sv, scn::impl::find_classic_nonspace_narrow_fast);
+   45|    524|    do_find(sv, scn::impl::find_nondecimal_digit_narrow_fast);
+   46|       |
+   47|    524|    std::wstring widened{};
+   48|    524|    scn::impl::transcode_to_string(sv, widened);
+   49|       |
+   50|    524|    std::string narrowed{};
+   51|    524|    scn::impl::transcode_to_string(std::wstring_view{widened}, narrowed);
+   52|       |
+   53|    524|    return 0;
+   54|    524|}
 string_impl_fuzz.cpp:_ZN12_GLOBAL__N_17do_findIPFPKcNSt3__117basic_string_viewIcNS3_11char_traitsIcEEEEEEEvS7_T_:
-   26|  1.58k|{
-   27|  1.58k|    auto it = sv.begin();
-   28|   362k|    while (it != sv.end()) {
+   25|  1.57k|{
+   26|  1.57k|    auto it = sv.begin();
+   27|   302k|    while (it != sv.end()) {
   ------------------
-  |  Branch (28:12): [True: 360k, False: 1.58k]
+  |  Branch (27:12): [True: 300k, False: 1.57k]
   ------------------
-   29|   360k|        SCN_EXPECT(it < sv.end());
+   28|   300k|        SCN_EXPECT(it < sv.end());
   ------------------
-  |  |  246|   360k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
+  |  |  924|   300k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
   |  |  ------------------
-  |  |  |  |  243|   360k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
-  |  |  ------------------
-  ------------------
-   30|   360k|        auto in = std::string_view{&*it, static_cast<size_t>(sv.end() - it)};
-   31|   360k|        SCN_EXPECT(!in.empty());
-  ------------------
-  |  |  246|   360k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
-  |  |  ------------------
-  |  |  |  |  243|   360k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
+  |  |  |  |  921|   300k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
   |  |  ------------------
   ------------------
-   32|   360k|        it = cb(in);
-   33|   360k|        SCN_ENSURE(it <= sv.end());
+   29|   300k|        auto in = std::string_view{&*it, static_cast<size_t>(sv.end() - it)};
+   30|   300k|        SCN_EXPECT(!in.empty());
   ------------------
-  |  |  247|   360k|#define SCN_ENSURE(cond) SCN_ASSERT(cond, "Postcondition violation")
+  |  |  924|   300k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
   |  |  ------------------
-  |  |  |  |  243|   360k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
-  |  |  ------------------
-  ------------------
-   34|   360k|        if (it != sv.end())
-  ------------------
-  |  Branch (34:13): [True: 360k, False: 581]
-  ------------------
-   35|   360k|            ++it;
-   36|   360k|        SCN_ENSURE(it <= sv.end());
-  ------------------
-  |  |  247|   360k|#define SCN_ENSURE(cond) SCN_ASSERT(cond, "Postcondition violation")
-  |  |  ------------------
-  |  |  |  |  243|   360k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
+  |  |  |  |  921|   300k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
   |  |  ------------------
   ------------------
-   37|   360k|    }
-   38|  1.58k|}
+   31|   300k|        it = cb(in);
+   32|   300k|        SCN_ENSURE(it <= sv.end());
+  ------------------
+  |  |  925|   300k|#define SCN_ENSURE(cond) SCN_ASSERT(cond, "Postcondition violation")
+  |  |  ------------------
+  |  |  |  |  921|   300k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
+  |  |  ------------------
+  ------------------
+   33|   300k|        if (it != sv.end())
+  ------------------
+  |  Branch (33:13): [True: 300k, False: 594]
+  ------------------
+   34|   300k|            ++it;
+   35|   300k|        SCN_ENSURE(it <= sv.end());
+  ------------------
+  |  |  925|   300k|#define SCN_ENSURE(cond) SCN_ASSERT(cond, "Postcondition violation")
+  |  |  ------------------
+  |  |  |  |  921|   300k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
+  |  |  ------------------
+  ------------------
+   36|   300k|    }
+   37|  1.57k|}
 
