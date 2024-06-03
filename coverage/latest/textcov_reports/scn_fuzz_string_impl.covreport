@@ -1,182 +1,182 @@
 _ZN3scn2v36detail39code_point_length_by_starting_code_unitIcEEmT_:
- 3802|   127k|{
- 3803|   127k|    if constexpr (sizeof(U) == 1) {
+ 3802|   136k|{
+ 3803|   136k|    if constexpr (sizeof(U) == 1) {
   ------------------
   |  Branch (3803:19): [Folded - Ignored]
   ------------------
- 3804|   127k|        return utf8_code_point_length_by_starting_code_unit(ch);
- 3805|   127k|    }
- 3806|   127k|    else if constexpr (sizeof(U) == 2) {
- 3807|   127k|        return utf16_code_point_length_by_starting_code_unit(ch);
- 3808|   127k|    }
- 3809|   127k|    else {
+ 3804|   136k|        return utf8_code_point_length_by_starting_code_unit(ch);
+ 3805|   136k|    }
+ 3806|   136k|    else if constexpr (sizeof(U) == 2) {
+ 3807|   136k|        return utf16_code_point_length_by_starting_code_unit(ch);
+ 3808|   136k|    }
+ 3809|   136k|    else {
  3810|       |        // utf-32
- 3811|   127k|        static_assert(sizeof(U) == 4);
- 3812|   127k|        SCN_UNUSED(ch);
- 3813|   127k|        return 1;
- 3814|   127k|    }
- 3815|   127k|}
+ 3811|   136k|        static_assert(sizeof(U) == 4);
+ 3812|   136k|        SCN_UNUSED(ch);
+ 3813|   136k|        return 1;
+ 3814|   136k|    }
+ 3815|   136k|}
 _ZN3scn2v36detail44utf8_code_point_length_by_starting_code_unitIcEEmT_:
- 3766|   127k|{
- 3767|   127k|    static_assert(sizeof(U8) == 1);
+ 3766|   136k|{
+ 3767|   136k|    static_assert(sizeof(U8) == 1);
  3768|       |
- 3769|   127k|    SCN_GCC_COMPAT_PUSH
- 3770|   127k|    SCN_GCC_COMPAT_IGNORE("-Wsign-conversion")
- 3771|   127k|    constexpr char lengths[] =
- 3772|   127k|        "\1\1\1\1\1\1\1\1"  // highest bit is 0 -> single-byte
- 3773|   127k|        "\1\1\1\1\1\1\1\1"
- 3774|   127k|        "\0\0\0\0\0\0\0\0"  // highest bits 10 -> error, non-initial
+ 3769|   136k|    SCN_GCC_COMPAT_PUSH
+ 3770|   136k|    SCN_GCC_COMPAT_IGNORE("-Wsign-conversion")
+ 3771|   136k|    constexpr char lengths[] =
+ 3772|   136k|        "\1\1\1\1\1\1\1\1"  // highest bit is 0 -> single-byte
+ 3773|   136k|        "\1\1\1\1\1\1\1\1"
+ 3774|   136k|        "\0\0\0\0\0\0\0\0"  // highest bits 10 -> error, non-initial
  3775|       |                            // byte
- 3776|   127k|        "\2\2\2\2"          // highest bits 110 -> 2-byte cp
- 3777|   127k|        "\3\3"              // highest bits 1110 -> 3-byte cp
- 3778|   127k|        "\4";               // highest bits 11110 -> 4-byte cp
- 3779|   127k|    return lengths[static_cast<unsigned char>(ch) >> 3];
- 3780|   127k|    SCN_GCC_COMPAT_POP
- 3781|   127k|}
+ 3776|   136k|        "\2\2\2\2"          // highest bits 110 -> 2-byte cp
+ 3777|   136k|        "\3\3"              // highest bits 1110 -> 3-byte cp
+ 3778|   136k|        "\4";               // highest bits 11110 -> 4-byte cp
+ 3779|   136k|    return lengths[static_cast<unsigned char>(ch) >> 3];
+ 3780|   136k|    SCN_GCC_COMPAT_POP
+ 3781|   136k|}
 _ZN3scn2v36detail28decode_code_point_exhaustiveIcEEDiNSt3__117basic_string_viewIT_NS3_11char_traitsIS5_EEEE:
- 4008|  22.1k|{
- 4009|  22.1k|    if constexpr (sizeof(CharT) == 1) {
+ 4008|  23.3k|{
+ 4009|  23.3k|    if constexpr (sizeof(CharT) == 1) {
   ------------------
   |  Branch (4009:19): [Folded - Ignored]
   ------------------
- 4010|  22.1k|        return decode_utf8_code_point_exhaustive(input);
- 4011|  22.1k|    }
- 4012|  22.1k|    else if constexpr (sizeof(CharT) == 2) {
- 4013|  22.1k|        return decode_utf16_code_point_exhaustive(input);
- 4014|  22.1k|    }
- 4015|  22.1k|    else {
- 4016|  22.1k|        SCN_EXPECT(input.size() == 1);
- 4017|  22.1k|        auto cp = static_cast<char32_t>(input.front());
- 4018|  22.1k|        if (SCN_UNLIKELY(cp >= invalid_code_point)) {
- 4019|  22.1k|            return invalid_code_point;
- 4020|  22.1k|        }
- 4021|  22.1k|        return cp;
- 4022|  22.1k|    }
- 4023|  22.1k|}
+ 4010|  23.3k|        return decode_utf8_code_point_exhaustive(input);
+ 4011|  23.3k|    }
+ 4012|  23.3k|    else if constexpr (sizeof(CharT) == 2) {
+ 4013|  23.3k|        return decode_utf16_code_point_exhaustive(input);
+ 4014|  23.3k|    }
+ 4015|  23.3k|    else {
+ 4016|  23.3k|        SCN_EXPECT(input.size() == 1);
+ 4017|  23.3k|        auto cp = static_cast<char32_t>(input.front());
+ 4018|  23.3k|        if (SCN_UNLIKELY(cp >= invalid_code_point)) {
+ 4019|  23.3k|            return invalid_code_point;
+ 4020|  23.3k|        }
+ 4021|  23.3k|        return cp;
+ 4022|  23.3k|    }
+ 4023|  23.3k|}
 _ZN3scn2v36detail33decode_utf8_code_point_exhaustiveENSt3__117basic_string_viewIcNS2_11char_traitsIcEEEE:
- 3821|  22.1k|{
- 3822|  22.1k|    SCN_EXPECT(!input.empty() && input.size() <= 4);
+ 3821|  23.3k|{
+ 3822|  23.3k|    SCN_EXPECT(!input.empty() && input.size() <= 4);
   ------------------
-  |  |  924|  22.1k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
+  |  |  924|  23.3k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
   |  |  ------------------
-  |  |  |  |  921|  22.1k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
+  |  |  |  |  921|  23.3k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
   |  |  ------------------
   ------------------
  3823|       |
- 3824|  22.1k|    const auto is_trailing_code_unit = [](char ch) {
- 3825|  22.1k|        return static_cast<unsigned char>(ch) >> 6 == 0x2;
- 3826|  22.1k|    };
+ 3824|  23.3k|    const auto is_trailing_code_unit = [](char ch) {
+ 3825|  23.3k|        return static_cast<unsigned char>(ch) >> 6 == 0x2;
+ 3826|  23.3k|    };
  3827|       |
- 3828|  22.1k|    if (input.size() == 1) {
+ 3828|  23.3k|    if (input.size() == 1) {
   ------------------
-  |  Branch (3828:9): [True: 14.9k, False: 7.20k]
+  |  Branch (3828:9): [True: 16.1k, False: 7.16k]
   ------------------
- 3829|  14.9k|        if (static_cast<unsigned char>(input[0]) >= 0x80) {
+ 3829|  16.1k|        if (static_cast<unsigned char>(input[0]) >= 0x80) {
   ------------------
-  |  Branch (3829:13): [True: 0, False: 14.9k]
+  |  Branch (3829:13): [True: 0, False: 16.1k]
   ------------------
  3830|      0|            SCN_UNLIKELY_ATTR
  3831|      0|            return invalid_code_point;
  3832|      0|        }
- 3833|  14.9k|        return static_cast<char32_t>(input[0]);
- 3834|  14.9k|    }
+ 3833|  16.1k|        return static_cast<char32_t>(input[0]);
+ 3834|  16.1k|    }
  3835|       |
- 3836|  7.20k|    if (input.size() == 2) {
+ 3836|  7.16k|    if (input.size() == 2) {
   ------------------
-  |  Branch (3836:9): [True: 1.37k, False: 5.82k]
+  |  Branch (3836:9): [True: 1.54k, False: 5.61k]
   ------------------
- 3837|  1.37k|        if ((static_cast<unsigned char>(input[0]) & 0xe0) != 0xc0) {
+ 3837|  1.54k|        if ((static_cast<unsigned char>(input[0]) & 0xe0) != 0xc0) {
   ------------------
-  |  Branch (3837:13): [True: 0, False: 1.37k]
+  |  Branch (3837:13): [True: 0, False: 1.54k]
   ------------------
  3838|      0|            SCN_UNLIKELY_ATTR
  3839|      0|            return invalid_code_point;
  3840|      0|        }
- 3841|  1.37k|        if (!is_trailing_code_unit(input[1])) {
+ 3841|  1.54k|        if (!is_trailing_code_unit(input[1])) {
   ------------------
-  |  Branch (3841:13): [True: 563, False: 816]
+  |  Branch (3841:13): [True: 761, False: 783]
   ------------------
- 3842|    563|            SCN_UNLIKELY_ATTR
- 3843|    563|            return invalid_code_point;
- 3844|    563|        }
+ 3842|    761|            SCN_UNLIKELY_ATTR
+ 3843|    761|            return invalid_code_point;
+ 3844|    761|        }
  3845|       |
- 3846|    816|        char32_t cp{};
- 3847|    816|        cp |= (static_cast<char32_t>(input[0]) & 0x1f) << 6;
- 3848|    816|        cp |= (static_cast<char32_t>(input[1]) & 0x3f) << 0;
- 3849|    816|        return cp;
- 3850|  1.37k|    }
+ 3846|    783|        char32_t cp{};
+ 3847|    783|        cp |= (static_cast<char32_t>(input[0]) & 0x1f) << 6;
+ 3848|    783|        cp |= (static_cast<char32_t>(input[1]) & 0x3f) << 0;
+ 3849|    783|        return cp;
+ 3850|  1.54k|    }
  3851|       |
- 3852|  5.82k|    if (input.size() == 3) {
+ 3852|  5.61k|    if (input.size() == 3) {
   ------------------
-  |  Branch (3852:9): [True: 2.79k, False: 3.02k]
+  |  Branch (3852:9): [True: 2.97k, False: 2.64k]
   ------------------
- 3853|  2.79k|        if ((static_cast<unsigned char>(input[0]) & 0xf0) != 0xe0) {
+ 3853|  2.97k|        if ((static_cast<unsigned char>(input[0]) & 0xf0) != 0xe0) {
   ------------------
-  |  Branch (3853:13): [True: 0, False: 2.79k]
+  |  Branch (3853:13): [True: 0, False: 2.97k]
   ------------------
  3854|      0|            SCN_UNLIKELY_ATTR
  3855|      0|            return invalid_code_point;
  3856|      0|        }
- 3857|  2.79k|        if (!is_trailing_code_unit(input[1]) ||
+ 3857|  2.97k|        if (!is_trailing_code_unit(input[1]) ||
   ------------------
-  |  Branch (3857:13): [True: 482, False: 2.31k]
+  |  Branch (3857:13): [True: 557, False: 2.42k]
   ------------------
- 3858|  2.79k|            !is_trailing_code_unit(input[2])) {
+ 3858|  2.97k|            !is_trailing_code_unit(input[2])) {
   ------------------
-  |  Branch (3858:13): [True: 194, False: 2.11k]
+  |  Branch (3858:13): [True: 194, False: 2.22k]
   ------------------
- 3859|    676|            SCN_UNLIKELY_ATTR
- 3860|    676|            return invalid_code_point;
- 3861|    676|        }
+ 3859|    751|            SCN_UNLIKELY_ATTR
+ 3860|    751|            return invalid_code_point;
+ 3861|    751|        }
  3862|       |
- 3863|  2.11k|        char32_t cp{};
- 3864|  2.11k|        cp |= (static_cast<char32_t>(input[0]) & 0x0f) << 12;
- 3865|  2.11k|        cp |= (static_cast<char32_t>(input[1]) & 0x3f) << 6;
- 3866|  2.11k|        cp |= (static_cast<char32_t>(input[2]) & 0x3f) << 0;
- 3867|  2.11k|        return cp;
- 3868|  2.79k|    }
+ 3863|  2.22k|        char32_t cp{};
+ 3864|  2.22k|        cp |= (static_cast<char32_t>(input[0]) & 0x0f) << 12;
+ 3865|  2.22k|        cp |= (static_cast<char32_t>(input[1]) & 0x3f) << 6;
+ 3866|  2.22k|        cp |= (static_cast<char32_t>(input[2]) & 0x3f) << 0;
+ 3867|  2.22k|        return cp;
+ 3868|  2.97k|    }
  3869|       |
- 3870|  3.02k|    if (input.size() == 4) {
+ 3870|  2.64k|    if (input.size() == 4) {
   ------------------
-  |  Branch (3870:9): [True: 3.02k, False: 0]
+  |  Branch (3870:9): [True: 2.64k, False: 0]
   ------------------
- 3871|  3.02k|        if ((static_cast<unsigned char>(input[0]) & 0xf8) != 0xf0) {
+ 3871|  2.64k|        if ((static_cast<unsigned char>(input[0]) & 0xf8) != 0xf0) {
   ------------------
-  |  Branch (3871:13): [True: 0, False: 3.02k]
+  |  Branch (3871:13): [True: 0, False: 2.64k]
   ------------------
  3872|      0|            SCN_UNLIKELY_ATTR
  3873|      0|            return invalid_code_point;
  3874|      0|        }
- 3875|  3.02k|        if (static_cast<unsigned char>(input[0]) > 0xf4) {
+ 3875|  2.64k|        if (static_cast<unsigned char>(input[0]) > 0xf4) {
   ------------------
-  |  Branch (3875:13): [True: 346, False: 2.68k]
+  |  Branch (3875:13): [True: 298, False: 2.34k]
   ------------------
- 3876|    346|            SCN_UNLIKELY_ATTR
- 3877|    346|            return invalid_code_point;
- 3878|    346|        }
- 3879|  2.68k|        if (!is_trailing_code_unit(input[1]) ||
+ 3876|    298|            SCN_UNLIKELY_ATTR
+ 3877|    298|            return invalid_code_point;
+ 3878|    298|        }
+ 3879|  2.34k|        if (!is_trailing_code_unit(input[1]) ||
   ------------------
-  |  Branch (3879:13): [True: 498, False: 2.18k]
+  |  Branch (3879:13): [True: 513, False: 1.83k]
   ------------------
- 3880|  2.68k|            !is_trailing_code_unit(input[2]) ||
+ 3880|  2.34k|            !is_trailing_code_unit(input[2]) ||
   ------------------
-  |  Branch (3880:13): [True: 204, False: 1.98k]
+  |  Branch (3880:13): [True: 204, False: 1.62k]
   ------------------
- 3881|  2.68k|            !is_trailing_code_unit(input[3])) {
+ 3881|  2.34k|            !is_trailing_code_unit(input[3])) {
   ------------------
-  |  Branch (3881:13): [True: 195, False: 1.78k]
+  |  Branch (3881:13): [True: 195, False: 1.43k]
   ------------------
- 3882|    897|            SCN_UNLIKELY_ATTR
- 3883|    897|            return invalid_code_point;
- 3884|    897|        }
+ 3882|    912|            SCN_UNLIKELY_ATTR
+ 3883|    912|            return invalid_code_point;
+ 3884|    912|        }
  3885|       |
- 3886|  1.78k|        char32_t cp{};
- 3887|  1.78k|        cp |= (static_cast<char32_t>(input[0]) & 0x07) << 18;
- 3888|  1.78k|        cp |= (static_cast<char32_t>(input[1]) & 0x3f) << 12;
- 3889|  1.78k|        cp |= (static_cast<char32_t>(input[2]) & 0x3f) << 6;
- 3890|  1.78k|        cp |= (static_cast<char32_t>(input[3]) & 0x3f) << 0;
- 3891|  1.78k|        return cp;
- 3892|  2.68k|    }
+ 3886|  1.43k|        char32_t cp{};
+ 3887|  1.43k|        cp |= (static_cast<char32_t>(input[0]) & 0x07) << 18;
+ 3888|  1.43k|        cp |= (static_cast<char32_t>(input[1]) & 0x3f) << 12;
+ 3889|  1.43k|        cp |= (static_cast<char32_t>(input[2]) & 0x3f) << 6;
+ 3890|  1.43k|        cp |= (static_cast<char32_t>(input[3]) & 0x3f) << 0;
+ 3891|  1.43k|        return cp;
+ 3892|  2.34k|    }
  3893|       |
  3894|      0|#if !SCN_GCC || SCN_GCC >= SCN_COMPILER(8, 0, 0)
  3895|       |    // gcc 7 thinks we'll get here, even when we won't
@@ -194,88 +194,88 @@ _ZN3scn2v36detail33decode_utf8_code_point_exhaustiveENSt3__117basic_string_viewI
   ------------------
  3899|      0|}
 _ZZN3scn2v36detail33decode_utf8_code_point_exhaustiveENSt3__117basic_string_viewIcNS2_11char_traitsIcEEEEENKUlcE_clEc:
- 3824|  13.3k|    const auto is_trailing_code_unit = [](char ch) {
- 3825|  13.3k|        return static_cast<unsigned char>(ch) >> 6 == 0x2;
- 3826|  13.3k|    };
+ 3824|  12.7k|    const auto is_trailing_code_unit = [](char ch) {
+ 3825|  12.7k|        return static_cast<unsigned char>(ch) >> 6 == 0x2;
+ 3826|  12.7k|    };
 _ZN3scn2v36detail31make_string_view_from_iteratorsIcEENSt3__117basic_string_viewIT_NS3_11char_traitsIS5_EEEENS8_8iteratorES9_:
- 3694|  56.4k|{
- 3695|  56.4k|    if constexpr (std::is_constructible_v<std::basic_string_view<CharT>,
+ 3694|  57.0k|{
+ 3695|  57.0k|    if constexpr (std::is_constructible_v<std::basic_string_view<CharT>,
   ------------------
   |  Branch (3695:19): [Folded - Ignored]
   |  Branch (3695:19): [Folded - Ignored]
   ------------------
- 3696|  56.4k|                                          decltype(first), decltype(last)> &&
- 3697|  56.4k|                  !SCN_MSVC_DEBUG_ITERATORS) {
+ 3696|  57.0k|                                          decltype(first), decltype(last)> &&
+ 3697|  57.0k|                  !SCN_MSVC_DEBUG_ITERATORS) {
   ------------------
   |  |  403|      0|#define SCN_MSVC_DEBUG_ITERATORS 0
   ------------------
   |  Branch (3697:19): [Folded - Ignored]
   ------------------
- 3698|  56.4k|        return {first, last};
- 3699|  56.4k|    }
- 3700|  56.4k|    else {
- 3701|  56.4k|        return {to_address(first), static_cast<size_t>(std::distance(
- 3702|  56.4k|                                       to_address(first), to_address(last)))};
- 3703|  56.4k|    }
- 3704|  56.4k|}
+ 3698|  57.0k|        return {first, last};
+ 3699|  57.0k|    }
+ 3700|  57.0k|    else {
+ 3701|  57.0k|        return {to_address(first), static_cast<size_t>(std::distance(
+ 3702|  57.0k|                                       to_address(first), to_address(last)))};
+ 3703|  57.0k|    }
+ 3704|  57.0k|}
 _ZN3scn2v36detail10to_addressIRPKcEEDTclgssr3scn6detailE15to_address_implscDtfp_Efp_tlNS1_12priority_tagILm2EEEEEEOT_:
-  321|   178k|{
-  322|   178k|    return ::scn::detail::to_address_impl(SCN_FWD(p), priority_tag<2>{});
+  321|   180k|{
+  322|   180k|    return ::scn::detail::to_address_impl(SCN_FWD(p), priority_tag<2>{});
   ------------------
-  |  |  930|   178k|#define SCN_FWD(x)          static_cast<decltype(x)&&>(x)
+  |  |  930|   180k|#define SCN_FWD(x)          static_cast<decltype(x)&&>(x)
   ------------------
-  323|   178k|}
+  323|   180k|}
 _ZN3scn2v36detail15to_address_implIKcEEPT_S5_NS1_12priority_tagILm2EEE:
-  301|   178k|{
-  302|   178k|    return p;
-  303|   178k|}
+  301|   180k|{
+  302|   180k|    return p;
+  303|   180k|}
 _ZN3scn2v36detail25make_string_view_iteratorIcEENSt3__117basic_string_viewIT_NS3_11char_traitsIS5_EEE8iteratorES8_S9_:
- 3725|  29.4k|{
- 3726|  29.4k|    if constexpr (std::is_constructible_v<
+ 3725|  30.4k|{
+ 3726|  30.4k|    if constexpr (std::is_constructible_v<
   ------------------
   |  Branch (3726:19): [Folded - Ignored]
   |  Branch (3726:19): [Folded - Ignored]
   ------------------
- 3727|  29.4k|                      typename std::basic_string_view<CharT>::iterator,
- 3728|  29.4k|                      decltype(it)> &&
- 3729|  29.4k|                  !SCN_MSVC_DEBUG_ITERATORS) {
+ 3727|  30.4k|                      typename std::basic_string_view<CharT>::iterator,
+ 3728|  30.4k|                      decltype(it)> &&
+ 3729|  30.4k|                  !SCN_MSVC_DEBUG_ITERATORS) {
   ------------------
   |  |  403|      0|#define SCN_MSVC_DEBUG_ITERATORS 0
   ------------------
   |  Branch (3729:19): [Folded - Ignored]
   ------------------
- 3730|  29.4k|        SCN_UNUSED(sv);
+ 3730|  30.4k|        SCN_UNUSED(sv);
   ------------------
-  |  |  909|  29.4k|#define SCN_UNUSED(x) static_cast<void>(sizeof(x))
+  |  |  909|  30.4k|#define SCN_UNUSED(x) static_cast<void>(sizeof(x))
   ------------------
- 3731|  29.4k|        return it;
- 3732|  29.4k|    }
- 3733|  29.4k|    else {
- 3734|  29.4k|        return sv.begin() + std::distance(sv.data(), detail::to_address(it));
- 3735|  29.4k|    }
- 3736|  29.4k|}
+ 3731|  30.4k|        return it;
+ 3732|  30.4k|    }
+ 3733|  30.4k|    else {
+ 3734|  30.4k|        return sv.begin() + std::distance(sv.data(), detail::to_address(it));
+ 3735|  30.4k|    }
+ 3736|  30.4k|}
 
 _ZN3scn2v34impl30find_classic_space_narrow_fastENSt3__117basic_string_viewIcNS2_11char_traitsIcEEEE:
-  193|  4.46k|{
-  194|  4.46k|    return find_classic_impl(
-  195|  4.46k|        source, [](char ch) { return is_ascii_space(ch); },
-  196|  4.46k|        [](char32_t cp) { return is_cp_space(cp); });
-  197|  4.46k|}
+  193|  4.91k|{
+  194|  4.91k|    return find_classic_impl(
+  195|  4.91k|        source, [](char ch) { return is_ascii_space(ch); },
+  196|  4.91k|        [](char32_t cp) { return is_cp_space(cp); });
+  197|  4.91k|}
 _ZN3scn2v34impl33find_classic_nonspace_narrow_fastENSt3__117basic_string_viewIcNS2_11char_traitsIcEEEE:
-  201|  14.2k|{
-  202|  14.2k|    return find_classic_impl(
-  203|  14.2k|        source, [](char ch) { return !is_ascii_space(ch); },
-  204|  14.2k|        [](char32_t cp) { return !is_cp_space(cp); });
-  205|  14.2k|}
+  201|  13.6k|{
+  202|  13.6k|    return find_classic_impl(
+  203|  13.6k|        source, [](char ch) { return !is_ascii_space(ch); },
+  204|  13.6k|        [](char32_t cp) { return !is_cp_space(cp); });
+  205|  13.6k|}
 _ZN3scn2v34impl33find_nondecimal_digit_narrow_fastENSt3__117basic_string_viewIcNS2_11char_traitsIcEEEE:
-  209|  19.6k|{
-  210|  19.6k|    return find_nondecimal_digit_simple_impl(source);
-  211|  19.6k|}
+  209|  19.5k|{
+  210|  19.5k|    return find_nondecimal_digit_simple_impl(source);
+  211|  19.5k|}
 impl.cpp:_ZN3scn2v34impl12_GLOBAL__N_133find_nondecimal_digit_simple_implENSt3__117basic_string_viewIcNS3_11char_traitsIcEEEE:
-  185|  19.6k|{
-  186|  19.6k|    return std::find_if(source.begin(), source.end(),
-  187|  19.6k|                        [](char ch) noexcept { return !is_decimal_digit(ch); });
-  188|  19.6k|}
+  185|  19.5k|{
+  186|  19.5k|    return std::find_if(source.begin(), source.end(),
+  187|  19.5k|                        [](char ch) noexcept { return !is_decimal_digit(ch); });
+  188|  19.5k|}
 impl.cpp:_ZZN3scn2v34impl12_GLOBAL__N_133find_nondecimal_digit_simple_implENSt3__117basic_string_viewIcNS3_11char_traitsIcEEEEENK3$_0clEc:
   187|  20.1k|                        [](char ch) noexcept { return !is_decimal_digit(ch); });
 impl.cpp:_ZN3scn2v34impl12_GLOBAL__N_116is_decimal_digitEc:
@@ -311,161 +311,161 @@ impl.cpp:_ZN3scn2v34impl12_GLOBAL__N_116is_decimal_digitEc:
   180|  20.1k|    return lookup[static_cast<size_t>(static_cast<unsigned char>(ch))];
   181|  20.1k|}
 impl.cpp:_ZN3scn2v34impl12_GLOBAL__N_117find_classic_implIZNS1_30find_classic_space_narrow_fastENSt3__117basic_string_viewIcNS4_11char_traitsIcEEEEE3$_0ZNS1_30find_classic_space_narrow_fastES8_E3$_1EEPKcS8_T_T0_:
-  117|  4.46k|{
-  118|  4.46k|    auto it = source.begin();
+  117|  4.91k|{
+  118|  4.91k|    auto it = source.begin();
   119|       |
-  120|  6.67k|    while (it != source.end()) {
+  120|  7.00k|    while (it != source.end()) {
   ------------------
-  |  Branch (120:12): [True: 6.42k, False: 250]
+  |  Branch (120:12): [True: 6.76k, False: 237]
   ------------------
-  121|  6.42k|        auto sv =
-  122|  6.42k|            detail::make_string_view_from_iterators<char>(it, source.end())
-  123|  6.42k|                .substr(0, 8);
+  121|  6.76k|        auto sv =
+  122|  6.76k|            detail::make_string_view_from_iterators<char>(it, source.end())
+  123|  6.76k|                .substr(0, 8);
   124|       |
-  125|  6.42k|        if (!has_nonascii_char_64(sv)) {
+  125|  6.76k|        if (!has_nonascii_char_64(sv)) {
   ------------------
-  |  Branch (125:13): [True: 2.25k, False: 4.17k]
+  |  Branch (125:13): [True: 2.26k, False: 4.50k]
   ------------------
-  126|  2.25k|            auto tmp_it = std::find_if(sv.begin(), sv.end(), cu_cb);
-  127|  2.25k|            it = detail::make_string_view_iterator(source, tmp_it);
-  128|  2.25k|            if (tmp_it != sv.end()) {
+  126|  2.26k|            auto tmp_it = std::find_if(sv.begin(), sv.end(), cu_cb);
+  127|  2.26k|            it = detail::make_string_view_iterator(source, tmp_it);
+  128|  2.26k|            if (tmp_it != sv.end()) {
   ------------------
-  |  Branch (128:17): [True: 1.96k, False: 295]
+  |  Branch (128:17): [True: 1.97k, False: 289]
   ------------------
-  129|  1.96k|                break;
-  130|  1.96k|            }
-  131|    295|            continue;
-  132|  2.25k|        }
+  129|  1.97k|                break;
+  130|  1.97k|            }
+  131|    289|            continue;
+  132|  2.26k|        }
   133|       |
-  134|  10.5k|        for (size_t i = 0; i < sv.size(); ++i) {
+  134|  10.9k|        for (size_t i = 0; i < sv.size(); ++i) {
   ------------------
-  |  Branch (134:28): [True: 8.67k, False: 1.92k]
+  |  Branch (134:28): [True: 9.11k, False: 1.80k]
   ------------------
-  135|  8.67k|            auto tmp =
-  136|  8.67k|                detail::make_string_view_from_iterators<char>(it, source.end());
-  137|  8.67k|            auto res = get_next_code_point(tmp);
-  138|  8.67k|            if (cp_cb(res.value)) {
+  135|  9.11k|            auto tmp =
+  136|  9.11k|                detail::make_string_view_from_iterators<char>(it, source.end());
+  137|  9.11k|            auto res = get_next_code_point(tmp);
+  138|  9.11k|            if (cp_cb(res.value)) {
   ------------------
-  |  Branch (138:17): [True: 2.25k, False: 6.42k]
+  |  Branch (138:17): [True: 2.69k, False: 6.41k]
   ------------------
-  139|  2.25k|                return it;
-  140|  2.25k|            }
-  141|  6.42k|            i += ranges::distance(tmp.data(), detail::to_address(res.iterator));
-  142|  6.42k|            it = detail::make_string_view_iterator(source, res.iterator);
-  143|  6.42k|            SCN_ENSURE(it <= source.end());
+  139|  2.69k|                return it;
+  140|  2.69k|            }
+  141|  6.41k|            i += ranges::distance(tmp.data(), detail::to_address(res.iterator));
+  142|  6.41k|            it = detail::make_string_view_iterator(source, res.iterator);
+  143|  6.41k|            SCN_ENSURE(it <= source.end());
   ------------------
-  |  |  925|  6.42k|#define SCN_ENSURE(cond) SCN_ASSERT(cond, "Postcondition violation")
+  |  |  925|  6.41k|#define SCN_ENSURE(cond) SCN_ASSERT(cond, "Postcondition violation")
   |  |  ------------------
-  |  |  |  |  921|  6.42k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
+  |  |  |  |  921|  6.41k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
   |  |  ------------------
   ------------------
-  144|  6.42k|        }
-  145|  4.17k|    }
+  144|  6.41k|        }
+  145|  4.50k|    }
   146|       |
   147|  2.21k|    return detail::make_string_view_iterator(source, it);
-  148|  4.46k|}
+  148|  4.91k|}
 impl.cpp:_ZN3scn2v34impl12_GLOBAL__N_120has_nonascii_char_64INSt3__117basic_string_viewIcNS4_11char_traitsIcEEEEEEbT_:
-  104|  21.5k|{
-  105|  21.5k|    static_assert(sizeof(*source.data()) == 1);
-  106|  21.5k|    SCN_EXPECT(source.size() <= 8);
+  104|  21.4k|{
+  105|  21.4k|    static_assert(sizeof(*source.data()) == 1);
+  106|  21.4k|    SCN_EXPECT(source.size() <= 8);
   ------------------
-  |  |  924|  21.5k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
+  |  |  924|  21.4k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
   |  |  ------------------
-  |  |  |  |  921|  21.5k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
+  |  |  |  |  921|  21.4k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
   |  |  ------------------
   ------------------
-  107|  21.5k|    uint64_t word{};
-  108|  21.5k|    std::memcpy(&word, source.data(), source.size());
+  107|  21.4k|    uint64_t word{};
+  108|  21.4k|    std::memcpy(&word, source.data(), source.size());
   109|       |
-  110|  21.5k|    return has_byte_greater(word, 127) != 0;
-  111|  21.5k|}
+  110|  21.4k|    return has_byte_greater(word, 127) != 0;
+  111|  21.4k|}
 impl.cpp:_ZZN3scn2v34impl30find_classic_space_narrow_fastENSt3__117basic_string_viewIcNS2_11char_traitsIcEEEEENK3$_0clEc:
-  195|  3.97k|        source, [](char ch) { return is_ascii_space(ch); },
+  195|  3.98k|        source, [](char ch) { return is_ascii_space(ch); },
 impl.cpp:_ZZN3scn2v34impl30find_classic_space_narrow_fastENSt3__117basic_string_viewIcNS2_11char_traitsIcEEEEENK3$_1clEDi:
-  196|  8.67k|        [](char32_t cp) { return is_cp_space(cp); });
+  196|  9.11k|        [](char32_t cp) { return is_cp_space(cp); });
 impl.cpp:_ZN3scn2v34impl12_GLOBAL__N_117find_classic_implIZNS1_33find_classic_nonspace_narrow_fastENSt3__117basic_string_viewIcNS4_11char_traitsIcEEEEE3$_0ZNS1_33find_classic_nonspace_narrow_fastES8_E3$_1EEPKcS8_T_T0_:
-  117|  14.2k|{
-  118|  14.2k|    auto it = source.begin();
+  117|  13.6k|{
+  118|  13.6k|    auto it = source.begin();
   119|       |
-  120|  15.2k|    while (it != source.end()) {
+  120|  14.7k|    while (it != source.end()) {
   ------------------
-  |  Branch (120:12): [True: 15.1k, False: 90]
+  |  Branch (120:12): [True: 14.6k, False: 102]
   ------------------
-  121|  15.1k|        auto sv =
-  122|  15.1k|            detail::make_string_view_from_iterators<char>(it, source.end())
-  123|  15.1k|                .substr(0, 8);
+  121|  14.6k|        auto sv =
+  122|  14.6k|            detail::make_string_view_from_iterators<char>(it, source.end())
+  123|  14.6k|                .substr(0, 8);
   124|       |
-  125|  15.1k|        if (!has_nonascii_char_64(sv)) {
+  125|  14.6k|        if (!has_nonascii_char_64(sv)) {
   ------------------
-  |  Branch (125:13): [True: 2.35k, False: 12.7k]
+  |  Branch (125:13): [True: 2.35k, False: 12.2k]
   ------------------
   126|  2.35k|            auto tmp_it = std::find_if(sv.begin(), sv.end(), cu_cb);
   127|  2.35k|            it = detail::make_string_view_iterator(source, tmp_it);
   128|  2.35k|            if (tmp_it != sv.end()) {
   ------------------
-  |  Branch (128:17): [True: 2.04k, False: 307]
+  |  Branch (128:17): [True: 2.03k, False: 319]
   ------------------
-  129|  2.04k|                break;
-  130|  2.04k|            }
-  131|    307|            continue;
+  129|  2.03k|                break;
+  130|  2.03k|            }
+  131|    319|            continue;
   132|  2.35k|        }
   133|       |
   134|  15.1k|        for (size_t i = 0; i < sv.size(); ++i) {
   ------------------
-  |  Branch (134:28): [True: 14.4k, False: 682]
+  |  Branch (134:28): [True: 14.3k, False: 808]
   ------------------
-  135|  14.4k|            auto tmp =
-  136|  14.4k|                detail::make_string_view_from_iterators<char>(it, source.end());
-  137|  14.4k|            auto res = get_next_code_point(tmp);
-  138|  14.4k|            if (cp_cb(res.value)) {
+  135|  14.3k|            auto tmp =
+  136|  14.3k|                detail::make_string_view_from_iterators<char>(it, source.end());
+  137|  14.3k|            auto res = get_next_code_point(tmp);
+  138|  14.3k|            if (cp_cb(res.value)) {
   ------------------
-  |  Branch (138:17): [True: 12.0k, False: 2.32k]
+  |  Branch (138:17): [True: 11.4k, False: 2.86k]
   ------------------
-  139|  12.0k|                return it;
-  140|  12.0k|            }
-  141|  2.32k|            i += ranges::distance(tmp.data(), detail::to_address(res.iterator));
-  142|  2.32k|            it = detail::make_string_view_iterator(source, res.iterator);
-  143|  2.32k|            SCN_ENSURE(it <= source.end());
+  139|  11.4k|                return it;
+  140|  11.4k|            }
+  141|  2.86k|            i += ranges::distance(tmp.data(), detail::to_address(res.iterator));
+  142|  2.86k|            it = detail::make_string_view_iterator(source, res.iterator);
+  143|  2.86k|            SCN_ENSURE(it <= source.end());
   ------------------
-  |  |  925|  2.32k|#define SCN_ENSURE(cond) SCN_ASSERT(cond, "Postcondition violation")
+  |  |  925|  2.86k|#define SCN_ENSURE(cond) SCN_ASSERT(cond, "Postcondition violation")
   |  |  ------------------
-  |  |  |  |  921|  2.32k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
+  |  |  |  |  921|  2.86k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
   |  |  ------------------
   ------------------
-  144|  2.32k|        }
-  145|  12.7k|    }
+  144|  2.86k|        }
+  145|  12.2k|    }
   146|       |
-  147|  2.13k|    return detail::make_string_view_iterator(source, it);
-  148|  14.2k|}
+  147|  2.14k|    return detail::make_string_view_iterator(source, it);
+  148|  13.6k|}
 impl.cpp:_ZZN3scn2v34impl33find_classic_nonspace_narrow_fastENSt3__117basic_string_viewIcNS2_11char_traitsIcEEEEENK3$_0clEc:
-  203|  4.19k|        source, [](char ch) { return !is_ascii_space(ch); },
+  203|  4.20k|        source, [](char ch) { return !is_ascii_space(ch); },
 impl.cpp:_ZZN3scn2v34impl33find_classic_nonspace_narrow_fastENSt3__117basic_string_viewIcNS2_11char_traitsIcEEEEENK3$_1clEDi:
-  204|  14.4k|        [](char32_t cp) { return !is_cp_space(cp); });
+  204|  14.3k|        [](char32_t cp) { return !is_cp_space(cp); });
 
 _ZN3scn2v34impl19transcode_to_stringIcwEEvNSt3__117basic_string_viewIT_NS3_11char_traitsIS5_EEEERNS3_12basic_stringIT0_NS6_ISA_EENS3_9allocatorISA_EEEE:
- 1362|    303|{
- 1363|    303|    static_assert(sizeof(SourceCharT) != sizeof(DestCharT));
+ 1362|    302|{
+ 1363|    302|    static_assert(sizeof(SourceCharT) != sizeof(DestCharT));
  1364|       |
- 1365|    303|    if constexpr (sizeof(SourceCharT) == 1) {
+ 1365|    302|    if constexpr (sizeof(SourceCharT) == 1) {
   ------------------
   |  Branch (1365:19): [Folded - Ignored]
   ------------------
- 1366|    303|        if constexpr (sizeof(DestCharT) == 2) {
+ 1366|    302|        if constexpr (sizeof(DestCharT) == 2) {
   ------------------
   |  Branch (1366:23): [Folded - Ignored]
   ------------------
- 1367|    303|            std::u32string tmp;
- 1368|    303|            transcode_to_string_impl_to32(src, tmp);
- 1369|    303|            return transcode_to_string_impl_32to16<false>(
- 1370|    303|                std::u32string_view{tmp}, dest);
- 1371|    303|        }
- 1372|    303|        else if constexpr (sizeof(DestCharT) == 4) {
+ 1367|    302|            std::u32string tmp;
+ 1368|    302|            transcode_to_string_impl_to32(src, tmp);
+ 1369|    302|            return transcode_to_string_impl_32to16<false>(
+ 1370|    302|                std::u32string_view{tmp}, dest);
+ 1371|    302|        }
+ 1372|    302|        else if constexpr (sizeof(DestCharT) == 4) {
   ------------------
   |  Branch (1372:28): [Folded - Ignored]
   ------------------
- 1373|    303|            return transcode_to_string_impl_to32(src, dest);
- 1374|    303|        }
- 1375|    303|    }
+ 1373|    302|            return transcode_to_string_impl_to32(src, dest);
+ 1374|    302|        }
+ 1375|    302|    }
  1376|      0|    else if constexpr (sizeof(SourceCharT) == 2) {
  1377|      0|        if constexpr (sizeof(DestCharT) == 1) {
  1378|      0|            std::u32string tmp;
@@ -499,128 +499,128 @@ _ZN3scn2v34impl19transcode_to_stringIcwEEvNSt3__117basic_string_viewIT_NS3_11cha
   ------------------
  1398|      0|}
 _ZN3scn2v34impl29transcode_to_string_impl_to32IcwEEvNSt3__117basic_string_viewIT_NS3_11char_traitsIS5_EEEERNS3_12basic_stringIT0_NS6_ISA_EENS3_9allocatorISA_EEEE:
- 1255|    303|{
- 1256|    303|    static_assert(sizeof(DestCharT) == 4);
+ 1255|    302|{
+ 1256|    302|    static_assert(sizeof(DestCharT) == 4);
  1257|       |
- 1258|    303|    auto it = src.begin();
- 1259|  12.0k|    while (it != src.end()) {
+ 1258|    302|    auto it = src.begin();
+ 1259|  12.5k|    while (it != src.end()) {
   ------------------
-  |  Branch (1259:12): [True: 11.7k, False: 303]
+  |  Branch (1259:12): [True: 12.2k, False: 302]
   ------------------
- 1260|  11.7k|        auto res = get_next_code_point(
- 1261|  11.7k|            detail::make_string_view_from_iterators<SourceCharT>(it,
- 1262|  11.7k|                                                                 src.end()));
- 1263|  11.7k|        if (SCN_UNLIKELY(res.value == detail::invalid_code_point)) {
+ 1260|  12.2k|        auto res = get_next_code_point(
+ 1261|  12.2k|            detail::make_string_view_from_iterators<SourceCharT>(it,
+ 1262|  12.2k|                                                                 src.end()));
+ 1263|  12.2k|        if (SCN_UNLIKELY(res.value == detail::invalid_code_point)) {
   ------------------
-  |  |  859|  11.7k|#define SCN_UNLIKELY(x) __builtin_expect(!!(x), 0)
+  |  |  859|  12.2k|#define SCN_UNLIKELY(x) __builtin_expect(!!(x), 0)
   |  |  ------------------
-  |  |  |  Branch (859:25): [True: 2.65k, False: 9.13k]
+  |  |  |  Branch (859:25): [True: 2.78k, False: 9.41k]
   |  |  ------------------
   ------------------
- 1264|  2.65k|            dest.push_back(DestCharT{0xfffd});
- 1265|  2.65k|        }
- 1266|  9.13k|        else {
- 1267|  9.13k|            dest.push_back(res.value);
- 1268|  9.13k|        }
- 1269|  11.7k|        it = detail::make_string_view_iterator(src, res.iterator);
- 1270|  11.7k|    }
- 1271|    303|}
+ 1264|  2.78k|            dest.push_back(DestCharT{0xfffd});
+ 1265|  2.78k|        }
+ 1266|  9.41k|        else {
+ 1267|  9.41k|            dest.push_back(res.value);
+ 1268|  9.41k|        }
+ 1269|  12.2k|        it = detail::make_string_view_iterator(src, res.iterator);
+ 1270|  12.2k|    }
+ 1271|    302|}
 _ZN3scn2v34impl19get_next_code_pointIcEENS1_21iterator_value_resultINSt3__117basic_string_viewIT_NS4_11char_traitsIS6_EEE8iteratorEDiEES9_:
- 1168|  34.8k|{
- 1169|  34.8k|    SCN_EXPECT(!input.empty());
+ 1168|  35.6k|{
+ 1169|  35.6k|    SCN_EXPECT(!input.empty());
   ------------------
-  |  |  924|  34.8k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
+  |  |  924|  35.6k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
   |  |  ------------------
-  |  |  |  |  921|  34.8k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
+  |  |  |  |  921|  35.6k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
   |  |  ------------------
   ------------------
  1170|       |
- 1171|  34.8k|    const auto len = detail::code_point_length_by_starting_code_unit(input[0]);
- 1172|  34.8k|    if (SCN_UNLIKELY(len == 0)) {
+ 1171|  35.6k|    const auto len = detail::code_point_length_by_starting_code_unit(input[0]);
+ 1172|  35.6k|    if (SCN_UNLIKELY(len == 0)) {
   ------------------
-  |  |  859|  34.8k|#define SCN_UNLIKELY(x) __builtin_expect(!!(x), 0)
+  |  |  859|  35.6k|#define SCN_UNLIKELY(x) __builtin_expect(!!(x), 0)
   |  |  ------------------
-  |  |  |  Branch (859:25): [True: 12.5k, False: 22.3k]
-  |  |  ------------------
-  ------------------
- 1173|  12.5k|        return {get_start_for_next_code_point(input),
- 1174|  12.5k|                detail::invalid_code_point};
- 1175|  12.5k|    }
- 1176|  22.3k|    if (SCN_UNLIKELY(len > input.size())) {
-  ------------------
-  |  |  859|  22.3k|#define SCN_UNLIKELY(x) __builtin_expect(!!(x), 0)
-  |  |  ------------------
-  |  |  |  Branch (859:25): [True: 161, False: 22.1k]
+  |  |  |  Branch (859:25): [True: 12.1k, False: 23.4k]
   |  |  ------------------
   ------------------
- 1177|    161|        return {input.end(), detail::invalid_code_point};
- 1178|    161|    }
+ 1173|  12.1k|        return {get_start_for_next_code_point(input),
+ 1174|  12.1k|                detail::invalid_code_point};
+ 1175|  12.1k|    }
+ 1176|  23.4k|    if (SCN_UNLIKELY(len > input.size())) {
+  ------------------
+  |  |  859|  23.4k|#define SCN_UNLIKELY(x) __builtin_expect(!!(x), 0)
+  |  |  ------------------
+  |  |  |  Branch (859:25): [True: 164, False: 23.3k]
+  |  |  ------------------
+  ------------------
+ 1177|    164|        return {input.end(), detail::invalid_code_point};
+ 1178|    164|    }
  1179|       |
- 1180|  22.1k|    return {input.begin() + len,
- 1181|  22.1k|            detail::decode_code_point_exhaustive(input.substr(0, len))};
- 1182|  22.3k|}
+ 1180|  23.3k|    return {input.begin() + len,
+ 1181|  23.3k|            detail::decode_code_point_exhaustive(input.substr(0, len))};
+ 1182|  23.4k|}
 _ZN3scn2v34impl29get_start_for_next_code_pointINSt3__117basic_string_viewIcNS3_11char_traitsIcEEEEEEDTclL_ZNS0_6ranges5beginEEclsr3stdE7declvalIRNS3_9add_constIT_E4typeEEEEESA_:
- 1154|  12.5k|{
- 1155|  12.5k|    auto it = input.begin();
- 1156|  93.7k|    for (; it != input.end(); ++it) {
+ 1154|  12.1k|{
+ 1155|  12.1k|    auto it = input.begin();
+ 1156|   101k|    for (; it != input.end(); ++it) {
   ------------------
-  |  Branch (1156:12): [True: 93.0k, False: 718]
+  |  Branch (1156:12): [True: 100k, False: 665]
   ------------------
- 1157|  93.0k|        if (detail::code_point_length_by_starting_code_unit(*it) != 0) {
+ 1157|   100k|        if (detail::code_point_length_by_starting_code_unit(*it) != 0) {
   ------------------
-  |  Branch (1157:13): [True: 11.8k, False: 81.2k]
+  |  Branch (1157:13): [True: 11.4k, False: 89.4k]
   ------------------
- 1158|  11.8k|            break;
- 1159|  11.8k|        }
- 1160|  93.0k|    }
- 1161|  12.5k|    return it;
- 1162|  12.5k|}
+ 1158|  11.4k|            break;
+ 1159|  11.4k|        }
+ 1160|   100k|    }
+ 1161|  12.1k|    return it;
+ 1162|  12.1k|}
 _ZN3scn2v34impl19transcode_to_stringIwcEEvNSt3__117basic_string_viewIT_NS3_11char_traitsIS5_EEEERNS3_12basic_stringIT0_NS6_ISA_EENS3_9allocatorISA_EEEE:
- 1362|    303|{
- 1363|    303|    static_assert(sizeof(SourceCharT) != sizeof(DestCharT));
+ 1362|    302|{
+ 1363|    302|    static_assert(sizeof(SourceCharT) != sizeof(DestCharT));
  1364|       |
- 1365|    303|    if constexpr (sizeof(SourceCharT) == 1) {
+ 1365|    302|    if constexpr (sizeof(SourceCharT) == 1) {
   ------------------
   |  Branch (1365:19): [Folded - Ignored]
   ------------------
- 1366|    303|        if constexpr (sizeof(DestCharT) == 2) {
- 1367|    303|            std::u32string tmp;
- 1368|    303|            transcode_to_string_impl_to32(src, tmp);
- 1369|    303|            return transcode_to_string_impl_32to16<false>(
- 1370|    303|                std::u32string_view{tmp}, dest);
- 1371|    303|        }
- 1372|    303|        else if constexpr (sizeof(DestCharT) == 4) {
- 1373|    303|            return transcode_to_string_impl_to32(src, dest);
- 1374|    303|        }
- 1375|    303|    }
- 1376|    303|    else if constexpr (sizeof(SourceCharT) == 2) {
+ 1366|    302|        if constexpr (sizeof(DestCharT) == 2) {
+ 1367|    302|            std::u32string tmp;
+ 1368|    302|            transcode_to_string_impl_to32(src, tmp);
+ 1369|    302|            return transcode_to_string_impl_32to16<false>(
+ 1370|    302|                std::u32string_view{tmp}, dest);
+ 1371|    302|        }
+ 1372|    302|        else if constexpr (sizeof(DestCharT) == 4) {
+ 1373|    302|            return transcode_to_string_impl_to32(src, dest);
+ 1374|    302|        }
+ 1375|    302|    }
+ 1376|    302|    else if constexpr (sizeof(SourceCharT) == 2) {
   ------------------
   |  Branch (1376:24): [Folded - Ignored]
   ------------------
- 1377|    303|        if constexpr (sizeof(DestCharT) == 1) {
- 1378|    303|            std::u32string tmp;
- 1379|    303|            transcode_to_string_impl_to32(src, tmp);
- 1380|    303|            return transcode_to_string_impl_32to8<false>(
- 1381|    303|                std::u32string_view{tmp}, dest);
- 1382|    303|        }
- 1383|    303|        else if constexpr (sizeof(DestCharT) == 4) {
- 1384|    303|            return trasncode_to_string_impl_to32(src, dest);
- 1385|    303|        }
- 1386|    303|    }
- 1387|    303|    else if constexpr (sizeof(SourceCharT) == 4) {
+ 1377|    302|        if constexpr (sizeof(DestCharT) == 1) {
+ 1378|    302|            std::u32string tmp;
+ 1379|    302|            transcode_to_string_impl_to32(src, tmp);
+ 1380|    302|            return transcode_to_string_impl_32to8<false>(
+ 1381|    302|                std::u32string_view{tmp}, dest);
+ 1382|    302|        }
+ 1383|    302|        else if constexpr (sizeof(DestCharT) == 4) {
+ 1384|    302|            return trasncode_to_string_impl_to32(src, dest);
+ 1385|    302|        }
+ 1386|    302|    }
+ 1387|    302|    else if constexpr (sizeof(SourceCharT) == 4) {
   ------------------
   |  Branch (1387:24): [Folded - Ignored]
   ------------------
- 1388|    303|        if constexpr (sizeof(DestCharT) == 1) {
+ 1388|    302|        if constexpr (sizeof(DestCharT) == 1) {
   ------------------
   |  Branch (1388:23): [Folded - Ignored]
   ------------------
- 1389|    303|            return transcode_to_string_impl_32to8<false>(src, dest);
- 1390|    303|        }
- 1391|    303|        else if constexpr (sizeof(DestCharT) == 2) {
- 1392|    303|            return transcode_to_string_impl_32to16<false>(src, dest);
- 1393|    303|        }
- 1394|    303|    }
+ 1389|    302|            return transcode_to_string_impl_32to8<false>(src, dest);
+ 1390|    302|        }
+ 1391|    302|        else if constexpr (sizeof(DestCharT) == 2) {
+ 1392|    302|            return transcode_to_string_impl_32to16<false>(src, dest);
+ 1393|    302|        }
+ 1394|    302|    }
  1395|       |
  1396|      0|    SCN_EXPECT(false);
   ------------------
@@ -635,22 +635,22 @@ _ZN3scn2v34impl19transcode_to_stringIwcEEvNSt3__117basic_string_viewIT_NS3_11cha
   ------------------
  1398|      0|}
 _ZN3scn2v34impl30transcode_to_string_impl_32to8ILb0EwcEEvNSt3__117basic_string_viewIT0_NS3_11char_traitsIS5_EEEERNS3_12basic_stringIT1_NS6_ISA_EENS3_9allocatorISA_EEEE:
- 1293|    303|{
- 1294|    303|    static_assert(sizeof(SourceCharT) == 4);
- 1295|    303|    static_assert(sizeof(DestCharT) == 1);
+ 1293|    302|{
+ 1294|    302|    static_assert(sizeof(SourceCharT) == 4);
+ 1295|    302|    static_assert(sizeof(DestCharT) == 1);
  1296|       |
- 1297|  11.7k|    for (auto cp : src) {
+ 1297|  12.2k|    for (auto cp : src) {
   ------------------
-  |  Branch (1297:18): [True: 11.7k, False: 303]
+  |  Branch (1297:18): [True: 12.2k, False: 302]
   ------------------
- 1298|  11.7k|        const auto u32cp = static_cast<uint32_t>(cp);
- 1299|  11.7k|        if (SCN_UNLIKELY(!VerifiedValid && cp >= detail::invalid_code_point)) {
+ 1298|  12.2k|        const auto u32cp = static_cast<uint32_t>(cp);
+ 1299|  12.2k|        if (SCN_UNLIKELY(!VerifiedValid && cp >= detail::invalid_code_point)) {
   ------------------
-  |  |  859|  23.5k|#define SCN_UNLIKELY(x) __builtin_expect(!!(x), 0)
+  |  |  859|  24.4k|#define SCN_UNLIKELY(x) __builtin_expect(!!(x), 0)
   |  |  ------------------
-  |  |  |  Branch (859:25): [True: 194, False: 11.5k]
+  |  |  |  Branch (859:25): [True: 194, False: 12.0k]
   |  |  |  Branch (859:45): [Folded - Ignored]
-  |  |  |  Branch (859:45): [True: 194, False: 11.5k]
+  |  |  |  Branch (859:45): [True: 194, False: 12.0k]
   |  |  ------------------
   ------------------
  1300|       |            // Replacement character
@@ -658,152 +658,152 @@ _ZN3scn2v34impl30transcode_to_string_impl_32to8ILb0EwcEEvNSt3__117basic_string_v
  1302|    194|            dest.push_back(static_cast<char>(0xbf));
  1303|    194|            dest.push_back(static_cast<char>(0xbd));
  1304|    194|        }
- 1305|  11.5k|        else if (cp < 128) {
+ 1305|  12.0k|        else if (cp < 128) {
   ------------------
-  |  Branch (1305:18): [True: 7.57k, False: 4.01k]
+  |  Branch (1305:18): [True: 7.95k, False: 4.04k]
   ------------------
- 1306|  7.57k|            dest.push_back(static_cast<char>(cp));
- 1307|  7.57k|        }
- 1308|  4.01k|        else if (cp < 2048) {
+ 1306|  7.95k|            dest.push_back(static_cast<char>(cp));
+ 1307|  7.95k|        }
+ 1308|  4.04k|        else if (cp < 2048) {
   ------------------
-  |  Branch (1308:18): [True: 268, False: 3.74k]
+  |  Branch (1308:18): [True: 249, False: 3.80k]
   ------------------
- 1309|    268|            dest.push_back(
- 1310|    268|                static_cast<char>(0xc0 | (static_cast<char>(u32cp >> 6))));
- 1311|    268|            dest.push_back(
- 1312|    268|                static_cast<char>(0x80 | (static_cast<char>(u32cp) & 0x3f)));
- 1313|    268|        }
- 1314|  3.74k|        else if (cp < 65536) {
+ 1309|    249|            dest.push_back(
+ 1310|    249|                static_cast<char>(0xc0 | (static_cast<char>(u32cp >> 6))));
+ 1311|    249|            dest.push_back(
+ 1312|    249|                static_cast<char>(0x80 | (static_cast<char>(u32cp) & 0x3f)));
+ 1313|    249|        }
+ 1314|  3.80k|        else if (cp < 65536) {
   ------------------
-  |  Branch (1314:18): [True: 3.34k, False: 400]
+  |  Branch (1314:18): [True: 3.51k, False: 282]
   ------------------
- 1315|  3.34k|            dest.push_back(
- 1316|  3.34k|                static_cast<char>(0xe0 | (static_cast<char>(u32cp >> 12))));
- 1317|  3.34k|            dest.push_back(static_cast<char>(
- 1318|  3.34k|                0x80 | (static_cast<char>(u32cp >> 6) & 0x3f)));
- 1319|  3.34k|            dest.push_back(
- 1320|  3.34k|                static_cast<char>(0x80 | (static_cast<char>(u32cp) & 0x3f)));
- 1321|  3.34k|        }
- 1322|    400|        else {
- 1323|    400|            dest.push_back(
- 1324|    400|                static_cast<char>(0xf0 | (static_cast<char>(u32cp >> 18))));
- 1325|    400|            dest.push_back(static_cast<char>(
- 1326|    400|                0x80 | (static_cast<char>(u32cp >> 12) & 0x3f)));
- 1327|    400|            dest.push_back(static_cast<char>(
- 1328|    400|                0x80 | (static_cast<char>(u32cp >> 6) & 0x3f)));
- 1329|    400|            dest.push_back(
- 1330|    400|                static_cast<char>(0x80 | (static_cast<char>(u32cp) & 0x3f)));
- 1331|    400|        }
- 1332|  11.7k|    }
- 1333|    303|}
+ 1315|  3.51k|            dest.push_back(
+ 1316|  3.51k|                static_cast<char>(0xe0 | (static_cast<char>(u32cp >> 12))));
+ 1317|  3.51k|            dest.push_back(static_cast<char>(
+ 1318|  3.51k|                0x80 | (static_cast<char>(u32cp >> 6) & 0x3f)));
+ 1319|  3.51k|            dest.push_back(
+ 1320|  3.51k|                static_cast<char>(0x80 | (static_cast<char>(u32cp) & 0x3f)));
+ 1321|  3.51k|        }
+ 1322|    282|        else {
+ 1323|    282|            dest.push_back(
+ 1324|    282|                static_cast<char>(0xf0 | (static_cast<char>(u32cp >> 18))));
+ 1325|    282|            dest.push_back(static_cast<char>(
+ 1326|    282|                0x80 | (static_cast<char>(u32cp >> 12) & 0x3f)));
+ 1327|    282|            dest.push_back(static_cast<char>(
+ 1328|    282|                0x80 | (static_cast<char>(u32cp >> 6) & 0x3f)));
+ 1329|    282|            dest.push_back(
+ 1330|    282|                static_cast<char>(0x80 | (static_cast<char>(u32cp) & 0x3f)));
+ 1331|    282|        }
+ 1332|  12.2k|    }
+ 1333|    302|}
 _ZN3scn2v34impl14is_ascii_spaceEc:
-  457|  8.16k|{
-  458|  8.16k|    return is_ascii_space_lookup[static_cast<size_t>(
-  459|  8.16k|        static_cast<unsigned char>(ch))];
-  460|  8.16k|}
+  457|  8.19k|{
+  458|  8.19k|    return is_ascii_space_lookup[static_cast<size_t>(
+  459|  8.19k|        static_cast<unsigned char>(ch))];
+  460|  8.19k|}
 _ZN3scn2v34impl16has_byte_greaterEmh:
-  538|  21.5k|{
-  539|  21.5k|    return (word + ~0ull / 255 * (127 - n) | word) & ~0ull / 255 * 128;
-  540|  21.5k|}
+  538|  21.4k|{
+  539|  21.4k|    return (word + ~0ull / 255 * (127 - n) | word) & ~0ull / 255 * 128;
+  540|  21.4k|}
 _ZN3scn2v34impl11is_cp_spaceEDi:
- 1199|  23.0k|{
+ 1199|  23.4k|{
  1200|       |    // Pattern_White_Space property
- 1201|  23.0k|    return (cp >= 0x09 && cp <= 0x0d) ||
+ 1201|  23.4k|    return (cp >= 0x09 && cp <= 0x0d) ||
   ------------------
-  |  Branch (1201:13): [True: 21.1k, False: 1.99k]
-  |  Branch (1201:27): [True: 1.16k, False: 19.9k]
+  |  Branch (1201:13): [True: 21.7k, False: 1.69k]
+  |  Branch (1201:27): [True: 1.10k, False: 20.6k]
   ------------------
- 1202|  23.0k|           cp == 0x20 ||    // ASCII space characters
+ 1202|  23.4k|           cp == 0x20 ||    // ASCII space characters
   ------------------
-  |  Branch (1202:12): [True: 1.68k, False: 20.2k]
+  |  Branch (1202:12): [True: 2.67k, False: 19.6k]
   ------------------
- 1203|  23.0k|           cp == 0x85 ||    // NEXT LINE (NEL)
+ 1203|  23.4k|           cp == 0x85 ||    // NEXT LINE (NEL)
   ------------------
-  |  Branch (1203:12): [True: 420, False: 19.8k]
+  |  Branch (1203:12): [True: 390, False: 19.2k]
   ------------------
- 1204|  23.0k|           cp == 0x200e ||  // LEFT-TO-RIGHT MARK
+ 1204|  23.4k|           cp == 0x200e ||  // LEFT-TO-RIGHT MARK
   ------------------
-  |  Branch (1204:12): [True: 400, False: 19.4k]
+  |  Branch (1204:12): [True: 400, False: 18.8k]
   ------------------
- 1205|  23.0k|           cp == 0x200f ||  // RIGHT-TO-LEFT MARK
+ 1205|  23.4k|           cp == 0x200f ||  // RIGHT-TO-LEFT MARK
   ------------------
-  |  Branch (1205:12): [True: 430, False: 19.0k]
+  |  Branch (1205:12): [True: 430, False: 18.4k]
   ------------------
- 1206|  23.0k|           cp == 0x2028 ||  // LINE SEPARATOR
+ 1206|  23.4k|           cp == 0x2028 ||  // LINE SEPARATOR
   ------------------
-  |  Branch (1206:12): [True: 486, False: 18.5k]
+  |  Branch (1206:12): [True: 566, False: 17.8k]
   ------------------
- 1207|  23.0k|           cp == 0x2029;    // PARAGRAPH SEPARATOR
+ 1207|  23.4k|           cp == 0x2029;    // PARAGRAPH SEPARATOR
   ------------------
-  |  Branch (1207:12): [True: 0, False: 18.5k]
+  |  Branch (1207:12): [True: 0, False: 17.8k]
   ------------------
- 1208|  23.0k|}
+ 1208|  23.4k|}
 _ZNK3scn2v36ranges6detail9distance_2fnclIPKcS7_EENSt3__19enable_ifIXaa24input_or_output_iteratorIT_E12sentinel_forIT0_SA_EENS1_20incrementable_traitsISA_E15difference_typeEE4typeESA_SB_:
-  107|  8.74k|    {
-  108|  8.74k|        return fn::impl(std::move(first), std::move(last), priority_tag<0>{});
-  109|  8.74k|    }
+  107|  9.27k|    {
+  108|  9.27k|        return fn::impl(std::move(first), std::move(last), priority_tag<0>{});
+  109|  9.27k|    }
 _ZN3scn2v36ranges6detail9distance_2fn4implIPKcS7_EENSt3__19enable_ifIX18sized_sentinel_forIT0_T_EENS1_20incrementable_traitsISB_E15difference_typeEE4typeESB_SA_NS0_6detail12priority_tagILm0EEE:
-   86|  8.74k|    {
-   87|  8.74k|        return s - i;
-   88|  8.74k|    }
+   86|  9.27k|    {
+   87|  9.27k|        return s - i;
+   88|  9.27k|    }
 
 LLVMFuzzerTestOneInput:
-   41|    303|{
-   42|    303|    auto sv = std::string_view{reinterpret_cast<const char*>(data), size};
-   43|    303|    do_find(sv, scn::impl::find_classic_space_narrow_fast);
-   44|    303|    do_find(sv, scn::impl::find_classic_nonspace_narrow_fast);
-   45|    303|    do_find(sv, scn::impl::find_nondecimal_digit_narrow_fast);
+   41|    302|{
+   42|    302|    auto sv = std::string_view{reinterpret_cast<const char*>(data), size};
+   43|    302|    do_find(sv, scn::impl::find_classic_space_narrow_fast);
+   44|    302|    do_find(sv, scn::impl::find_classic_nonspace_narrow_fast);
+   45|    302|    do_find(sv, scn::impl::find_nondecimal_digit_narrow_fast);
    46|       |
-   47|    303|    std::wstring widened{};
-   48|    303|    scn::impl::transcode_to_string(sv, widened);
+   47|    302|    std::wstring widened{};
+   48|    302|    scn::impl::transcode_to_string(sv, widened);
    49|       |
-   50|    303|    std::string narrowed{};
-   51|    303|    scn::impl::transcode_to_string(std::wstring_view{widened}, narrowed);
+   50|    302|    std::string narrowed{};
+   51|    302|    scn::impl::transcode_to_string(std::wstring_view{widened}, narrowed);
    52|       |
-   53|    303|    return 0;
-   54|    303|}
+   53|    302|    return 0;
+   54|    302|}
 string_impl_fuzz.cpp:_ZN12_GLOBAL__N_17do_findIPFPKcNSt3__117basic_string_viewIcNS3_11char_traitsIcEEEEEEEvS7_T_:
-   25|    909|{
-   26|    909|    auto it = sv.begin();
-   27|  39.2k|    while (it != sv.end()) {
+   25|    906|{
+   26|    906|    auto it = sv.begin();
+   27|  39.0k|    while (it != sv.end()) {
   ------------------
-  |  Branch (27:12): [True: 38.3k, False: 909]
+  |  Branch (27:12): [True: 38.1k, False: 906]
   ------------------
-   28|  38.3k|        SCN_EXPECT(it < sv.end());
+   28|  38.1k|        SCN_EXPECT(it < sv.end());
   ------------------
-  |  |  924|  38.3k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
+  |  |  924|  38.1k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
   |  |  ------------------
-  |  |  |  |  921|  38.3k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
-  |  |  ------------------
-  ------------------
-   29|  38.3k|        auto in = std::string_view{&*it, static_cast<size_t>(sv.end() - it)};
-   30|  38.3k|        SCN_EXPECT(!in.empty());
-  ------------------
-  |  |  924|  38.3k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
-  |  |  ------------------
-  |  |  |  |  921|  38.3k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
+  |  |  |  |  921|  38.1k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
   |  |  ------------------
   ------------------
-   31|  38.3k|        it = cb(in);
-   32|  38.3k|        SCN_ENSURE(it <= sv.end());
+   29|  38.1k|        auto in = std::string_view{&*it, static_cast<size_t>(sv.end() - it)};
+   30|  38.1k|        SCN_EXPECT(!in.empty());
   ------------------
-  |  |  925|  38.3k|#define SCN_ENSURE(cond) SCN_ASSERT(cond, "Postcondition violation")
+  |  |  924|  38.1k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
   |  |  ------------------
-  |  |  |  |  921|  38.3k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
-  |  |  ------------------
-  ------------------
-   33|  38.3k|        if (it != sv.end())
-  ------------------
-  |  Branch (33:13): [True: 37.9k, False: 364]
-  ------------------
-   34|  37.9k|            ++it;
-   35|  38.3k|        SCN_ENSURE(it <= sv.end());
-  ------------------
-  |  |  925|  38.3k|#define SCN_ENSURE(cond) SCN_ASSERT(cond, "Postcondition violation")
-  |  |  ------------------
-  |  |  |  |  921|  38.3k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
+  |  |  |  |  921|  38.1k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
   |  |  ------------------
   ------------------
-   36|  38.3k|    }
-   37|    909|}
+   31|  38.1k|        it = cb(in);
+   32|  38.1k|        SCN_ENSURE(it <= sv.end());
+  ------------------
+  |  |  925|  38.1k|#define SCN_ENSURE(cond) SCN_ASSERT(cond, "Postcondition violation")
+  |  |  ------------------
+  |  |  |  |  921|  38.1k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
+  |  |  ------------------
+  ------------------
+   33|  38.1k|        if (it != sv.end())
+  ------------------
+  |  Branch (33:13): [True: 37.7k, False: 357]
+  ------------------
+   34|  37.7k|            ++it;
+   35|  38.1k|        SCN_ENSURE(it <= sv.end());
+  ------------------
+  |  |  925|  38.1k|#define SCN_ENSURE(cond) SCN_ASSERT(cond, "Postcondition violation")
+  |  |  ------------------
+  |  |  |  |  921|  38.1k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
+  |  |  ------------------
+  ------------------
+   36|  38.1k|    }
+   37|    906|}
 
