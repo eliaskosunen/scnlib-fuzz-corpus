@@ -1,28 +1,28 @@
 INFO: Running with entropic power schedule (0xFF, 100).
-INFO: Seed: 933324432
-MERGE-OUTER: 14857 files, 0 in the initial corpus, 0 processed earlier
+INFO: Seed: 1468647839
+MERGE-OUTER: 15209 files, 0 in the initial corpus, 0 processed earlier
 MERGE-OUTER: attempt 1
 INFO: Running with entropic power schedule (0xFF, 100).
-INFO: Seed: 933430909
+INFO: Seed: 1468763119
 INFO: -max_len is not provided; libFuzzer will not generate inputs larger than 1048576 bytes
-MERGE-INNER: using the control file '/tmp/libFuzzerTemp.Merge358.txt'
-MERGE-INNER: 14857 total files; 0 processed earlier; will process 14857 files now
-#1	pulse  exec/s: 0 rss: 33Mb
-#2	pulse  exec/s: 0 rss: 33Mb
-#4	pulse  exec/s: 0 rss: 33Mb
-#8	pulse  exec/s: 0 rss: 33Mb
-#16	pulse  exec/s: 0 rss: 33Mb
-#32	pulse  exec/s: 0 rss: 33Mb
-#64	pulse  exec/s: 0 rss: 34Mb
-#128	pulse  exec/s: 0 rss: 34Mb
-#256	pulse  exec/s: 0 rss: 34Mb
-#512	pulse  exec/s: 0 rss: 34Mb
-#1024	pulse  exec/s: 0 rss: 35Mb
-#2048	pulse  exec/s: 0 rss: 35Mb
-#4096	pulse  exec/s: 4096 rss: 35Mb
-#8192	pulse  exec/s: 744 rss: 37Mb
-#14857	DONE   exec/s: 550 rss: 69Mb
+MERGE-INNER: using the control file '/tmp/libFuzzerTemp.Merge357.txt'
+MERGE-INNER: 15209 total files; 0 processed earlier; will process 15209 files now
+#1	pulse  exec/s: 0 rss: 31Mb
+#2	pulse  exec/s: 0 rss: 31Mb
+#4	pulse  exec/s: 0 rss: 31Mb
+#8	pulse  exec/s: 0 rss: 31Mb
+#16	pulse  exec/s: 0 rss: 32Mb
+#32	pulse  exec/s: 0 rss: 32Mb
+#64	pulse  exec/s: 0 rss: 32Mb
+#128	pulse  exec/s: 0 rss: 32Mb
+#256	pulse  exec/s: 0 rss: 32Mb
+#512	pulse  exec/s: 0 rss: 32Mb
+#1024	pulse  exec/s: 512 rss: 33Mb
+#2048	pulse  exec/s: 409 rss: 33Mb
+#4096	pulse  exec/s: 341 rss: 33Mb
+#8192	pulse  exec/s: 282 rss: 35Mb
+#15209	DONE   exec/s: 241 rss: 67Mb
 MERGE-OUTER: successful in 1 attempt(s)
-MERGE-OUTER: the control file has 1831694 bytes
-MERGE-OUTER: consumed 1Mb (32Mb rss) to parse the control file
+MERGE-OUTER: the control file has 1875932 bytes
+MERGE-OUTER: consumed 1Mb (33Mb rss) to parse the control file
 MERGE-OUTER: 0 new files with 0 new features added; 0 new coverage edges
