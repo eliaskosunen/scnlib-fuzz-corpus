@@ -1,28 +1,29 @@
 INFO: Running with entropic power schedule (0xFF, 100).
-INFO: Seed: 3027699654
-MERGE-OUTER: 16218 files, 0 in the initial corpus, 0 processed earlier
+INFO: Seed: 3796144856
+MERGE-OUTER: 16497 files, 0 in the initial corpus, 0 processed earlier
 MERGE-OUTER: attempt 1
 INFO: Running with entropic power schedule (0xFF, 100).
-INFO: Seed: 3027815144
+INFO: Seed: 3796270877
 INFO: -max_len is not provided; libFuzzer will not generate inputs larger than 1048576 bytes
-MERGE-INNER: using the control file '/tmp/libFuzzerTemp.Merge349.txt'
-MERGE-INNER: 16218 total files; 0 processed earlier; will process 16218 files now
-#1	pulse  exec/s: 0 rss: 31Mb
-#2	pulse  exec/s: 0 rss: 31Mb
-#4	pulse  exec/s: 0 rss: 31Mb
-#8	pulse  exec/s: 0 rss: 31Mb
-#16	pulse  exec/s: 0 rss: 31Mb
-#32	pulse  exec/s: 0 rss: 32Mb
-#64	pulse  exec/s: 0 rss: 32Mb
-#128	pulse  exec/s: 0 rss: 32Mb
-#256	pulse  exec/s: 0 rss: 32Mb
-#512	pulse  exec/s: 0 rss: 32Mb
-#1024	pulse  exec/s: 0 rss: 33Mb
-#2048	pulse  exec/s: 0 rss: 33Mb
-#4096	pulse  exec/s: 4096 rss: 34Mb
-#8192	pulse  exec/s: 910 rss: 35Mb
-#16218	DONE   exec/s: 477 rss: 66Mb
+MERGE-INNER: using the control file '/tmp/libFuzzerTemp.Merge351.txt'
+MERGE-INNER: 16497 total files; 0 processed earlier; will process 16497 files now
+#1	pulse  exec/s: 0 rss: 33Mb
+#2	pulse  exec/s: 0 rss: 33Mb
+#4	pulse  exec/s: 0 rss: 33Mb
+#8	pulse  exec/s: 0 rss: 33Mb
+#16	pulse  exec/s: 0 rss: 33Mb
+#32	pulse  exec/s: 0 rss: 34Mb
+#64	pulse  exec/s: 0 rss: 34Mb
+#128	pulse  exec/s: 0 rss: 34Mb
+#256	pulse  exec/s: 0 rss: 34Mb
+#512	pulse  exec/s: 512 rss: 34Mb
+#1024	pulse  exec/s: 512 rss: 35Mb
+#2048	pulse  exec/s: 409 rss: 35Mb
+#4096	pulse  exec/s: 409 rss: 35Mb
+#8192	pulse  exec/s: 292 rss: 37Mb
+#16384	pulse  exec/s: 256 rss: 69Mb
+#16497	DONE   exec/s: 257 rss: 69Mb
 MERGE-OUTER: successful in 1 attempt(s)
-MERGE-OUTER: the control file has 2002777 bytes
-MERGE-OUTER: consumed 1Mb (33Mb rss) to parse the control file
+MERGE-OUTER: the control file has 2037835 bytes
+MERGE-OUTER: consumed 1Mb (34Mb rss) to parse the control file
 MERGE-OUTER: 0 new files with 0 new features added; 0 new coverage edges
