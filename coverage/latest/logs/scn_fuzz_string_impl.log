@@ -1,11 +1,11 @@
 INFO: Running with entropic power schedule (0xFF, 100).
-INFO: Seed: 576802361
+INFO: Seed: 1452519690
 MERGE-OUTER: 313 files, 0 in the initial corpus, 0 processed earlier
 MERGE-OUTER: attempt 1
 INFO: Running with entropic power schedule (0xFF, 100).
-INFO: Seed: 576812343
+INFO: Seed: 1452529739
 INFO: -max_len is not provided; libFuzzer will not generate inputs larger than 1048576 bytes
-MERGE-INNER: using the control file '/tmp/libFuzzerTemp.Merge338.txt'
+MERGE-INNER: using the control file '/tmp/libFuzzerTemp.Merge336.txt'
 MERGE-INNER: 313 total files; 0 processed earlier; will process 313 files now
 #1	pulse  exec/s: 0 rss: 28Mb
 #2	pulse  exec/s: 0 rss: 28Mb
