@@ -21169,14 +21169,14 @@ _ZN3scn2v34impl11char_to_intEw:
  3128|  1.45M|    if (ch >= 0 && ch <= 255) {
   ------------------
   |  Branch (3128:9): [True: 1.40M, False: 58.6k]
-  |  Branch (3128:20): [True: 786k, False: 615k]
+  |  Branch (3128:20): [True: 739k, False: 661k]
   ------------------
  3129|       |#else
  3130|       |    if (ch <= 255) {
  3131|       |#endif
- 3132|   786k|        return char_to_int(static_cast<char>(ch));
- 3133|   786k|    }
- 3134|   673k|    return 255;
+ 3132|   739k|        return char_to_int(static_cast<char>(ch));
+ 3133|   739k|    }
+ 3134|   720k|    return 255;
  3135|  1.45M|}
 _ZN3scn2v34impl23transform_thsep_indicesERNSt3__112basic_stringIcNS2_11char_traitsIcEENS2_9allocatorIcEEEEl:
  3158|  9.11k|{
