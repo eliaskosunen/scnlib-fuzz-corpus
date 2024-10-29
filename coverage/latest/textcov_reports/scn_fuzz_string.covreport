@@ -1,7 +1,0 @@
-_ZN7simdutf14implementationC2ENSt3__112basic_stringIcNS1_11char_traitsIcEENS1_9allocatorIcEEEES7_j:
- 2455|      1|  {
- 2456|      1|  }
-
-_ZN7simdutf8internal26unsupported_implementationC2Ev:
-  754|      1|  unsupported_implementation() : implementation("unsupported", "Unsupported CPU (no detected SIMD instructions)", 0) {}
-
