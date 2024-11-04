@@ -1,4 +1,5 @@
 scn_fuzz_int
+scn_fuzz_chrono
 scn_fuzz_float
 scn_fuzz_format
 scn_fuzz_string
