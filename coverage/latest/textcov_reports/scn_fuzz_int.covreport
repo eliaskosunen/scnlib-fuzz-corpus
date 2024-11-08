@@ -43478,2254 +43478,2254 @@ _ZN3scn2v44impl19reader_impl_for_intIcE22read_default_with_baseINS0_6ranges6deta
  3573|  29.0k|    }
 
 _ZN3scn4fuzz16make_input_viewsEPKhm:
-   51|    695|{
-   52|    695|    SCN_EXPECT(size <= max_input_bytes);
+   52|    695|{
+   53|    695|    SCN_EXPECT(size <= max_input_bytes);
   ------------------
   |  |  930|    695|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
   |  |  ------------------
   |  |  |  |  927|    695|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
   |  |  ------------------
   ------------------
-   53|       |
-   54|       |    // narrow
-   55|    695|    string_buffer.resize(size);
-   56|    695|    std::copy(data, data + size, reinterpret_cast<uint8_t*>(&string_buffer[0]));
-   57|    695|    auto sv = std::string_view{string_buffer};
-   58|       |
-   59|       |    // wide, bitwise reinterpret
-   60|    695|    const auto wsv_reinterpret_size =
-   61|    695|        size < sizeof(wchar_t) ? 1 : (size / sizeof(wchar_t));
+   54|       |
+   55|       |    // narrow
+   56|    695|    string_buffer.resize(size);
+   57|    695|    std::copy(data, data + size, reinterpret_cast<uint8_t*>(&string_buffer[0]));
+   58|    695|    auto sv = std::string_view{string_buffer};
+   59|       |
+   60|       |    // wide, bitwise reinterpret
+   61|    695|    const auto wsv_reinterpret_size =
+   62|    695|        size < sizeof(wchar_t) ? 1 : (size / sizeof(wchar_t));
   ------------------
-  |  Branch (61:9): [True: 104, False: 591]
+  |  Branch (62:9): [True: 104, False: 591]
   ------------------
-   62|    695|    wstring_buffer_reinterpreted.resize(wsv_reinterpret_size);
-   63|    695|    std::memcpy(wstring_buffer_reinterpreted.data(), data, size);
-   64|    695|    auto wsv_reintepreted = std::wstring_view{wstring_buffer_reinterpreted};
-   65|       |
-   66|       |    // wide, transcode to correct encoding (utf16 or utf32)
-   67|    695|    scn::impl::transcode_to_string(sv, wstring_buffer_transcoded_wide);
-   68|    695|    std::wstring_view wsv_transcoded{wstring_buffer_transcoded_wide};
-   69|       |
-   70|    695|    return std::make_tuple(sv, wsv_reintepreted, wsv_transcoded);
-   71|    695|}
+   63|    695|    wstring_buffer_reinterpreted.resize(wsv_reinterpret_size);
+   64|    695|    std::memcpy(wstring_buffer_reinterpreted.data(), data, size);
+   65|    695|    auto wsv_reintepreted = std::wstring_view{wstring_buffer_reinterpreted};
+   66|       |
+   67|       |    // wide, transcode to correct encoding (utf16 or utf32)
+   68|    695|    scn::impl::transcode_to_string(sv, wstring_buffer_transcoded_wide);
+   69|    695|    std::wstring_view wsv_transcoded{wstring_buffer_transcoded_wide};
+   70|       |
+   71|    695|    return std::make_tuple(sv, wsv_reintepreted, wsv_transcoded);
+   72|    695|}
 _ZN3scn4fuzz18get_format_stringsIcJPKcS3_S3_S3_S3_S3_S3_S3_S3_S3_EEERKNSt3__16vectorINS4_17basic_string_viewIT_NS4_11char_traitsIS7_EEEENS4_9allocatorISA_EEEEDpT0_:
-  121|    695|{
-  122|    695|    std::array<const CharT*, sizeof...(Args)> tmp = {{strings...}};
-  123|    695|    auto& buf = get_format_string_view_buffer<CharT>();
-  124|    695|    buf.resize(sizeof...(Args));
-  125|    695|    std::copy(tmp.begin(), tmp.end(), buf.begin());
-  126|    695|    return buf;
-  127|    695|}
+  122|    695|{
+  123|    695|    std::array<const CharT*, sizeof...(Args)> tmp = {{strings...}};
+  124|    695|    auto& buf = get_format_string_view_buffer<CharT>();
+  125|    695|    buf.resize(sizeof...(Args));
+  126|    695|    std::copy(tmp.begin(), tmp.end(), buf.begin());
+  127|    695|    return buf;
+  128|    695|}
 _ZN3scn4fuzz29get_format_string_view_bufferIcEERDav:
-  107|    695|{
-  108|    695|    if constexpr (std::is_same_v<CharT, char>) {
-  109|    695|        return format_string_view_buffer;
-  110|       |    }
-  111|       |    else {
-  112|       |        return wformat_string_view_buffer;
-  113|       |    }
-  114|    695|}
+  108|    695|{
+  109|    695|    if constexpr (std::is_same_v<CharT, char>) {
+  110|    695|        return format_string_view_buffer;
+  111|       |    }
+  112|       |    else {
+  113|       |        return wformat_string_view_buffer;
+  114|       |    }
+  115|    695|}
 _ZN3scn4fuzz12do_basic_runIcNSt3__117basic_string_viewIcNS2_11char_traitsIcEEEEEEvT0_RKNS2_6vectorINS3_IT_NS4_IS9_EEEENS2_9allocatorISB_EEEE:
-  184|    695|{
-  185|    695|    do_basic_run_for_source<CharT>(data, format_strings);
-  186|    695|    do_basic_run_for_source<CharT>(populate_noncontiguous(data),
-  187|    695|                                   format_strings);
-  188|    695|}
+  185|    695|{
+  186|    695|    do_basic_run_for_source<CharT>(data, format_strings);
+  187|    695|    do_basic_run_for_source<CharT>(populate_noncontiguous(data),
+  188|    695|                                   format_strings);
+  189|    695|}
 _ZN3scn4fuzz21do_basic_run_for_typeIcaNSt3__117basic_string_viewIcNS2_11char_traitsIcEEEEEEvRT1_RKNS2_6vectorINS3_IT_NS4_ISA_EEEENS2_9allocatorISC_EEEE:
-  132|    695|{
-  133|       |    // Regular scan
-  134|  6.95k|    for (const auto& f : format_strings) {
+  133|    695|{
+  134|       |    // Regular scan
+  135|  6.95k|    for (const auto& f : format_strings) {
   ------------------
-  |  Branch (134:24): [True: 6.95k, False: 695]
+  |  Branch (135:24): [True: 6.95k, False: 695]
   ------------------
-  135|  6.95k|        auto it = scn::ranges::begin(source);
-  136|  34.3k|        while (true) {
+  136|  6.95k|        auto it = scn::ranges::begin(source);
+  137|  34.3k|        while (true) {
   ------------------
-  |  Branch (136:16): [Folded - Ignored]
+  |  Branch (137:16): [Folded - Ignored]
   ------------------
-  137|  34.3k|            SCN_EXPECT(it <= scn::ranges::end(source));
-  ------------------
-  |  |  930|  34.3k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
-  |  |  ------------------
-  |  |  |  |  927|  34.3k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
-  |  |  ------------------
-  ------------------
-  138|  34.3k|            auto result = scn::scan<T>(
-  139|  34.3k|                scn::ranges::subrange{it, scn::ranges::end(source)},
-  140|  34.3k|                scn::runtime_format(f));
-  141|  34.3k|            if (!result) {
-  ------------------
-  |  Branch (141:17): [True: 6.95k, False: 27.3k]
-  ------------------
-  142|  6.95k|                break;
-  143|  6.95k|            }
-  144|  27.3k|            it = result->begin();
-  145|  27.3k|        }
-  146|  6.95k|    }
-  147|       |
-  148|       |    // scan localized
-  149|  6.95k|    for (const auto& f : format_strings) {
-  ------------------
-  |  Branch (149:24): [True: 6.95k, False: 695]
-  ------------------
-  150|  6.95k|        auto it = scn::ranges::begin(source);
-  151|  34.3k|        while (true) {
-  ------------------
-  |  Branch (151:16): [Folded - Ignored]
-  ------------------
-  152|  34.3k|            SCN_EXPECT(it <= scn::ranges::end(source));
+  138|  34.3k|            SCN_EXPECT(it <= scn::ranges::end(source));
   ------------------
   |  |  930|  34.3k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
   |  |  ------------------
   |  |  |  |  927|  34.3k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
   |  |  ------------------
   ------------------
-  153|  34.3k|            auto result = scn::scan<T>(
-  154|  34.3k|                global_locale,
-  155|  34.3k|                scn::ranges::subrange{it, scn::ranges::end(source)},
-  156|  34.3k|                scn::runtime_format(f));
-  157|  34.3k|            if (!result) {
+  139|  34.3k|            auto result = scn::scan<T>(
+  140|  34.3k|                scn::ranges::subrange{it, scn::ranges::end(source)},
+  141|  34.3k|                scn::runtime_format(f));
+  142|  34.3k|            if (!result) {
   ------------------
-  |  Branch (157:17): [True: 6.95k, False: 27.3k]
+  |  Branch (142:17): [True: 6.95k, False: 27.3k]
   ------------------
-  158|  6.95k|                break;
-  159|  6.95k|            }
-  160|  27.3k|            it = result->begin();
-  161|  27.3k|        }
-  162|  6.95k|    }
-  163|       |
-  164|       |    // scan_value
-  165|    695|    {
-  166|    695|        auto it = scn::ranges::begin(source);
-  167|  5.34k|        while (true) {
+  143|  6.95k|                break;
+  144|  6.95k|            }
+  145|  27.3k|            it = result->begin();
+  146|  27.3k|        }
+  147|  6.95k|    }
+  148|       |
+  149|       |    // scan localized
+  150|  6.95k|    for (const auto& f : format_strings) {
   ------------------
-  |  Branch (167:16): [Folded - Ignored]
+  |  Branch (150:24): [True: 6.95k, False: 695]
   ------------------
-  168|  5.34k|            SCN_EXPECT(it <= scn::ranges::end(source));
+  151|  6.95k|        auto it = scn::ranges::begin(source);
+  152|  34.3k|        while (true) {
+  ------------------
+  |  Branch (152:16): [Folded - Ignored]
+  ------------------
+  153|  34.3k|            SCN_EXPECT(it <= scn::ranges::end(source));
+  ------------------
+  |  |  930|  34.3k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
+  |  |  ------------------
+  |  |  |  |  927|  34.3k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
+  |  |  ------------------
+  ------------------
+  154|  34.3k|            auto result = scn::scan<T>(
+  155|  34.3k|                global_locale,
+  156|  34.3k|                scn::ranges::subrange{it, scn::ranges::end(source)},
+  157|  34.3k|                scn::runtime_format(f));
+  158|  34.3k|            if (!result) {
+  ------------------
+  |  Branch (158:17): [True: 6.95k, False: 27.3k]
+  ------------------
+  159|  6.95k|                break;
+  160|  6.95k|            }
+  161|  27.3k|            it = result->begin();
+  162|  27.3k|        }
+  163|  6.95k|    }
+  164|       |
+  165|       |    // scan_value
+  166|    695|    {
+  167|    695|        auto it = scn::ranges::begin(source);
+  168|  5.34k|        while (true) {
+  ------------------
+  |  Branch (168:16): [Folded - Ignored]
+  ------------------
+  169|  5.34k|            SCN_EXPECT(it <= scn::ranges::end(source));
   ------------------
   |  |  930|  5.34k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
   |  |  ------------------
   |  |  |  |  927|  5.34k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
   |  |  ------------------
   ------------------
-  169|  5.34k|            auto result = scn::scan_value<T>(
-  170|  5.34k|                scn::ranges::subrange{it, scn::ranges::end(source)});
-  171|  5.34k|            if (!result) {
+  170|  5.34k|            auto result = scn::scan_value<T>(
+  171|  5.34k|                scn::ranges::subrange{it, scn::ranges::end(source)});
+  172|  5.34k|            if (!result) {
   ------------------
-  |  Branch (171:17): [True: 695, False: 4.65k]
+  |  Branch (172:17): [True: 695, False: 4.65k]
   ------------------
-  172|    695|                break;
-  173|    695|            }
-  174|  4.65k|            it = result->begin();
-  175|  4.65k|        }
-  176|    695|    }
-  177|    695|}
+  173|    695|                break;
+  174|    695|            }
+  175|  4.65k|            it = result->begin();
+  176|  4.65k|        }
+  177|    695|    }
+  178|    695|}
 _ZN3scn4fuzz21do_basic_run_for_typeIchNSt3__117basic_string_viewIcNS2_11char_traitsIcEEEEEEvRT1_RKNS2_6vectorINS3_IT_NS4_ISA_EEEENS2_9allocatorISC_EEEE:
-  132|    695|{
-  133|       |    // Regular scan
-  134|  6.95k|    for (const auto& f : format_strings) {
+  133|    695|{
+  134|       |    // Regular scan
+  135|  6.95k|    for (const auto& f : format_strings) {
   ------------------
-  |  Branch (134:24): [True: 6.95k, False: 695]
+  |  Branch (135:24): [True: 6.95k, False: 695]
   ------------------
-  135|  6.95k|        auto it = scn::ranges::begin(source);
-  136|  30.2k|        while (true) {
+  136|  6.95k|        auto it = scn::ranges::begin(source);
+  137|  30.2k|        while (true) {
   ------------------
-  |  Branch (136:16): [Folded - Ignored]
+  |  Branch (137:16): [Folded - Ignored]
   ------------------
-  137|  30.2k|            SCN_EXPECT(it <= scn::ranges::end(source));
-  ------------------
-  |  |  930|  30.2k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
-  |  |  ------------------
-  |  |  |  |  927|  30.2k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
-  |  |  ------------------
-  ------------------
-  138|  30.2k|            auto result = scn::scan<T>(
-  139|  30.2k|                scn::ranges::subrange{it, scn::ranges::end(source)},
-  140|  30.2k|                scn::runtime_format(f));
-  141|  30.2k|            if (!result) {
-  ------------------
-  |  Branch (141:17): [True: 6.95k, False: 23.2k]
-  ------------------
-  142|  6.95k|                break;
-  143|  6.95k|            }
-  144|  23.2k|            it = result->begin();
-  145|  23.2k|        }
-  146|  6.95k|    }
-  147|       |
-  148|       |    // scan localized
-  149|  6.95k|    for (const auto& f : format_strings) {
-  ------------------
-  |  Branch (149:24): [True: 6.95k, False: 695]
-  ------------------
-  150|  6.95k|        auto it = scn::ranges::begin(source);
-  151|  30.2k|        while (true) {
-  ------------------
-  |  Branch (151:16): [Folded - Ignored]
-  ------------------
-  152|  30.2k|            SCN_EXPECT(it <= scn::ranges::end(source));
+  138|  30.2k|            SCN_EXPECT(it <= scn::ranges::end(source));
   ------------------
   |  |  930|  30.2k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
   |  |  ------------------
   |  |  |  |  927|  30.2k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
   |  |  ------------------
   ------------------
-  153|  30.2k|            auto result = scn::scan<T>(
-  154|  30.2k|                global_locale,
-  155|  30.2k|                scn::ranges::subrange{it, scn::ranges::end(source)},
-  156|  30.2k|                scn::runtime_format(f));
-  157|  30.2k|            if (!result) {
+  139|  30.2k|            auto result = scn::scan<T>(
+  140|  30.2k|                scn::ranges::subrange{it, scn::ranges::end(source)},
+  141|  30.2k|                scn::runtime_format(f));
+  142|  30.2k|            if (!result) {
   ------------------
-  |  Branch (157:17): [True: 6.95k, False: 23.2k]
+  |  Branch (142:17): [True: 6.95k, False: 23.2k]
   ------------------
-  158|  6.95k|                break;
-  159|  6.95k|            }
-  160|  23.2k|            it = result->begin();
-  161|  23.2k|        }
-  162|  6.95k|    }
-  163|       |
-  164|       |    // scan_value
-  165|    695|    {
-  166|    695|        auto it = scn::ranges::begin(source);
-  167|  4.46k|        while (true) {
+  143|  6.95k|                break;
+  144|  6.95k|            }
+  145|  23.2k|            it = result->begin();
+  146|  23.2k|        }
+  147|  6.95k|    }
+  148|       |
+  149|       |    // scan localized
+  150|  6.95k|    for (const auto& f : format_strings) {
   ------------------
-  |  Branch (167:16): [Folded - Ignored]
+  |  Branch (150:24): [True: 6.95k, False: 695]
   ------------------
-  168|  4.46k|            SCN_EXPECT(it <= scn::ranges::end(source));
+  151|  6.95k|        auto it = scn::ranges::begin(source);
+  152|  30.2k|        while (true) {
+  ------------------
+  |  Branch (152:16): [Folded - Ignored]
+  ------------------
+  153|  30.2k|            SCN_EXPECT(it <= scn::ranges::end(source));
+  ------------------
+  |  |  930|  30.2k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
+  |  |  ------------------
+  |  |  |  |  927|  30.2k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
+  |  |  ------------------
+  ------------------
+  154|  30.2k|            auto result = scn::scan<T>(
+  155|  30.2k|                global_locale,
+  156|  30.2k|                scn::ranges::subrange{it, scn::ranges::end(source)},
+  157|  30.2k|                scn::runtime_format(f));
+  158|  30.2k|            if (!result) {
+  ------------------
+  |  Branch (158:17): [True: 6.95k, False: 23.2k]
+  ------------------
+  159|  6.95k|                break;
+  160|  6.95k|            }
+  161|  23.2k|            it = result->begin();
+  162|  23.2k|        }
+  163|  6.95k|    }
+  164|       |
+  165|       |    // scan_value
+  166|    695|    {
+  167|    695|        auto it = scn::ranges::begin(source);
+  168|  4.46k|        while (true) {
+  ------------------
+  |  Branch (168:16): [Folded - Ignored]
+  ------------------
+  169|  4.46k|            SCN_EXPECT(it <= scn::ranges::end(source));
   ------------------
   |  |  930|  4.46k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
   |  |  ------------------
   |  |  |  |  927|  4.46k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
   |  |  ------------------
   ------------------
-  169|  4.46k|            auto result = scn::scan_value<T>(
-  170|  4.46k|                scn::ranges::subrange{it, scn::ranges::end(source)});
-  171|  4.46k|            if (!result) {
+  170|  4.46k|            auto result = scn::scan_value<T>(
+  171|  4.46k|                scn::ranges::subrange{it, scn::ranges::end(source)});
+  172|  4.46k|            if (!result) {
   ------------------
-  |  Branch (171:17): [True: 695, False: 3.76k]
+  |  Branch (172:17): [True: 695, False: 3.76k]
   ------------------
-  172|    695|                break;
-  173|    695|            }
-  174|  3.76k|            it = result->begin();
-  175|  3.76k|        }
-  176|    695|    }
-  177|    695|}
+  173|    695|                break;
+  174|    695|            }
+  175|  3.76k|            it = result->begin();
+  176|  3.76k|        }
+  177|    695|    }
+  178|    695|}
 _ZN3scn4fuzz21do_basic_run_for_typeIciNSt3__117basic_string_viewIcNS2_11char_traitsIcEEEEEEvRT1_RKNS2_6vectorINS3_IT_NS4_ISA_EEEENS2_9allocatorISC_EEEE:
-  132|    695|{
-  133|       |    // Regular scan
-  134|  6.95k|    for (const auto& f : format_strings) {
+  133|    695|{
+  134|       |    // Regular scan
+  135|  6.95k|    for (const auto& f : format_strings) {
   ------------------
-  |  Branch (134:24): [True: 6.95k, False: 695]
+  |  Branch (135:24): [True: 6.95k, False: 695]
   ------------------
-  135|  6.95k|        auto it = scn::ranges::begin(source);
-  136|  40.1k|        while (true) {
+  136|  6.95k|        auto it = scn::ranges::begin(source);
+  137|  40.1k|        while (true) {
   ------------------
-  |  Branch (136:16): [Folded - Ignored]
+  |  Branch (137:16): [Folded - Ignored]
   ------------------
-  137|  40.1k|            SCN_EXPECT(it <= scn::ranges::end(source));
-  ------------------
-  |  |  930|  40.1k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
-  |  |  ------------------
-  |  |  |  |  927|  40.1k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
-  |  |  ------------------
-  ------------------
-  138|  40.1k|            auto result = scn::scan<T>(
-  139|  40.1k|                scn::ranges::subrange{it, scn::ranges::end(source)},
-  140|  40.1k|                scn::runtime_format(f));
-  141|  40.1k|            if (!result) {
-  ------------------
-  |  Branch (141:17): [True: 6.95k, False: 33.1k]
-  ------------------
-  142|  6.95k|                break;
-  143|  6.95k|            }
-  144|  33.1k|            it = result->begin();
-  145|  33.1k|        }
-  146|  6.95k|    }
-  147|       |
-  148|       |    // scan localized
-  149|  6.95k|    for (const auto& f : format_strings) {
-  ------------------
-  |  Branch (149:24): [True: 6.95k, False: 695]
-  ------------------
-  150|  6.95k|        auto it = scn::ranges::begin(source);
-  151|  40.1k|        while (true) {
-  ------------------
-  |  Branch (151:16): [Folded - Ignored]
-  ------------------
-  152|  40.1k|            SCN_EXPECT(it <= scn::ranges::end(source));
+  138|  40.1k|            SCN_EXPECT(it <= scn::ranges::end(source));
   ------------------
   |  |  930|  40.1k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
   |  |  ------------------
   |  |  |  |  927|  40.1k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
   |  |  ------------------
   ------------------
-  153|  40.1k|            auto result = scn::scan<T>(
-  154|  40.1k|                global_locale,
-  155|  40.1k|                scn::ranges::subrange{it, scn::ranges::end(source)},
-  156|  40.1k|                scn::runtime_format(f));
-  157|  40.1k|            if (!result) {
+  139|  40.1k|            auto result = scn::scan<T>(
+  140|  40.1k|                scn::ranges::subrange{it, scn::ranges::end(source)},
+  141|  40.1k|                scn::runtime_format(f));
+  142|  40.1k|            if (!result) {
   ------------------
-  |  Branch (157:17): [True: 6.95k, False: 33.1k]
+  |  Branch (142:17): [True: 6.95k, False: 33.1k]
   ------------------
-  158|  6.95k|                break;
-  159|  6.95k|            }
-  160|  33.1k|            it = result->begin();
-  161|  33.1k|        }
-  162|  6.95k|    }
-  163|       |
-  164|       |    // scan_value
-  165|    695|    {
-  166|    695|        auto it = scn::ranges::begin(source);
-  167|  6.17k|        while (true) {
+  143|  6.95k|                break;
+  144|  6.95k|            }
+  145|  33.1k|            it = result->begin();
+  146|  33.1k|        }
+  147|  6.95k|    }
+  148|       |
+  149|       |    // scan localized
+  150|  6.95k|    for (const auto& f : format_strings) {
   ------------------
-  |  Branch (167:16): [Folded - Ignored]
+  |  Branch (150:24): [True: 6.95k, False: 695]
   ------------------
-  168|  6.17k|            SCN_EXPECT(it <= scn::ranges::end(source));
+  151|  6.95k|        auto it = scn::ranges::begin(source);
+  152|  40.1k|        while (true) {
+  ------------------
+  |  Branch (152:16): [Folded - Ignored]
+  ------------------
+  153|  40.1k|            SCN_EXPECT(it <= scn::ranges::end(source));
+  ------------------
+  |  |  930|  40.1k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
+  |  |  ------------------
+  |  |  |  |  927|  40.1k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
+  |  |  ------------------
+  ------------------
+  154|  40.1k|            auto result = scn::scan<T>(
+  155|  40.1k|                global_locale,
+  156|  40.1k|                scn::ranges::subrange{it, scn::ranges::end(source)},
+  157|  40.1k|                scn::runtime_format(f));
+  158|  40.1k|            if (!result) {
+  ------------------
+  |  Branch (158:17): [True: 6.95k, False: 33.1k]
+  ------------------
+  159|  6.95k|                break;
+  160|  6.95k|            }
+  161|  33.1k|            it = result->begin();
+  162|  33.1k|        }
+  163|  6.95k|    }
+  164|       |
+  165|       |    // scan_value
+  166|    695|    {
+  167|    695|        auto it = scn::ranges::begin(source);
+  168|  6.17k|        while (true) {
+  ------------------
+  |  Branch (168:16): [Folded - Ignored]
+  ------------------
+  169|  6.17k|            SCN_EXPECT(it <= scn::ranges::end(source));
   ------------------
   |  |  930|  6.17k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
   |  |  ------------------
   |  |  |  |  927|  6.17k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
   |  |  ------------------
   ------------------
-  169|  6.17k|            auto result = scn::scan_value<T>(
-  170|  6.17k|                scn::ranges::subrange{it, scn::ranges::end(source)});
-  171|  6.17k|            if (!result) {
+  170|  6.17k|            auto result = scn::scan_value<T>(
+  171|  6.17k|                scn::ranges::subrange{it, scn::ranges::end(source)});
+  172|  6.17k|            if (!result) {
   ------------------
-  |  Branch (171:17): [True: 695, False: 5.47k]
+  |  Branch (172:17): [True: 695, False: 5.47k]
   ------------------
-  172|    695|                break;
-  173|    695|            }
-  174|  5.47k|            it = result->begin();
-  175|  5.47k|        }
-  176|    695|    }
-  177|    695|}
+  173|    695|                break;
+  174|    695|            }
+  175|  5.47k|            it = result->begin();
+  176|  5.47k|        }
+  177|    695|    }
+  178|    695|}
 _ZN3scn4fuzz21do_basic_run_for_typeIcjNSt3__117basic_string_viewIcNS2_11char_traitsIcEEEEEEvRT1_RKNS2_6vectorINS3_IT_NS4_ISA_EEEENS2_9allocatorISC_EEEE:
-  132|    695|{
-  133|       |    // Regular scan
-  134|  6.95k|    for (const auto& f : format_strings) {
+  133|    695|{
+  134|       |    // Regular scan
+  135|  6.95k|    for (const auto& f : format_strings) {
   ------------------
-  |  Branch (134:24): [True: 6.95k, False: 695]
+  |  Branch (135:24): [True: 6.95k, False: 695]
   ------------------
-  135|  6.95k|        auto it = scn::ranges::begin(source);
-  136|  32.7k|        while (true) {
+  136|  6.95k|        auto it = scn::ranges::begin(source);
+  137|  32.7k|        while (true) {
   ------------------
-  |  Branch (136:16): [Folded - Ignored]
+  |  Branch (137:16): [Folded - Ignored]
   ------------------
-  137|  32.7k|            SCN_EXPECT(it <= scn::ranges::end(source));
-  ------------------
-  |  |  930|  32.7k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
-  |  |  ------------------
-  |  |  |  |  927|  32.7k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
-  |  |  ------------------
-  ------------------
-  138|  32.7k|            auto result = scn::scan<T>(
-  139|  32.7k|                scn::ranges::subrange{it, scn::ranges::end(source)},
-  140|  32.7k|                scn::runtime_format(f));
-  141|  32.7k|            if (!result) {
-  ------------------
-  |  Branch (141:17): [True: 6.95k, False: 25.8k]
-  ------------------
-  142|  6.95k|                break;
-  143|  6.95k|            }
-  144|  25.8k|            it = result->begin();
-  145|  25.8k|        }
-  146|  6.95k|    }
-  147|       |
-  148|       |    // scan localized
-  149|  6.95k|    for (const auto& f : format_strings) {
-  ------------------
-  |  Branch (149:24): [True: 6.95k, False: 695]
-  ------------------
-  150|  6.95k|        auto it = scn::ranges::begin(source);
-  151|  32.7k|        while (true) {
-  ------------------
-  |  Branch (151:16): [Folded - Ignored]
-  ------------------
-  152|  32.7k|            SCN_EXPECT(it <= scn::ranges::end(source));
+  138|  32.7k|            SCN_EXPECT(it <= scn::ranges::end(source));
   ------------------
   |  |  930|  32.7k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
   |  |  ------------------
   |  |  |  |  927|  32.7k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
   |  |  ------------------
   ------------------
-  153|  32.7k|            auto result = scn::scan<T>(
-  154|  32.7k|                global_locale,
-  155|  32.7k|                scn::ranges::subrange{it, scn::ranges::end(source)},
-  156|  32.7k|                scn::runtime_format(f));
-  157|  32.7k|            if (!result) {
+  139|  32.7k|            auto result = scn::scan<T>(
+  140|  32.7k|                scn::ranges::subrange{it, scn::ranges::end(source)},
+  141|  32.7k|                scn::runtime_format(f));
+  142|  32.7k|            if (!result) {
   ------------------
-  |  Branch (157:17): [True: 6.95k, False: 25.8k]
+  |  Branch (142:17): [True: 6.95k, False: 25.8k]
   ------------------
-  158|  6.95k|                break;
-  159|  6.95k|            }
-  160|  25.8k|            it = result->begin();
-  161|  25.8k|        }
-  162|  6.95k|    }
-  163|       |
-  164|       |    // scan_value
-  165|    695|    {
-  166|    695|        auto it = scn::ranges::begin(source);
-  167|  4.90k|        while (true) {
+  143|  6.95k|                break;
+  144|  6.95k|            }
+  145|  25.8k|            it = result->begin();
+  146|  25.8k|        }
+  147|  6.95k|    }
+  148|       |
+  149|       |    // scan localized
+  150|  6.95k|    for (const auto& f : format_strings) {
   ------------------
-  |  Branch (167:16): [Folded - Ignored]
+  |  Branch (150:24): [True: 6.95k, False: 695]
   ------------------
-  168|  4.90k|            SCN_EXPECT(it <= scn::ranges::end(source));
+  151|  6.95k|        auto it = scn::ranges::begin(source);
+  152|  32.7k|        while (true) {
+  ------------------
+  |  Branch (152:16): [Folded - Ignored]
+  ------------------
+  153|  32.7k|            SCN_EXPECT(it <= scn::ranges::end(source));
+  ------------------
+  |  |  930|  32.7k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
+  |  |  ------------------
+  |  |  |  |  927|  32.7k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
+  |  |  ------------------
+  ------------------
+  154|  32.7k|            auto result = scn::scan<T>(
+  155|  32.7k|                global_locale,
+  156|  32.7k|                scn::ranges::subrange{it, scn::ranges::end(source)},
+  157|  32.7k|                scn::runtime_format(f));
+  158|  32.7k|            if (!result) {
+  ------------------
+  |  Branch (158:17): [True: 6.95k, False: 25.8k]
+  ------------------
+  159|  6.95k|                break;
+  160|  6.95k|            }
+  161|  25.8k|            it = result->begin();
+  162|  25.8k|        }
+  163|  6.95k|    }
+  164|       |
+  165|       |    // scan_value
+  166|    695|    {
+  167|    695|        auto it = scn::ranges::begin(source);
+  168|  4.90k|        while (true) {
+  ------------------
+  |  Branch (168:16): [Folded - Ignored]
+  ------------------
+  169|  4.90k|            SCN_EXPECT(it <= scn::ranges::end(source));
   ------------------
   |  |  930|  4.90k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
   |  |  ------------------
   |  |  |  |  927|  4.90k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
   |  |  ------------------
   ------------------
-  169|  4.90k|            auto result = scn::scan_value<T>(
-  170|  4.90k|                scn::ranges::subrange{it, scn::ranges::end(source)});
-  171|  4.90k|            if (!result) {
+  170|  4.90k|            auto result = scn::scan_value<T>(
+  171|  4.90k|                scn::ranges::subrange{it, scn::ranges::end(source)});
+  172|  4.90k|            if (!result) {
   ------------------
-  |  Branch (171:17): [True: 695, False: 4.20k]
+  |  Branch (172:17): [True: 695, False: 4.20k]
   ------------------
-  172|    695|                break;
-  173|    695|            }
-  174|  4.20k|            it = result->begin();
-  175|  4.20k|        }
-  176|    695|    }
-  177|    695|}
+  173|    695|                break;
+  174|    695|            }
+  175|  4.20k|            it = result->begin();
+  176|  4.20k|        }
+  177|    695|    }
+  178|    695|}
 _ZN3scn4fuzz21do_basic_run_for_typeIcxNSt3__117basic_string_viewIcNS2_11char_traitsIcEEEEEEvRT1_RKNS2_6vectorINS3_IT_NS4_ISA_EEEENS2_9allocatorISC_EEEE:
-  132|    695|{
-  133|       |    // Regular scan
-  134|  6.95k|    for (const auto& f : format_strings) {
+  133|    695|{
+  134|       |    // Regular scan
+  135|  6.95k|    for (const auto& f : format_strings) {
   ------------------
-  |  Branch (134:24): [True: 6.95k, False: 695]
+  |  Branch (135:24): [True: 6.95k, False: 695]
   ------------------
-  135|  6.95k|        auto it = scn::ranges::begin(source);
-  136|  40.8k|        while (true) {
+  136|  6.95k|        auto it = scn::ranges::begin(source);
+  137|  40.8k|        while (true) {
   ------------------
-  |  Branch (136:16): [Folded - Ignored]
+  |  Branch (137:16): [Folded - Ignored]
   ------------------
-  137|  40.8k|            SCN_EXPECT(it <= scn::ranges::end(source));
-  ------------------
-  |  |  930|  40.8k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
-  |  |  ------------------
-  |  |  |  |  927|  40.8k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
-  |  |  ------------------
-  ------------------
-  138|  40.8k|            auto result = scn::scan<T>(
-  139|  40.8k|                scn::ranges::subrange{it, scn::ranges::end(source)},
-  140|  40.8k|                scn::runtime_format(f));
-  141|  40.8k|            if (!result) {
-  ------------------
-  |  Branch (141:17): [True: 6.95k, False: 33.8k]
-  ------------------
-  142|  6.95k|                break;
-  143|  6.95k|            }
-  144|  33.8k|            it = result->begin();
-  145|  33.8k|        }
-  146|  6.95k|    }
-  147|       |
-  148|       |    // scan localized
-  149|  6.95k|    for (const auto& f : format_strings) {
-  ------------------
-  |  Branch (149:24): [True: 6.95k, False: 695]
-  ------------------
-  150|  6.95k|        auto it = scn::ranges::begin(source);
-  151|  40.8k|        while (true) {
-  ------------------
-  |  Branch (151:16): [Folded - Ignored]
-  ------------------
-  152|  40.8k|            SCN_EXPECT(it <= scn::ranges::end(source));
+  138|  40.8k|            SCN_EXPECT(it <= scn::ranges::end(source));
   ------------------
   |  |  930|  40.8k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
   |  |  ------------------
   |  |  |  |  927|  40.8k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
   |  |  ------------------
   ------------------
-  153|  40.8k|            auto result = scn::scan<T>(
-  154|  40.8k|                global_locale,
-  155|  40.8k|                scn::ranges::subrange{it, scn::ranges::end(source)},
-  156|  40.8k|                scn::runtime_format(f));
-  157|  40.8k|            if (!result) {
+  139|  40.8k|            auto result = scn::scan<T>(
+  140|  40.8k|                scn::ranges::subrange{it, scn::ranges::end(source)},
+  141|  40.8k|                scn::runtime_format(f));
+  142|  40.8k|            if (!result) {
   ------------------
-  |  Branch (157:17): [True: 6.95k, False: 33.8k]
+  |  Branch (142:17): [True: 6.95k, False: 33.8k]
   ------------------
-  158|  6.95k|                break;
-  159|  6.95k|            }
-  160|  33.8k|            it = result->begin();
-  161|  33.8k|        }
-  162|  6.95k|    }
-  163|       |
-  164|       |    // scan_value
-  165|    695|    {
-  166|    695|        auto it = scn::ranges::begin(source);
-  167|  6.28k|        while (true) {
+  143|  6.95k|                break;
+  144|  6.95k|            }
+  145|  33.8k|            it = result->begin();
+  146|  33.8k|        }
+  147|  6.95k|    }
+  148|       |
+  149|       |    // scan localized
+  150|  6.95k|    for (const auto& f : format_strings) {
   ------------------
-  |  Branch (167:16): [Folded - Ignored]
+  |  Branch (150:24): [True: 6.95k, False: 695]
   ------------------
-  168|  6.28k|            SCN_EXPECT(it <= scn::ranges::end(source));
+  151|  6.95k|        auto it = scn::ranges::begin(source);
+  152|  40.8k|        while (true) {
+  ------------------
+  |  Branch (152:16): [Folded - Ignored]
+  ------------------
+  153|  40.8k|            SCN_EXPECT(it <= scn::ranges::end(source));
+  ------------------
+  |  |  930|  40.8k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
+  |  |  ------------------
+  |  |  |  |  927|  40.8k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
+  |  |  ------------------
+  ------------------
+  154|  40.8k|            auto result = scn::scan<T>(
+  155|  40.8k|                global_locale,
+  156|  40.8k|                scn::ranges::subrange{it, scn::ranges::end(source)},
+  157|  40.8k|                scn::runtime_format(f));
+  158|  40.8k|            if (!result) {
+  ------------------
+  |  Branch (158:17): [True: 6.95k, False: 33.8k]
+  ------------------
+  159|  6.95k|                break;
+  160|  6.95k|            }
+  161|  33.8k|            it = result->begin();
+  162|  33.8k|        }
+  163|  6.95k|    }
+  164|       |
+  165|       |    // scan_value
+  166|    695|    {
+  167|    695|        auto it = scn::ranges::begin(source);
+  168|  6.28k|        while (true) {
+  ------------------
+  |  Branch (168:16): [Folded - Ignored]
+  ------------------
+  169|  6.28k|            SCN_EXPECT(it <= scn::ranges::end(source));
   ------------------
   |  |  930|  6.28k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
   |  |  ------------------
   |  |  |  |  927|  6.28k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
   |  |  ------------------
   ------------------
-  169|  6.28k|            auto result = scn::scan_value<T>(
-  170|  6.28k|                scn::ranges::subrange{it, scn::ranges::end(source)});
-  171|  6.28k|            if (!result) {
+  170|  6.28k|            auto result = scn::scan_value<T>(
+  171|  6.28k|                scn::ranges::subrange{it, scn::ranges::end(source)});
+  172|  6.28k|            if (!result) {
   ------------------
-  |  Branch (171:17): [True: 695, False: 5.59k]
+  |  Branch (172:17): [True: 695, False: 5.59k]
   ------------------
-  172|    695|                break;
-  173|    695|            }
-  174|  5.59k|            it = result->begin();
-  175|  5.59k|        }
-  176|    695|    }
-  177|    695|}
+  173|    695|                break;
+  174|    695|            }
+  175|  5.59k|            it = result->begin();
+  176|  5.59k|        }
+  177|    695|    }
+  178|    695|}
 _ZN3scn4fuzz21do_basic_run_for_typeIcyNSt3__117basic_string_viewIcNS2_11char_traitsIcEEEEEEvRT1_RKNS2_6vectorINS3_IT_NS4_ISA_EEEENS2_9allocatorISC_EEEE:
-  132|    695|{
-  133|       |    // Regular scan
-  134|  6.95k|    for (const auto& f : format_strings) {
+  133|    695|{
+  134|       |    // Regular scan
+  135|  6.95k|    for (const auto& f : format_strings) {
   ------------------
-  |  Branch (134:24): [True: 6.95k, False: 695]
+  |  Branch (135:24): [True: 6.95k, False: 695]
   ------------------
-  135|  6.95k|        auto it = scn::ranges::begin(source);
-  136|  33.1k|        while (true) {
+  136|  6.95k|        auto it = scn::ranges::begin(source);
+  137|  33.1k|        while (true) {
   ------------------
-  |  Branch (136:16): [Folded - Ignored]
+  |  Branch (137:16): [Folded - Ignored]
   ------------------
-  137|  33.1k|            SCN_EXPECT(it <= scn::ranges::end(source));
-  ------------------
-  |  |  930|  33.1k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
-  |  |  ------------------
-  |  |  |  |  927|  33.1k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
-  |  |  ------------------
-  ------------------
-  138|  33.1k|            auto result = scn::scan<T>(
-  139|  33.1k|                scn::ranges::subrange{it, scn::ranges::end(source)},
-  140|  33.1k|                scn::runtime_format(f));
-  141|  33.1k|            if (!result) {
-  ------------------
-  |  Branch (141:17): [True: 6.95k, False: 26.1k]
-  ------------------
-  142|  6.95k|                break;
-  143|  6.95k|            }
-  144|  26.1k|            it = result->begin();
-  145|  26.1k|        }
-  146|  6.95k|    }
-  147|       |
-  148|       |    // scan localized
-  149|  6.95k|    for (const auto& f : format_strings) {
-  ------------------
-  |  Branch (149:24): [True: 6.95k, False: 695]
-  ------------------
-  150|  6.95k|        auto it = scn::ranges::begin(source);
-  151|  33.1k|        while (true) {
-  ------------------
-  |  Branch (151:16): [Folded - Ignored]
-  ------------------
-  152|  33.1k|            SCN_EXPECT(it <= scn::ranges::end(source));
+  138|  33.1k|            SCN_EXPECT(it <= scn::ranges::end(source));
   ------------------
   |  |  930|  33.1k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
   |  |  ------------------
   |  |  |  |  927|  33.1k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
   |  |  ------------------
   ------------------
-  153|  33.1k|            auto result = scn::scan<T>(
-  154|  33.1k|                global_locale,
-  155|  33.1k|                scn::ranges::subrange{it, scn::ranges::end(source)},
-  156|  33.1k|                scn::runtime_format(f));
-  157|  33.1k|            if (!result) {
+  139|  33.1k|            auto result = scn::scan<T>(
+  140|  33.1k|                scn::ranges::subrange{it, scn::ranges::end(source)},
+  141|  33.1k|                scn::runtime_format(f));
+  142|  33.1k|            if (!result) {
   ------------------
-  |  Branch (157:17): [True: 6.95k, False: 26.1k]
+  |  Branch (142:17): [True: 6.95k, False: 26.1k]
   ------------------
-  158|  6.95k|                break;
-  159|  6.95k|            }
-  160|  26.1k|            it = result->begin();
-  161|  26.1k|        }
-  162|  6.95k|    }
-  163|       |
-  164|       |    // scan_value
-  165|    695|    {
-  166|    695|        auto it = scn::ranges::begin(source);
-  167|  4.96k|        while (true) {
+  143|  6.95k|                break;
+  144|  6.95k|            }
+  145|  26.1k|            it = result->begin();
+  146|  26.1k|        }
+  147|  6.95k|    }
+  148|       |
+  149|       |    // scan localized
+  150|  6.95k|    for (const auto& f : format_strings) {
   ------------------
-  |  Branch (167:16): [Folded - Ignored]
+  |  Branch (150:24): [True: 6.95k, False: 695]
   ------------------
-  168|  4.96k|            SCN_EXPECT(it <= scn::ranges::end(source));
+  151|  6.95k|        auto it = scn::ranges::begin(source);
+  152|  33.1k|        while (true) {
+  ------------------
+  |  Branch (152:16): [Folded - Ignored]
+  ------------------
+  153|  33.1k|            SCN_EXPECT(it <= scn::ranges::end(source));
+  ------------------
+  |  |  930|  33.1k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
+  |  |  ------------------
+  |  |  |  |  927|  33.1k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
+  |  |  ------------------
+  ------------------
+  154|  33.1k|            auto result = scn::scan<T>(
+  155|  33.1k|                global_locale,
+  156|  33.1k|                scn::ranges::subrange{it, scn::ranges::end(source)},
+  157|  33.1k|                scn::runtime_format(f));
+  158|  33.1k|            if (!result) {
+  ------------------
+  |  Branch (158:17): [True: 6.95k, False: 26.1k]
+  ------------------
+  159|  6.95k|                break;
+  160|  6.95k|            }
+  161|  26.1k|            it = result->begin();
+  162|  26.1k|        }
+  163|  6.95k|    }
+  164|       |
+  165|       |    // scan_value
+  166|    695|    {
+  167|    695|        auto it = scn::ranges::begin(source);
+  168|  4.96k|        while (true) {
+  ------------------
+  |  Branch (168:16): [Folded - Ignored]
+  ------------------
+  169|  4.96k|            SCN_EXPECT(it <= scn::ranges::end(source));
   ------------------
   |  |  930|  4.96k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
   |  |  ------------------
   |  |  |  |  927|  4.96k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
   |  |  ------------------
   ------------------
-  169|  4.96k|            auto result = scn::scan_value<T>(
-  170|  4.96k|                scn::ranges::subrange{it, scn::ranges::end(source)});
-  171|  4.96k|            if (!result) {
+  170|  4.96k|            auto result = scn::scan_value<T>(
+  171|  4.96k|                scn::ranges::subrange{it, scn::ranges::end(source)});
+  172|  4.96k|            if (!result) {
   ------------------
-  |  Branch (171:17): [True: 695, False: 4.27k]
+  |  Branch (172:17): [True: 695, False: 4.27k]
   ------------------
-  172|    695|                break;
-  173|    695|            }
-  174|  4.27k|            it = result->begin();
-  175|  4.27k|        }
-  176|    695|    }
-  177|    695|}
+  173|    695|                break;
+  174|    695|            }
+  175|  4.27k|            it = result->begin();
+  176|  4.27k|        }
+  177|    695|    }
+  178|    695|}
 _ZN3scn4fuzz21do_basic_run_for_typeIcaKNSt3__15dequeIcNS2_9allocatorIcEEEEEEvRT1_RKNS2_6vectorINS2_17basic_string_viewIT_NS2_11char_traitsISC_EEEENS4_ISF_EEEE:
-  132|    695|{
-  133|       |    // Regular scan
-  134|  6.95k|    for (const auto& f : format_strings) {
+  133|    695|{
+  134|       |    // Regular scan
+  135|  6.95k|    for (const auto& f : format_strings) {
   ------------------
-  |  Branch (134:24): [True: 6.95k, False: 695]
+  |  Branch (135:24): [True: 6.95k, False: 695]
   ------------------
-  135|  6.95k|        auto it = scn::ranges::begin(source);
-  136|  34.3k|        while (true) {
+  136|  6.95k|        auto it = scn::ranges::begin(source);
+  137|  34.3k|        while (true) {
   ------------------
-  |  Branch (136:16): [Folded - Ignored]
+  |  Branch (137:16): [Folded - Ignored]
   ------------------
-  137|  34.3k|            SCN_EXPECT(it <= scn::ranges::end(source));
-  ------------------
-  |  |  930|  34.3k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
-  |  |  ------------------
-  |  |  |  |  927|  34.3k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
-  |  |  ------------------
-  ------------------
-  138|  34.3k|            auto result = scn::scan<T>(
-  139|  34.3k|                scn::ranges::subrange{it, scn::ranges::end(source)},
-  140|  34.3k|                scn::runtime_format(f));
-  141|  34.3k|            if (!result) {
-  ------------------
-  |  Branch (141:17): [True: 6.95k, False: 27.3k]
-  ------------------
-  142|  6.95k|                break;
-  143|  6.95k|            }
-  144|  27.3k|            it = result->begin();
-  145|  27.3k|        }
-  146|  6.95k|    }
-  147|       |
-  148|       |    // scan localized
-  149|  6.95k|    for (const auto& f : format_strings) {
-  ------------------
-  |  Branch (149:24): [True: 6.95k, False: 695]
-  ------------------
-  150|  6.95k|        auto it = scn::ranges::begin(source);
-  151|  34.3k|        while (true) {
-  ------------------
-  |  Branch (151:16): [Folded - Ignored]
-  ------------------
-  152|  34.3k|            SCN_EXPECT(it <= scn::ranges::end(source));
+  138|  34.3k|            SCN_EXPECT(it <= scn::ranges::end(source));
   ------------------
   |  |  930|  34.3k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
   |  |  ------------------
   |  |  |  |  927|  34.3k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
   |  |  ------------------
   ------------------
-  153|  34.3k|            auto result = scn::scan<T>(
-  154|  34.3k|                global_locale,
-  155|  34.3k|                scn::ranges::subrange{it, scn::ranges::end(source)},
-  156|  34.3k|                scn::runtime_format(f));
-  157|  34.3k|            if (!result) {
+  139|  34.3k|            auto result = scn::scan<T>(
+  140|  34.3k|                scn::ranges::subrange{it, scn::ranges::end(source)},
+  141|  34.3k|                scn::runtime_format(f));
+  142|  34.3k|            if (!result) {
   ------------------
-  |  Branch (157:17): [True: 6.95k, False: 27.3k]
+  |  Branch (142:17): [True: 6.95k, False: 27.3k]
   ------------------
-  158|  6.95k|                break;
-  159|  6.95k|            }
-  160|  27.3k|            it = result->begin();
-  161|  27.3k|        }
-  162|  6.95k|    }
-  163|       |
-  164|       |    // scan_value
-  165|    695|    {
-  166|    695|        auto it = scn::ranges::begin(source);
-  167|  5.34k|        while (true) {
+  143|  6.95k|                break;
+  144|  6.95k|            }
+  145|  27.3k|            it = result->begin();
+  146|  27.3k|        }
+  147|  6.95k|    }
+  148|       |
+  149|       |    // scan localized
+  150|  6.95k|    for (const auto& f : format_strings) {
   ------------------
-  |  Branch (167:16): [Folded - Ignored]
+  |  Branch (150:24): [True: 6.95k, False: 695]
   ------------------
-  168|  5.34k|            SCN_EXPECT(it <= scn::ranges::end(source));
+  151|  6.95k|        auto it = scn::ranges::begin(source);
+  152|  34.3k|        while (true) {
+  ------------------
+  |  Branch (152:16): [Folded - Ignored]
+  ------------------
+  153|  34.3k|            SCN_EXPECT(it <= scn::ranges::end(source));
+  ------------------
+  |  |  930|  34.3k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
+  |  |  ------------------
+  |  |  |  |  927|  34.3k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
+  |  |  ------------------
+  ------------------
+  154|  34.3k|            auto result = scn::scan<T>(
+  155|  34.3k|                global_locale,
+  156|  34.3k|                scn::ranges::subrange{it, scn::ranges::end(source)},
+  157|  34.3k|                scn::runtime_format(f));
+  158|  34.3k|            if (!result) {
+  ------------------
+  |  Branch (158:17): [True: 6.95k, False: 27.3k]
+  ------------------
+  159|  6.95k|                break;
+  160|  6.95k|            }
+  161|  27.3k|            it = result->begin();
+  162|  27.3k|        }
+  163|  6.95k|    }
+  164|       |
+  165|       |    // scan_value
+  166|    695|    {
+  167|    695|        auto it = scn::ranges::begin(source);
+  168|  5.34k|        while (true) {
+  ------------------
+  |  Branch (168:16): [Folded - Ignored]
+  ------------------
+  169|  5.34k|            SCN_EXPECT(it <= scn::ranges::end(source));
   ------------------
   |  |  930|  5.34k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
   |  |  ------------------
   |  |  |  |  927|  5.34k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
   |  |  ------------------
   ------------------
-  169|  5.34k|            auto result = scn::scan_value<T>(
-  170|  5.34k|                scn::ranges::subrange{it, scn::ranges::end(source)});
-  171|  5.34k|            if (!result) {
+  170|  5.34k|            auto result = scn::scan_value<T>(
+  171|  5.34k|                scn::ranges::subrange{it, scn::ranges::end(source)});
+  172|  5.34k|            if (!result) {
   ------------------
-  |  Branch (171:17): [True: 695, False: 4.64k]
+  |  Branch (172:17): [True: 695, False: 4.64k]
   ------------------
-  172|    695|                break;
-  173|    695|            }
-  174|  4.64k|            it = result->begin();
-  175|  4.64k|        }
-  176|    695|    }
-  177|    695|}
+  173|    695|                break;
+  174|    695|            }
+  175|  4.64k|            it = result->begin();
+  176|  4.64k|        }
+  177|    695|    }
+  178|    695|}
 _ZN3scn4fuzz21do_basic_run_for_typeIchKNSt3__15dequeIcNS2_9allocatorIcEEEEEEvRT1_RKNS2_6vectorINS2_17basic_string_viewIT_NS2_11char_traitsISC_EEEENS4_ISF_EEEE:
-  132|    695|{
-  133|       |    // Regular scan
-  134|  6.95k|    for (const auto& f : format_strings) {
+  133|    695|{
+  134|       |    // Regular scan
+  135|  6.95k|    for (const auto& f : format_strings) {
   ------------------
-  |  Branch (134:24): [True: 6.95k, False: 695]
+  |  Branch (135:24): [True: 6.95k, False: 695]
   ------------------
-  135|  6.95k|        auto it = scn::ranges::begin(source);
-  136|  30.2k|        while (true) {
+  136|  6.95k|        auto it = scn::ranges::begin(source);
+  137|  30.2k|        while (true) {
   ------------------
-  |  Branch (136:16): [Folded - Ignored]
+  |  Branch (137:16): [Folded - Ignored]
   ------------------
-  137|  30.2k|            SCN_EXPECT(it <= scn::ranges::end(source));
-  ------------------
-  |  |  930|  30.2k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
-  |  |  ------------------
-  |  |  |  |  927|  30.2k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
-  |  |  ------------------
-  ------------------
-  138|  30.2k|            auto result = scn::scan<T>(
-  139|  30.2k|                scn::ranges::subrange{it, scn::ranges::end(source)},
-  140|  30.2k|                scn::runtime_format(f));
-  141|  30.2k|            if (!result) {
-  ------------------
-  |  Branch (141:17): [True: 6.95k, False: 23.2k]
-  ------------------
-  142|  6.95k|                break;
-  143|  6.95k|            }
-  144|  23.2k|            it = result->begin();
-  145|  23.2k|        }
-  146|  6.95k|    }
-  147|       |
-  148|       |    // scan localized
-  149|  6.95k|    for (const auto& f : format_strings) {
-  ------------------
-  |  Branch (149:24): [True: 6.95k, False: 695]
-  ------------------
-  150|  6.95k|        auto it = scn::ranges::begin(source);
-  151|  30.2k|        while (true) {
-  ------------------
-  |  Branch (151:16): [Folded - Ignored]
-  ------------------
-  152|  30.2k|            SCN_EXPECT(it <= scn::ranges::end(source));
+  138|  30.2k|            SCN_EXPECT(it <= scn::ranges::end(source));
   ------------------
   |  |  930|  30.2k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
   |  |  ------------------
   |  |  |  |  927|  30.2k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
   |  |  ------------------
   ------------------
-  153|  30.2k|            auto result = scn::scan<T>(
-  154|  30.2k|                global_locale,
-  155|  30.2k|                scn::ranges::subrange{it, scn::ranges::end(source)},
-  156|  30.2k|                scn::runtime_format(f));
-  157|  30.2k|            if (!result) {
+  139|  30.2k|            auto result = scn::scan<T>(
+  140|  30.2k|                scn::ranges::subrange{it, scn::ranges::end(source)},
+  141|  30.2k|                scn::runtime_format(f));
+  142|  30.2k|            if (!result) {
   ------------------
-  |  Branch (157:17): [True: 6.95k, False: 23.2k]
+  |  Branch (142:17): [True: 6.95k, False: 23.2k]
   ------------------
-  158|  6.95k|                break;
-  159|  6.95k|            }
-  160|  23.2k|            it = result->begin();
-  161|  23.2k|        }
-  162|  6.95k|    }
-  163|       |
-  164|       |    // scan_value
-  165|    695|    {
-  166|    695|        auto it = scn::ranges::begin(source);
-  167|  4.45k|        while (true) {
+  143|  6.95k|                break;
+  144|  6.95k|            }
+  145|  23.2k|            it = result->begin();
+  146|  23.2k|        }
+  147|  6.95k|    }
+  148|       |
+  149|       |    // scan localized
+  150|  6.95k|    for (const auto& f : format_strings) {
   ------------------
-  |  Branch (167:16): [Folded - Ignored]
+  |  Branch (150:24): [True: 6.95k, False: 695]
   ------------------
-  168|  4.45k|            SCN_EXPECT(it <= scn::ranges::end(source));
+  151|  6.95k|        auto it = scn::ranges::begin(source);
+  152|  30.2k|        while (true) {
+  ------------------
+  |  Branch (152:16): [Folded - Ignored]
+  ------------------
+  153|  30.2k|            SCN_EXPECT(it <= scn::ranges::end(source));
+  ------------------
+  |  |  930|  30.2k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
+  |  |  ------------------
+  |  |  |  |  927|  30.2k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
+  |  |  ------------------
+  ------------------
+  154|  30.2k|            auto result = scn::scan<T>(
+  155|  30.2k|                global_locale,
+  156|  30.2k|                scn::ranges::subrange{it, scn::ranges::end(source)},
+  157|  30.2k|                scn::runtime_format(f));
+  158|  30.2k|            if (!result) {
+  ------------------
+  |  Branch (158:17): [True: 6.95k, False: 23.2k]
+  ------------------
+  159|  6.95k|                break;
+  160|  6.95k|            }
+  161|  23.2k|            it = result->begin();
+  162|  23.2k|        }
+  163|  6.95k|    }
+  164|       |
+  165|       |    // scan_value
+  166|    695|    {
+  167|    695|        auto it = scn::ranges::begin(source);
+  168|  4.45k|        while (true) {
+  ------------------
+  |  Branch (168:16): [Folded - Ignored]
+  ------------------
+  169|  4.45k|            SCN_EXPECT(it <= scn::ranges::end(source));
   ------------------
   |  |  930|  4.45k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
   |  |  ------------------
   |  |  |  |  927|  4.45k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
   |  |  ------------------
   ------------------
-  169|  4.45k|            auto result = scn::scan_value<T>(
-  170|  4.45k|                scn::ranges::subrange{it, scn::ranges::end(source)});
-  171|  4.45k|            if (!result) {
+  170|  4.45k|            auto result = scn::scan_value<T>(
+  171|  4.45k|                scn::ranges::subrange{it, scn::ranges::end(source)});
+  172|  4.45k|            if (!result) {
   ------------------
-  |  Branch (171:17): [True: 695, False: 3.76k]
+  |  Branch (172:17): [True: 695, False: 3.76k]
   ------------------
-  172|    695|                break;
-  173|    695|            }
-  174|  3.76k|            it = result->begin();
-  175|  3.76k|        }
-  176|    695|    }
-  177|    695|}
+  173|    695|                break;
+  174|    695|            }
+  175|  3.76k|            it = result->begin();
+  176|  3.76k|        }
+  177|    695|    }
+  178|    695|}
 _ZN3scn4fuzz21do_basic_run_for_typeIciKNSt3__15dequeIcNS2_9allocatorIcEEEEEEvRT1_RKNS2_6vectorINS2_17basic_string_viewIT_NS2_11char_traitsISC_EEEENS4_ISF_EEEE:
-  132|    695|{
-  133|       |    // Regular scan
-  134|  6.95k|    for (const auto& f : format_strings) {
+  133|    695|{
+  134|       |    // Regular scan
+  135|  6.95k|    for (const auto& f : format_strings) {
   ------------------
-  |  Branch (134:24): [True: 6.95k, False: 695]
+  |  Branch (135:24): [True: 6.95k, False: 695]
   ------------------
-  135|  6.95k|        auto it = scn::ranges::begin(source);
-  136|  39.9k|        while (true) {
+  136|  6.95k|        auto it = scn::ranges::begin(source);
+  137|  39.9k|        while (true) {
   ------------------
-  |  Branch (136:16): [Folded - Ignored]
+  |  Branch (137:16): [Folded - Ignored]
   ------------------
-  137|  39.9k|            SCN_EXPECT(it <= scn::ranges::end(source));
-  ------------------
-  |  |  930|  39.9k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
-  |  |  ------------------
-  |  |  |  |  927|  39.9k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
-  |  |  ------------------
-  ------------------
-  138|  39.9k|            auto result = scn::scan<T>(
-  139|  39.9k|                scn::ranges::subrange{it, scn::ranges::end(source)},
-  140|  39.9k|                scn::runtime_format(f));
-  141|  39.9k|            if (!result) {
-  ------------------
-  |  Branch (141:17): [True: 6.95k, False: 33.0k]
-  ------------------
-  142|  6.95k|                break;
-  143|  6.95k|            }
-  144|  33.0k|            it = result->begin();
-  145|  33.0k|        }
-  146|  6.95k|    }
-  147|       |
-  148|       |    // scan localized
-  149|  6.95k|    for (const auto& f : format_strings) {
-  ------------------
-  |  Branch (149:24): [True: 6.95k, False: 695]
-  ------------------
-  150|  6.95k|        auto it = scn::ranges::begin(source);
-  151|  39.9k|        while (true) {
-  ------------------
-  |  Branch (151:16): [Folded - Ignored]
-  ------------------
-  152|  39.9k|            SCN_EXPECT(it <= scn::ranges::end(source));
+  138|  39.9k|            SCN_EXPECT(it <= scn::ranges::end(source));
   ------------------
   |  |  930|  39.9k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
   |  |  ------------------
   |  |  |  |  927|  39.9k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
   |  |  ------------------
   ------------------
-  153|  39.9k|            auto result = scn::scan<T>(
-  154|  39.9k|                global_locale,
-  155|  39.9k|                scn::ranges::subrange{it, scn::ranges::end(source)},
-  156|  39.9k|                scn::runtime_format(f));
-  157|  39.9k|            if (!result) {
+  139|  39.9k|            auto result = scn::scan<T>(
+  140|  39.9k|                scn::ranges::subrange{it, scn::ranges::end(source)},
+  141|  39.9k|                scn::runtime_format(f));
+  142|  39.9k|            if (!result) {
   ------------------
-  |  Branch (157:17): [True: 6.95k, False: 33.0k]
+  |  Branch (142:17): [True: 6.95k, False: 33.0k]
   ------------------
-  158|  6.95k|                break;
-  159|  6.95k|            }
-  160|  33.0k|            it = result->begin();
-  161|  33.0k|        }
-  162|  6.95k|    }
-  163|       |
-  164|       |    // scan_value
-  165|    695|    {
-  166|    695|        auto it = scn::ranges::begin(source);
-  167|  5.97k|        while (true) {
+  143|  6.95k|                break;
+  144|  6.95k|            }
+  145|  33.0k|            it = result->begin();
+  146|  33.0k|        }
+  147|  6.95k|    }
+  148|       |
+  149|       |    // scan localized
+  150|  6.95k|    for (const auto& f : format_strings) {
   ------------------
-  |  Branch (167:16): [Folded - Ignored]
+  |  Branch (150:24): [True: 6.95k, False: 695]
   ------------------
-  168|  5.97k|            SCN_EXPECT(it <= scn::ranges::end(source));
+  151|  6.95k|        auto it = scn::ranges::begin(source);
+  152|  39.9k|        while (true) {
+  ------------------
+  |  Branch (152:16): [Folded - Ignored]
+  ------------------
+  153|  39.9k|            SCN_EXPECT(it <= scn::ranges::end(source));
+  ------------------
+  |  |  930|  39.9k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
+  |  |  ------------------
+  |  |  |  |  927|  39.9k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
+  |  |  ------------------
+  ------------------
+  154|  39.9k|            auto result = scn::scan<T>(
+  155|  39.9k|                global_locale,
+  156|  39.9k|                scn::ranges::subrange{it, scn::ranges::end(source)},
+  157|  39.9k|                scn::runtime_format(f));
+  158|  39.9k|            if (!result) {
+  ------------------
+  |  Branch (158:17): [True: 6.95k, False: 33.0k]
+  ------------------
+  159|  6.95k|                break;
+  160|  6.95k|            }
+  161|  33.0k|            it = result->begin();
+  162|  33.0k|        }
+  163|  6.95k|    }
+  164|       |
+  165|       |    // scan_value
+  166|    695|    {
+  167|    695|        auto it = scn::ranges::begin(source);
+  168|  5.97k|        while (true) {
+  ------------------
+  |  Branch (168:16): [Folded - Ignored]
+  ------------------
+  169|  5.97k|            SCN_EXPECT(it <= scn::ranges::end(source));
   ------------------
   |  |  930|  5.97k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
   |  |  ------------------
   |  |  |  |  927|  5.97k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
   |  |  ------------------
   ------------------
-  169|  5.97k|            auto result = scn::scan_value<T>(
-  170|  5.97k|                scn::ranges::subrange{it, scn::ranges::end(source)});
-  171|  5.97k|            if (!result) {
+  170|  5.97k|            auto result = scn::scan_value<T>(
+  171|  5.97k|                scn::ranges::subrange{it, scn::ranges::end(source)});
+  172|  5.97k|            if (!result) {
   ------------------
-  |  Branch (171:17): [True: 695, False: 5.28k]
+  |  Branch (172:17): [True: 695, False: 5.28k]
   ------------------
-  172|    695|                break;
-  173|    695|            }
-  174|  5.28k|            it = result->begin();
-  175|  5.28k|        }
-  176|    695|    }
-  177|    695|}
+  173|    695|                break;
+  174|    695|            }
+  175|  5.28k|            it = result->begin();
+  176|  5.28k|        }
+  177|    695|    }
+  178|    695|}
 _ZN3scn4fuzz21do_basic_run_for_typeIcjKNSt3__15dequeIcNS2_9allocatorIcEEEEEEvRT1_RKNS2_6vectorINS2_17basic_string_viewIT_NS2_11char_traitsISC_EEEENS4_ISF_EEEE:
-  132|    695|{
-  133|       |    // Regular scan
-  134|  6.95k|    for (const auto& f : format_strings) {
+  133|    695|{
+  134|       |    // Regular scan
+  135|  6.95k|    for (const auto& f : format_strings) {
   ------------------
-  |  Branch (134:24): [True: 6.95k, False: 695]
+  |  Branch (135:24): [True: 6.95k, False: 695]
   ------------------
-  135|  6.95k|        auto it = scn::ranges::begin(source);
-  136|  32.7k|        while (true) {
+  136|  6.95k|        auto it = scn::ranges::begin(source);
+  137|  32.7k|        while (true) {
   ------------------
-  |  Branch (136:16): [Folded - Ignored]
+  |  Branch (137:16): [Folded - Ignored]
   ------------------
-  137|  32.7k|            SCN_EXPECT(it <= scn::ranges::end(source));
-  ------------------
-  |  |  930|  32.7k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
-  |  |  ------------------
-  |  |  |  |  927|  32.7k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
-  |  |  ------------------
-  ------------------
-  138|  32.7k|            auto result = scn::scan<T>(
-  139|  32.7k|                scn::ranges::subrange{it, scn::ranges::end(source)},
-  140|  32.7k|                scn::runtime_format(f));
-  141|  32.7k|            if (!result) {
-  ------------------
-  |  Branch (141:17): [True: 6.95k, False: 25.8k]
-  ------------------
-  142|  6.95k|                break;
-  143|  6.95k|            }
-  144|  25.8k|            it = result->begin();
-  145|  25.8k|        }
-  146|  6.95k|    }
-  147|       |
-  148|       |    // scan localized
-  149|  6.95k|    for (const auto& f : format_strings) {
-  ------------------
-  |  Branch (149:24): [True: 6.95k, False: 695]
-  ------------------
-  150|  6.95k|        auto it = scn::ranges::begin(source);
-  151|  32.7k|        while (true) {
-  ------------------
-  |  Branch (151:16): [Folded - Ignored]
-  ------------------
-  152|  32.7k|            SCN_EXPECT(it <= scn::ranges::end(source));
+  138|  32.7k|            SCN_EXPECT(it <= scn::ranges::end(source));
   ------------------
   |  |  930|  32.7k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
   |  |  ------------------
   |  |  |  |  927|  32.7k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
   |  |  ------------------
   ------------------
-  153|  32.7k|            auto result = scn::scan<T>(
-  154|  32.7k|                global_locale,
-  155|  32.7k|                scn::ranges::subrange{it, scn::ranges::end(source)},
-  156|  32.7k|                scn::runtime_format(f));
-  157|  32.7k|            if (!result) {
+  139|  32.7k|            auto result = scn::scan<T>(
+  140|  32.7k|                scn::ranges::subrange{it, scn::ranges::end(source)},
+  141|  32.7k|                scn::runtime_format(f));
+  142|  32.7k|            if (!result) {
   ------------------
-  |  Branch (157:17): [True: 6.95k, False: 25.8k]
+  |  Branch (142:17): [True: 6.95k, False: 25.8k]
   ------------------
-  158|  6.95k|                break;
-  159|  6.95k|            }
-  160|  25.8k|            it = result->begin();
-  161|  25.8k|        }
-  162|  6.95k|    }
-  163|       |
-  164|       |    // scan_value
-  165|    695|    {
-  166|    695|        auto it = scn::ranges::begin(source);
-  167|  4.88k|        while (true) {
+  143|  6.95k|                break;
+  144|  6.95k|            }
+  145|  25.8k|            it = result->begin();
+  146|  25.8k|        }
+  147|  6.95k|    }
+  148|       |
+  149|       |    // scan localized
+  150|  6.95k|    for (const auto& f : format_strings) {
   ------------------
-  |  Branch (167:16): [Folded - Ignored]
+  |  Branch (150:24): [True: 6.95k, False: 695]
   ------------------
-  168|  4.88k|            SCN_EXPECT(it <= scn::ranges::end(source));
+  151|  6.95k|        auto it = scn::ranges::begin(source);
+  152|  32.7k|        while (true) {
+  ------------------
+  |  Branch (152:16): [Folded - Ignored]
+  ------------------
+  153|  32.7k|            SCN_EXPECT(it <= scn::ranges::end(source));
+  ------------------
+  |  |  930|  32.7k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
+  |  |  ------------------
+  |  |  |  |  927|  32.7k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
+  |  |  ------------------
+  ------------------
+  154|  32.7k|            auto result = scn::scan<T>(
+  155|  32.7k|                global_locale,
+  156|  32.7k|                scn::ranges::subrange{it, scn::ranges::end(source)},
+  157|  32.7k|                scn::runtime_format(f));
+  158|  32.7k|            if (!result) {
+  ------------------
+  |  Branch (158:17): [True: 6.95k, False: 25.8k]
+  ------------------
+  159|  6.95k|                break;
+  160|  6.95k|            }
+  161|  25.8k|            it = result->begin();
+  162|  25.8k|        }
+  163|  6.95k|    }
+  164|       |
+  165|       |    // scan_value
+  166|    695|    {
+  167|    695|        auto it = scn::ranges::begin(source);
+  168|  4.88k|        while (true) {
+  ------------------
+  |  Branch (168:16): [Folded - Ignored]
+  ------------------
+  169|  4.88k|            SCN_EXPECT(it <= scn::ranges::end(source));
   ------------------
   |  |  930|  4.88k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
   |  |  ------------------
   |  |  |  |  927|  4.88k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
   |  |  ------------------
   ------------------
-  169|  4.88k|            auto result = scn::scan_value<T>(
-  170|  4.88k|                scn::ranges::subrange{it, scn::ranges::end(source)});
-  171|  4.88k|            if (!result) {
+  170|  4.88k|            auto result = scn::scan_value<T>(
+  171|  4.88k|                scn::ranges::subrange{it, scn::ranges::end(source)});
+  172|  4.88k|            if (!result) {
   ------------------
-  |  Branch (171:17): [True: 695, False: 4.18k]
+  |  Branch (172:17): [True: 695, False: 4.18k]
   ------------------
-  172|    695|                break;
-  173|    695|            }
-  174|  4.18k|            it = result->begin();
-  175|  4.18k|        }
-  176|    695|    }
-  177|    695|}
+  173|    695|                break;
+  174|    695|            }
+  175|  4.18k|            it = result->begin();
+  176|  4.18k|        }
+  177|    695|    }
+  178|    695|}
 _ZN3scn4fuzz21do_basic_run_for_typeIcxKNSt3__15dequeIcNS2_9allocatorIcEEEEEEvRT1_RKNS2_6vectorINS2_17basic_string_viewIT_NS2_11char_traitsISC_EEEENS4_ISF_EEEE:
-  132|    695|{
-  133|       |    // Regular scan
-  134|  6.95k|    for (const auto& f : format_strings) {
+  133|    695|{
+  134|       |    // Regular scan
+  135|  6.95k|    for (const auto& f : format_strings) {
   ------------------
-  |  Branch (134:24): [True: 6.95k, False: 695]
+  |  Branch (135:24): [True: 6.95k, False: 695]
   ------------------
-  135|  6.95k|        auto it = scn::ranges::begin(source);
-  136|  40.6k|        while (true) {
+  136|  6.95k|        auto it = scn::ranges::begin(source);
+  137|  40.6k|        while (true) {
   ------------------
-  |  Branch (136:16): [Folded - Ignored]
+  |  Branch (137:16): [Folded - Ignored]
   ------------------
-  137|  40.6k|            SCN_EXPECT(it <= scn::ranges::end(source));
-  ------------------
-  |  |  930|  40.6k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
-  |  |  ------------------
-  |  |  |  |  927|  40.6k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
-  |  |  ------------------
-  ------------------
-  138|  40.6k|            auto result = scn::scan<T>(
-  139|  40.6k|                scn::ranges::subrange{it, scn::ranges::end(source)},
-  140|  40.6k|                scn::runtime_format(f));
-  141|  40.6k|            if (!result) {
-  ------------------
-  |  Branch (141:17): [True: 6.95k, False: 33.7k]
-  ------------------
-  142|  6.95k|                break;
-  143|  6.95k|            }
-  144|  33.7k|            it = result->begin();
-  145|  33.7k|        }
-  146|  6.95k|    }
-  147|       |
-  148|       |    // scan localized
-  149|  6.95k|    for (const auto& f : format_strings) {
-  ------------------
-  |  Branch (149:24): [True: 6.95k, False: 695]
-  ------------------
-  150|  6.95k|        auto it = scn::ranges::begin(source);
-  151|  40.6k|        while (true) {
-  ------------------
-  |  Branch (151:16): [Folded - Ignored]
-  ------------------
-  152|  40.6k|            SCN_EXPECT(it <= scn::ranges::end(source));
+  138|  40.6k|            SCN_EXPECT(it <= scn::ranges::end(source));
   ------------------
   |  |  930|  40.6k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
   |  |  ------------------
   |  |  |  |  927|  40.6k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
   |  |  ------------------
   ------------------
-  153|  40.6k|            auto result = scn::scan<T>(
-  154|  40.6k|                global_locale,
-  155|  40.6k|                scn::ranges::subrange{it, scn::ranges::end(source)},
-  156|  40.6k|                scn::runtime_format(f));
-  157|  40.6k|            if (!result) {
+  139|  40.6k|            auto result = scn::scan<T>(
+  140|  40.6k|                scn::ranges::subrange{it, scn::ranges::end(source)},
+  141|  40.6k|                scn::runtime_format(f));
+  142|  40.6k|            if (!result) {
   ------------------
-  |  Branch (157:17): [True: 6.95k, False: 33.7k]
+  |  Branch (142:17): [True: 6.95k, False: 33.7k]
   ------------------
-  158|  6.95k|                break;
-  159|  6.95k|            }
-  160|  33.7k|            it = result->begin();
-  161|  33.7k|        }
-  162|  6.95k|    }
-  163|       |
-  164|       |    // scan_value
-  165|    695|    {
-  166|    695|        auto it = scn::ranges::begin(source);
-  167|  6.08k|        while (true) {
+  143|  6.95k|                break;
+  144|  6.95k|            }
+  145|  33.7k|            it = result->begin();
+  146|  33.7k|        }
+  147|  6.95k|    }
+  148|       |
+  149|       |    // scan localized
+  150|  6.95k|    for (const auto& f : format_strings) {
   ------------------
-  |  Branch (167:16): [Folded - Ignored]
+  |  Branch (150:24): [True: 6.95k, False: 695]
   ------------------
-  168|  6.08k|            SCN_EXPECT(it <= scn::ranges::end(source));
+  151|  6.95k|        auto it = scn::ranges::begin(source);
+  152|  40.6k|        while (true) {
+  ------------------
+  |  Branch (152:16): [Folded - Ignored]
+  ------------------
+  153|  40.6k|            SCN_EXPECT(it <= scn::ranges::end(source));
+  ------------------
+  |  |  930|  40.6k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
+  |  |  ------------------
+  |  |  |  |  927|  40.6k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
+  |  |  ------------------
+  ------------------
+  154|  40.6k|            auto result = scn::scan<T>(
+  155|  40.6k|                global_locale,
+  156|  40.6k|                scn::ranges::subrange{it, scn::ranges::end(source)},
+  157|  40.6k|                scn::runtime_format(f));
+  158|  40.6k|            if (!result) {
+  ------------------
+  |  Branch (158:17): [True: 6.95k, False: 33.7k]
+  ------------------
+  159|  6.95k|                break;
+  160|  6.95k|            }
+  161|  33.7k|            it = result->begin();
+  162|  33.7k|        }
+  163|  6.95k|    }
+  164|       |
+  165|       |    // scan_value
+  166|    695|    {
+  167|    695|        auto it = scn::ranges::begin(source);
+  168|  6.08k|        while (true) {
+  ------------------
+  |  Branch (168:16): [Folded - Ignored]
+  ------------------
+  169|  6.08k|            SCN_EXPECT(it <= scn::ranges::end(source));
   ------------------
   |  |  930|  6.08k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
   |  |  ------------------
   |  |  |  |  927|  6.08k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
   |  |  ------------------
   ------------------
-  169|  6.08k|            auto result = scn::scan_value<T>(
-  170|  6.08k|                scn::ranges::subrange{it, scn::ranges::end(source)});
-  171|  6.08k|            if (!result) {
+  170|  6.08k|            auto result = scn::scan_value<T>(
+  171|  6.08k|                scn::ranges::subrange{it, scn::ranges::end(source)});
+  172|  6.08k|            if (!result) {
   ------------------
-  |  Branch (171:17): [True: 695, False: 5.38k]
+  |  Branch (172:17): [True: 695, False: 5.38k]
   ------------------
-  172|    695|                break;
-  173|    695|            }
-  174|  5.38k|            it = result->begin();
-  175|  5.38k|        }
-  176|    695|    }
-  177|    695|}
+  173|    695|                break;
+  174|    695|            }
+  175|  5.38k|            it = result->begin();
+  176|  5.38k|        }
+  177|    695|    }
+  178|    695|}
 _ZN3scn4fuzz21do_basic_run_for_typeIcyKNSt3__15dequeIcNS2_9allocatorIcEEEEEEvRT1_RKNS2_6vectorINS2_17basic_string_viewIT_NS2_11char_traitsISC_EEEENS4_ISF_EEEE:
-  132|    695|{
-  133|       |    // Regular scan
-  134|  6.95k|    for (const auto& f : format_strings) {
+  133|    695|{
+  134|       |    // Regular scan
+  135|  6.95k|    for (const auto& f : format_strings) {
   ------------------
-  |  Branch (134:24): [True: 6.95k, False: 695]
+  |  Branch (135:24): [True: 6.95k, False: 695]
   ------------------
-  135|  6.95k|        auto it = scn::ranges::begin(source);
-  136|  33.1k|        while (true) {
+  136|  6.95k|        auto it = scn::ranges::begin(source);
+  137|  33.1k|        while (true) {
   ------------------
-  |  Branch (136:16): [Folded - Ignored]
+  |  Branch (137:16): [Folded - Ignored]
   ------------------
-  137|  33.1k|            SCN_EXPECT(it <= scn::ranges::end(source));
-  ------------------
-  |  |  930|  33.1k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
-  |  |  ------------------
-  |  |  |  |  927|  33.1k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
-  |  |  ------------------
-  ------------------
-  138|  33.1k|            auto result = scn::scan<T>(
-  139|  33.1k|                scn::ranges::subrange{it, scn::ranges::end(source)},
-  140|  33.1k|                scn::runtime_format(f));
-  141|  33.1k|            if (!result) {
-  ------------------
-  |  Branch (141:17): [True: 6.95k, False: 26.1k]
-  ------------------
-  142|  6.95k|                break;
-  143|  6.95k|            }
-  144|  26.1k|            it = result->begin();
-  145|  26.1k|        }
-  146|  6.95k|    }
-  147|       |
-  148|       |    // scan localized
-  149|  6.95k|    for (const auto& f : format_strings) {
-  ------------------
-  |  Branch (149:24): [True: 6.95k, False: 695]
-  ------------------
-  150|  6.95k|        auto it = scn::ranges::begin(source);
-  151|  33.1k|        while (true) {
-  ------------------
-  |  Branch (151:16): [Folded - Ignored]
-  ------------------
-  152|  33.1k|            SCN_EXPECT(it <= scn::ranges::end(source));
+  138|  33.1k|            SCN_EXPECT(it <= scn::ranges::end(source));
   ------------------
   |  |  930|  33.1k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
   |  |  ------------------
   |  |  |  |  927|  33.1k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
   |  |  ------------------
   ------------------
-  153|  33.1k|            auto result = scn::scan<T>(
-  154|  33.1k|                global_locale,
-  155|  33.1k|                scn::ranges::subrange{it, scn::ranges::end(source)},
-  156|  33.1k|                scn::runtime_format(f));
-  157|  33.1k|            if (!result) {
+  139|  33.1k|            auto result = scn::scan<T>(
+  140|  33.1k|                scn::ranges::subrange{it, scn::ranges::end(source)},
+  141|  33.1k|                scn::runtime_format(f));
+  142|  33.1k|            if (!result) {
   ------------------
-  |  Branch (157:17): [True: 6.95k, False: 26.1k]
+  |  Branch (142:17): [True: 6.95k, False: 26.1k]
   ------------------
-  158|  6.95k|                break;
-  159|  6.95k|            }
-  160|  26.1k|            it = result->begin();
-  161|  26.1k|        }
-  162|  6.95k|    }
-  163|       |
-  164|       |    // scan_value
-  165|    695|    {
-  166|    695|        auto it = scn::ranges::begin(source);
-  167|  4.94k|        while (true) {
+  143|  6.95k|                break;
+  144|  6.95k|            }
+  145|  26.1k|            it = result->begin();
+  146|  26.1k|        }
+  147|  6.95k|    }
+  148|       |
+  149|       |    // scan localized
+  150|  6.95k|    for (const auto& f : format_strings) {
   ------------------
-  |  Branch (167:16): [Folded - Ignored]
+  |  Branch (150:24): [True: 6.95k, False: 695]
   ------------------
-  168|  4.94k|            SCN_EXPECT(it <= scn::ranges::end(source));
+  151|  6.95k|        auto it = scn::ranges::begin(source);
+  152|  33.1k|        while (true) {
+  ------------------
+  |  Branch (152:16): [Folded - Ignored]
+  ------------------
+  153|  33.1k|            SCN_EXPECT(it <= scn::ranges::end(source));
+  ------------------
+  |  |  930|  33.1k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
+  |  |  ------------------
+  |  |  |  |  927|  33.1k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
+  |  |  ------------------
+  ------------------
+  154|  33.1k|            auto result = scn::scan<T>(
+  155|  33.1k|                global_locale,
+  156|  33.1k|                scn::ranges::subrange{it, scn::ranges::end(source)},
+  157|  33.1k|                scn::runtime_format(f));
+  158|  33.1k|            if (!result) {
+  ------------------
+  |  Branch (158:17): [True: 6.95k, False: 26.1k]
+  ------------------
+  159|  6.95k|                break;
+  160|  6.95k|            }
+  161|  26.1k|            it = result->begin();
+  162|  26.1k|        }
+  163|  6.95k|    }
+  164|       |
+  165|       |    // scan_value
+  166|    695|    {
+  167|    695|        auto it = scn::ranges::begin(source);
+  168|  4.94k|        while (true) {
+  ------------------
+  |  Branch (168:16): [Folded - Ignored]
+  ------------------
+  169|  4.94k|            SCN_EXPECT(it <= scn::ranges::end(source));
   ------------------
   |  |  930|  4.94k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
   |  |  ------------------
   |  |  |  |  927|  4.94k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
   |  |  ------------------
   ------------------
-  169|  4.94k|            auto result = scn::scan_value<T>(
-  170|  4.94k|                scn::ranges::subrange{it, scn::ranges::end(source)});
-  171|  4.94k|            if (!result) {
+  170|  4.94k|            auto result = scn::scan_value<T>(
+  171|  4.94k|                scn::ranges::subrange{it, scn::ranges::end(source)});
+  172|  4.94k|            if (!result) {
   ------------------
-  |  Branch (171:17): [True: 695, False: 4.24k]
+  |  Branch (172:17): [True: 695, False: 4.24k]
   ------------------
-  172|    695|                break;
-  173|    695|            }
-  174|  4.24k|            it = result->begin();
-  175|  4.24k|        }
-  176|    695|    }
-  177|    695|}
+  173|    695|                break;
+  174|    695|            }
+  175|  4.24k|            it = result->begin();
+  176|  4.24k|        }
+  177|    695|    }
+  178|    695|}
 _ZN3scn4fuzz22populate_noncontiguousINSt3__117basic_string_viewIcNS2_11char_traitsIcEEEEEERKDaRT_:
-   89|    695|{
-   90|    695|    using char_type = ranges::range_value_t<Source>;
-   91|    695|    auto& deque = get_noncontiguous_buffer<char_type>();
-   92|    695|    deque.clear();
-   93|    695|    std::copy(ranges::begin(source), ranges::end(source),
-   94|    695|              std::back_inserter(deque));
-   95|    695|    return deque;
-   96|    695|}
+   90|    695|{
+   91|    695|    using char_type = ranges::range_value_t<Source>;
+   92|    695|    auto& deque = get_noncontiguous_buffer<char_type>();
+   93|    695|    deque.clear();
+   94|    695|    std::copy(ranges::begin(source), ranges::end(source),
+   95|    695|              std::back_inserter(deque));
+   96|    695|    return deque;
+   97|    695|}
 _ZN3scn4fuzz24get_noncontiguous_bufferIcEERDav:
-   78|    695|{
-   79|    695|    if constexpr (std::is_same_v<CharT, char>) {
-   80|    695|        return noncontiguous_buffer;
-   81|       |    }
-   82|       |    else {
-   83|       |        return wnoncontiguous_buffer;
-   84|       |    }
-   85|    695|}
+   79|    695|{
+   80|    695|    if constexpr (std::is_same_v<CharT, char>) {
+   81|    695|        return noncontiguous_buffer;
+   82|       |    }
+   83|       |    else {
+   84|       |        return wnoncontiguous_buffer;
+   85|       |    }
+   86|    695|}
 _ZN3scn4fuzz18get_format_stringsIwJPKwS3_S3_S3_S3_S3_S3_S3_S3_S3_EEERKNSt3__16vectorINS4_17basic_string_viewIT_NS4_11char_traitsIS7_EEEENS4_9allocatorISA_EEEEDpT0_:
-  121|    695|{
-  122|    695|    std::array<const CharT*, sizeof...(Args)> tmp = {{strings...}};
-  123|    695|    auto& buf = get_format_string_view_buffer<CharT>();
-  124|    695|    buf.resize(sizeof...(Args));
-  125|    695|    std::copy(tmp.begin(), tmp.end(), buf.begin());
-  126|    695|    return buf;
-  127|    695|}
+  122|    695|{
+  123|    695|    std::array<const CharT*, sizeof...(Args)> tmp = {{strings...}};
+  124|    695|    auto& buf = get_format_string_view_buffer<CharT>();
+  125|    695|    buf.resize(sizeof...(Args));
+  126|    695|    std::copy(tmp.begin(), tmp.end(), buf.begin());
+  127|    695|    return buf;
+  128|    695|}
 _ZN3scn4fuzz29get_format_string_view_bufferIwEERDav:
-  107|    695|{
-  108|       |    if constexpr (std::is_same_v<CharT, char>) {
-  109|       |        return format_string_view_buffer;
-  110|       |    }
-  111|    695|    else {
-  112|    695|        return wformat_string_view_buffer;
-  113|    695|    }
-  114|    695|}
+  108|    695|{
+  109|       |    if constexpr (std::is_same_v<CharT, char>) {
+  110|       |        return format_string_view_buffer;
+  111|       |    }
+  112|    695|    else {
+  113|    695|        return wformat_string_view_buffer;
+  114|    695|    }
+  115|    695|}
 _ZN3scn4fuzz12do_basic_runIwNSt3__117basic_string_viewIwNS2_11char_traitsIwEEEEEEvT0_RKNS2_6vectorINS3_IT_NS4_IS9_EEEENS2_9allocatorISB_EEEE:
-  184|  1.39k|{
-  185|  1.39k|    do_basic_run_for_source<CharT>(data, format_strings);
-  186|  1.39k|    do_basic_run_for_source<CharT>(populate_noncontiguous(data),
-  187|  1.39k|                                   format_strings);
-  188|  1.39k|}
+  185|  1.39k|{
+  186|  1.39k|    do_basic_run_for_source<CharT>(data, format_strings);
+  187|  1.39k|    do_basic_run_for_source<CharT>(populate_noncontiguous(data),
+  188|  1.39k|                                   format_strings);
+  189|  1.39k|}
 _ZN3scn4fuzz21do_basic_run_for_typeIwaNSt3__117basic_string_viewIwNS2_11char_traitsIwEEEEEEvRT1_RKNS2_6vectorINS3_IT_NS4_ISA_EEEENS2_9allocatorISC_EEEE:
-  132|  1.39k|{
-  133|       |    // Regular scan
-  134|  13.9k|    for (const auto& f : format_strings) {
+  133|  1.39k|{
+  134|       |    // Regular scan
+  135|  13.9k|    for (const auto& f : format_strings) {
   ------------------
-  |  Branch (134:24): [True: 13.9k, False: 1.39k]
+  |  Branch (135:24): [True: 13.9k, False: 1.39k]
   ------------------
-  135|  13.9k|        auto it = scn::ranges::begin(source);
-  136|  14.1k|        while (true) {
+  136|  13.9k|        auto it = scn::ranges::begin(source);
+  137|  14.1k|        while (true) {
   ------------------
-  |  Branch (136:16): [Folded - Ignored]
+  |  Branch (137:16): [Folded - Ignored]
   ------------------
-  137|  14.1k|            SCN_EXPECT(it <= scn::ranges::end(source));
-  ------------------
-  |  |  930|  14.1k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
-  |  |  ------------------
-  |  |  |  |  927|  14.1k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
-  |  |  ------------------
-  ------------------
-  138|  14.1k|            auto result = scn::scan<T>(
-  139|  14.1k|                scn::ranges::subrange{it, scn::ranges::end(source)},
-  140|  14.1k|                scn::runtime_format(f));
-  141|  14.1k|            if (!result) {
-  ------------------
-  |  Branch (141:17): [True: 13.9k, False: 218]
-  ------------------
-  142|  13.9k|                break;
-  143|  13.9k|            }
-  144|    218|            it = result->begin();
-  145|    218|        }
-  146|  13.9k|    }
-  147|       |
-  148|       |    // scan localized
-  149|  13.9k|    for (const auto& f : format_strings) {
-  ------------------
-  |  Branch (149:24): [True: 13.9k, False: 1.39k]
-  ------------------
-  150|  13.9k|        auto it = scn::ranges::begin(source);
-  151|  14.1k|        while (true) {
-  ------------------
-  |  Branch (151:16): [Folded - Ignored]
-  ------------------
-  152|  14.1k|            SCN_EXPECT(it <= scn::ranges::end(source));
+  138|  14.1k|            SCN_EXPECT(it <= scn::ranges::end(source));
   ------------------
   |  |  930|  14.1k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
   |  |  ------------------
   |  |  |  |  927|  14.1k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
   |  |  ------------------
   ------------------
-  153|  14.1k|            auto result = scn::scan<T>(
-  154|  14.1k|                global_locale,
-  155|  14.1k|                scn::ranges::subrange{it, scn::ranges::end(source)},
-  156|  14.1k|                scn::runtime_format(f));
-  157|  14.1k|            if (!result) {
+  139|  14.1k|            auto result = scn::scan<T>(
+  140|  14.1k|                scn::ranges::subrange{it, scn::ranges::end(source)},
+  141|  14.1k|                scn::runtime_format(f));
+  142|  14.1k|            if (!result) {
   ------------------
-  |  Branch (157:17): [True: 13.9k, False: 218]
+  |  Branch (142:17): [True: 13.9k, False: 218]
   ------------------
-  158|  13.9k|                break;
-  159|  13.9k|            }
-  160|    218|            it = result->begin();
-  161|    218|        }
-  162|  13.9k|    }
-  163|       |
-  164|       |    // scan_value
-  165|  1.39k|    {
-  166|  1.39k|        auto it = scn::ranges::begin(source);
-  167|  1.42k|        while (true) {
+  143|  13.9k|                break;
+  144|  13.9k|            }
+  145|    218|            it = result->begin();
+  146|    218|        }
+  147|  13.9k|    }
+  148|       |
+  149|       |    // scan localized
+  150|  13.9k|    for (const auto& f : format_strings) {
   ------------------
-  |  Branch (167:16): [Folded - Ignored]
+  |  Branch (150:24): [True: 13.9k, False: 1.39k]
   ------------------
-  168|  1.42k|            SCN_EXPECT(it <= scn::ranges::end(source));
+  151|  13.9k|        auto it = scn::ranges::begin(source);
+  152|  14.1k|        while (true) {
+  ------------------
+  |  Branch (152:16): [Folded - Ignored]
+  ------------------
+  153|  14.1k|            SCN_EXPECT(it <= scn::ranges::end(source));
+  ------------------
+  |  |  930|  14.1k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
+  |  |  ------------------
+  |  |  |  |  927|  14.1k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
+  |  |  ------------------
+  ------------------
+  154|  14.1k|            auto result = scn::scan<T>(
+  155|  14.1k|                global_locale,
+  156|  14.1k|                scn::ranges::subrange{it, scn::ranges::end(source)},
+  157|  14.1k|                scn::runtime_format(f));
+  158|  14.1k|            if (!result) {
+  ------------------
+  |  Branch (158:17): [True: 13.9k, False: 218]
+  ------------------
+  159|  13.9k|                break;
+  160|  13.9k|            }
+  161|    218|            it = result->begin();
+  162|    218|        }
+  163|  13.9k|    }
+  164|       |
+  165|       |    // scan_value
+  166|  1.39k|    {
+  167|  1.39k|        auto it = scn::ranges::begin(source);
+  168|  1.42k|        while (true) {
+  ------------------
+  |  Branch (168:16): [Folded - Ignored]
+  ------------------
+  169|  1.42k|            SCN_EXPECT(it <= scn::ranges::end(source));
   ------------------
   |  |  930|  1.42k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
   |  |  ------------------
   |  |  |  |  927|  1.42k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
   |  |  ------------------
   ------------------
-  169|  1.42k|            auto result = scn::scan_value<T>(
-  170|  1.42k|                scn::ranges::subrange{it, scn::ranges::end(source)});
-  171|  1.42k|            if (!result) {
+  170|  1.42k|            auto result = scn::scan_value<T>(
+  171|  1.42k|                scn::ranges::subrange{it, scn::ranges::end(source)});
+  172|  1.42k|            if (!result) {
   ------------------
-  |  Branch (171:17): [True: 1.39k, False: 34]
+  |  Branch (172:17): [True: 1.39k, False: 34]
   ------------------
-  172|  1.39k|                break;
-  173|  1.39k|            }
-  174|     34|            it = result->begin();
-  175|     34|        }
-  176|  1.39k|    }
-  177|  1.39k|}
+  173|  1.39k|                break;
+  174|  1.39k|            }
+  175|     34|            it = result->begin();
+  176|     34|        }
+  177|  1.39k|    }
+  178|  1.39k|}
 _ZN3scn4fuzz21do_basic_run_for_typeIwhNSt3__117basic_string_viewIwNS2_11char_traitsIwEEEEEEvRT1_RKNS2_6vectorINS3_IT_NS4_ISA_EEEENS2_9allocatorISC_EEEE:
-  132|  1.39k|{
-  133|       |    // Regular scan
-  134|  13.9k|    for (const auto& f : format_strings) {
+  133|  1.39k|{
+  134|       |    // Regular scan
+  135|  13.9k|    for (const auto& f : format_strings) {
   ------------------
-  |  Branch (134:24): [True: 13.9k, False: 1.39k]
+  |  Branch (135:24): [True: 13.9k, False: 1.39k]
   ------------------
-  135|  13.9k|        auto it = scn::ranges::begin(source);
-  136|  14.0k|        while (true) {
+  136|  13.9k|        auto it = scn::ranges::begin(source);
+  137|  14.0k|        while (true) {
   ------------------
-  |  Branch (136:16): [Folded - Ignored]
+  |  Branch (137:16): [Folded - Ignored]
   ------------------
-  137|  14.0k|            SCN_EXPECT(it <= scn::ranges::end(source));
-  ------------------
-  |  |  930|  14.0k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
-  |  |  ------------------
-  |  |  |  |  927|  14.0k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
-  |  |  ------------------
-  ------------------
-  138|  14.0k|            auto result = scn::scan<T>(
-  139|  14.0k|                scn::ranges::subrange{it, scn::ranges::end(source)},
-  140|  14.0k|                scn::runtime_format(f));
-  141|  14.0k|            if (!result) {
-  ------------------
-  |  Branch (141:17): [True: 13.9k, False: 184]
-  ------------------
-  142|  13.9k|                break;
-  143|  13.9k|            }
-  144|    184|            it = result->begin();
-  145|    184|        }
-  146|  13.9k|    }
-  147|       |
-  148|       |    // scan localized
-  149|  13.9k|    for (const auto& f : format_strings) {
-  ------------------
-  |  Branch (149:24): [True: 13.9k, False: 1.39k]
-  ------------------
-  150|  13.9k|        auto it = scn::ranges::begin(source);
-  151|  14.0k|        while (true) {
-  ------------------
-  |  Branch (151:16): [Folded - Ignored]
-  ------------------
-  152|  14.0k|            SCN_EXPECT(it <= scn::ranges::end(source));
+  138|  14.0k|            SCN_EXPECT(it <= scn::ranges::end(source));
   ------------------
   |  |  930|  14.0k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
   |  |  ------------------
   |  |  |  |  927|  14.0k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
   |  |  ------------------
   ------------------
-  153|  14.0k|            auto result = scn::scan<T>(
-  154|  14.0k|                global_locale,
-  155|  14.0k|                scn::ranges::subrange{it, scn::ranges::end(source)},
-  156|  14.0k|                scn::runtime_format(f));
-  157|  14.0k|            if (!result) {
+  139|  14.0k|            auto result = scn::scan<T>(
+  140|  14.0k|                scn::ranges::subrange{it, scn::ranges::end(source)},
+  141|  14.0k|                scn::runtime_format(f));
+  142|  14.0k|            if (!result) {
   ------------------
-  |  Branch (157:17): [True: 13.9k, False: 184]
+  |  Branch (142:17): [True: 13.9k, False: 184]
   ------------------
-  158|  13.9k|                break;
-  159|  13.9k|            }
-  160|    184|            it = result->begin();
-  161|    184|        }
-  162|  13.9k|    }
-  163|       |
-  164|       |    // scan_value
-  165|  1.39k|    {
-  166|  1.39k|        auto it = scn::ranges::begin(source);
-  167|  1.41k|        while (true) {
+  143|  13.9k|                break;
+  144|  13.9k|            }
+  145|    184|            it = result->begin();
+  146|    184|        }
+  147|  13.9k|    }
+  148|       |
+  149|       |    // scan localized
+  150|  13.9k|    for (const auto& f : format_strings) {
   ------------------
-  |  Branch (167:16): [Folded - Ignored]
+  |  Branch (150:24): [True: 13.9k, False: 1.39k]
   ------------------
-  168|  1.41k|            SCN_EXPECT(it <= scn::ranges::end(source));
+  151|  13.9k|        auto it = scn::ranges::begin(source);
+  152|  14.0k|        while (true) {
+  ------------------
+  |  Branch (152:16): [Folded - Ignored]
+  ------------------
+  153|  14.0k|            SCN_EXPECT(it <= scn::ranges::end(source));
+  ------------------
+  |  |  930|  14.0k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
+  |  |  ------------------
+  |  |  |  |  927|  14.0k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
+  |  |  ------------------
+  ------------------
+  154|  14.0k|            auto result = scn::scan<T>(
+  155|  14.0k|                global_locale,
+  156|  14.0k|                scn::ranges::subrange{it, scn::ranges::end(source)},
+  157|  14.0k|                scn::runtime_format(f));
+  158|  14.0k|            if (!result) {
+  ------------------
+  |  Branch (158:17): [True: 13.9k, False: 184]
+  ------------------
+  159|  13.9k|                break;
+  160|  13.9k|            }
+  161|    184|            it = result->begin();
+  162|    184|        }
+  163|  13.9k|    }
+  164|       |
+  165|       |    // scan_value
+  166|  1.39k|    {
+  167|  1.39k|        auto it = scn::ranges::begin(source);
+  168|  1.41k|        while (true) {
+  ------------------
+  |  Branch (168:16): [Folded - Ignored]
+  ------------------
+  169|  1.41k|            SCN_EXPECT(it <= scn::ranges::end(source));
   ------------------
   |  |  930|  1.41k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
   |  |  ------------------
   |  |  |  |  927|  1.41k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
   |  |  ------------------
   ------------------
-  169|  1.41k|            auto result = scn::scan_value<T>(
-  170|  1.41k|                scn::ranges::subrange{it, scn::ranges::end(source)});
-  171|  1.41k|            if (!result) {
+  170|  1.41k|            auto result = scn::scan_value<T>(
+  171|  1.41k|                scn::ranges::subrange{it, scn::ranges::end(source)});
+  172|  1.41k|            if (!result) {
   ------------------
-  |  Branch (171:17): [True: 1.39k, False: 27]
+  |  Branch (172:17): [True: 1.39k, False: 27]
   ------------------
-  172|  1.39k|                break;
-  173|  1.39k|            }
-  174|     27|            it = result->begin();
-  175|     27|        }
-  176|  1.39k|    }
-  177|  1.39k|}
+  173|  1.39k|                break;
+  174|  1.39k|            }
+  175|     27|            it = result->begin();
+  176|     27|        }
+  177|  1.39k|    }
+  178|  1.39k|}
 _ZN3scn4fuzz21do_basic_run_for_typeIwiNSt3__117basic_string_viewIwNS2_11char_traitsIwEEEEEEvRT1_RKNS2_6vectorINS3_IT_NS4_ISA_EEEENS2_9allocatorISC_EEEE:
-  132|  1.39k|{
-  133|       |    // Regular scan
-  134|  13.9k|    for (const auto& f : format_strings) {
+  133|  1.39k|{
+  134|       |    // Regular scan
+  135|  13.9k|    for (const auto& f : format_strings) {
   ------------------
-  |  Branch (134:24): [True: 13.9k, False: 1.39k]
+  |  Branch (135:24): [True: 13.9k, False: 1.39k]
   ------------------
-  135|  13.9k|        auto it = scn::ranges::begin(source);
-  136|  14.1k|        while (true) {
+  136|  13.9k|        auto it = scn::ranges::begin(source);
+  137|  14.1k|        while (true) {
   ------------------
-  |  Branch (136:16): [Folded - Ignored]
+  |  Branch (137:16): [Folded - Ignored]
   ------------------
-  137|  14.1k|            SCN_EXPECT(it <= scn::ranges::end(source));
-  ------------------
-  |  |  930|  14.1k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
-  |  |  ------------------
-  |  |  |  |  927|  14.1k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
-  |  |  ------------------
-  ------------------
-  138|  14.1k|            auto result = scn::scan<T>(
-  139|  14.1k|                scn::ranges::subrange{it, scn::ranges::end(source)},
-  140|  14.1k|                scn::runtime_format(f));
-  141|  14.1k|            if (!result) {
-  ------------------
-  |  Branch (141:17): [True: 13.9k, False: 271]
-  ------------------
-  142|  13.9k|                break;
-  143|  13.9k|            }
-  144|    271|            it = result->begin();
-  145|    271|        }
-  146|  13.9k|    }
-  147|       |
-  148|       |    // scan localized
-  149|  13.9k|    for (const auto& f : format_strings) {
-  ------------------
-  |  Branch (149:24): [True: 13.9k, False: 1.39k]
-  ------------------
-  150|  13.9k|        auto it = scn::ranges::begin(source);
-  151|  14.1k|        while (true) {
-  ------------------
-  |  Branch (151:16): [Folded - Ignored]
-  ------------------
-  152|  14.1k|            SCN_EXPECT(it <= scn::ranges::end(source));
+  138|  14.1k|            SCN_EXPECT(it <= scn::ranges::end(source));
   ------------------
   |  |  930|  14.1k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
   |  |  ------------------
   |  |  |  |  927|  14.1k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
   |  |  ------------------
   ------------------
-  153|  14.1k|            auto result = scn::scan<T>(
-  154|  14.1k|                global_locale,
-  155|  14.1k|                scn::ranges::subrange{it, scn::ranges::end(source)},
-  156|  14.1k|                scn::runtime_format(f));
-  157|  14.1k|            if (!result) {
+  139|  14.1k|            auto result = scn::scan<T>(
+  140|  14.1k|                scn::ranges::subrange{it, scn::ranges::end(source)},
+  141|  14.1k|                scn::runtime_format(f));
+  142|  14.1k|            if (!result) {
   ------------------
-  |  Branch (157:17): [True: 13.9k, False: 271]
+  |  Branch (142:17): [True: 13.9k, False: 271]
   ------------------
-  158|  13.9k|                break;
-  159|  13.9k|            }
-  160|    271|            it = result->begin();
-  161|    271|        }
-  162|  13.9k|    }
-  163|       |
-  164|       |    // scan_value
-  165|  1.39k|    {
-  166|  1.39k|        auto it = scn::ranges::begin(source);
-  167|  1.43k|        while (true) {
+  143|  13.9k|                break;
+  144|  13.9k|            }
+  145|    271|            it = result->begin();
+  146|    271|        }
+  147|  13.9k|    }
+  148|       |
+  149|       |    // scan localized
+  150|  13.9k|    for (const auto& f : format_strings) {
   ------------------
-  |  Branch (167:16): [Folded - Ignored]
+  |  Branch (150:24): [True: 13.9k, False: 1.39k]
   ------------------
-  168|  1.43k|            SCN_EXPECT(it <= scn::ranges::end(source));
+  151|  13.9k|        auto it = scn::ranges::begin(source);
+  152|  14.1k|        while (true) {
+  ------------------
+  |  Branch (152:16): [Folded - Ignored]
+  ------------------
+  153|  14.1k|            SCN_EXPECT(it <= scn::ranges::end(source));
+  ------------------
+  |  |  930|  14.1k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
+  |  |  ------------------
+  |  |  |  |  927|  14.1k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
+  |  |  ------------------
+  ------------------
+  154|  14.1k|            auto result = scn::scan<T>(
+  155|  14.1k|                global_locale,
+  156|  14.1k|                scn::ranges::subrange{it, scn::ranges::end(source)},
+  157|  14.1k|                scn::runtime_format(f));
+  158|  14.1k|            if (!result) {
+  ------------------
+  |  Branch (158:17): [True: 13.9k, False: 271]
+  ------------------
+  159|  13.9k|                break;
+  160|  13.9k|            }
+  161|    271|            it = result->begin();
+  162|    271|        }
+  163|  13.9k|    }
+  164|       |
+  165|       |    // scan_value
+  166|  1.39k|    {
+  167|  1.39k|        auto it = scn::ranges::begin(source);
+  168|  1.43k|        while (true) {
+  ------------------
+  |  Branch (168:16): [Folded - Ignored]
+  ------------------
+  169|  1.43k|            SCN_EXPECT(it <= scn::ranges::end(source));
   ------------------
   |  |  930|  1.43k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
   |  |  ------------------
   |  |  |  |  927|  1.43k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
   |  |  ------------------
   ------------------
-  169|  1.43k|            auto result = scn::scan_value<T>(
-  170|  1.43k|                scn::ranges::subrange{it, scn::ranges::end(source)});
-  171|  1.43k|            if (!result) {
+  170|  1.43k|            auto result = scn::scan_value<T>(
+  171|  1.43k|                scn::ranges::subrange{it, scn::ranges::end(source)});
+  172|  1.43k|            if (!result) {
   ------------------
-  |  Branch (171:17): [True: 1.39k, False: 44]
+  |  Branch (172:17): [True: 1.39k, False: 44]
   ------------------
-  172|  1.39k|                break;
-  173|  1.39k|            }
-  174|     44|            it = result->begin();
-  175|     44|        }
-  176|  1.39k|    }
-  177|  1.39k|}
+  173|  1.39k|                break;
+  174|  1.39k|            }
+  175|     44|            it = result->begin();
+  176|     44|        }
+  177|  1.39k|    }
+  178|  1.39k|}
 _ZN3scn4fuzz21do_basic_run_for_typeIwjNSt3__117basic_string_viewIwNS2_11char_traitsIwEEEEEEvRT1_RKNS2_6vectorINS3_IT_NS4_ISA_EEEENS2_9allocatorISC_EEEE:
-  132|  1.39k|{
-  133|       |    // Regular scan
-  134|  13.9k|    for (const auto& f : format_strings) {
+  133|  1.39k|{
+  134|       |    // Regular scan
+  135|  13.9k|    for (const auto& f : format_strings) {
   ------------------
-  |  Branch (134:24): [True: 13.9k, False: 1.39k]
+  |  Branch (135:24): [True: 13.9k, False: 1.39k]
   ------------------
-  135|  13.9k|        auto it = scn::ranges::begin(source);
-  136|  14.1k|        while (true) {
+  136|  13.9k|        auto it = scn::ranges::begin(source);
+  137|  14.1k|        while (true) {
   ------------------
-  |  Branch (136:16): [Folded - Ignored]
+  |  Branch (137:16): [Folded - Ignored]
   ------------------
-  137|  14.1k|            SCN_EXPECT(it <= scn::ranges::end(source));
-  ------------------
-  |  |  930|  14.1k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
-  |  |  ------------------
-  |  |  |  |  927|  14.1k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
-  |  |  ------------------
-  ------------------
-  138|  14.1k|            auto result = scn::scan<T>(
-  139|  14.1k|                scn::ranges::subrange{it, scn::ranges::end(source)},
-  140|  14.1k|                scn::runtime_format(f));
-  141|  14.1k|            if (!result) {
-  ------------------
-  |  Branch (141:17): [True: 13.9k, False: 213]
-  ------------------
-  142|  13.9k|                break;
-  143|  13.9k|            }
-  144|    213|            it = result->begin();
-  145|    213|        }
-  146|  13.9k|    }
-  147|       |
-  148|       |    // scan localized
-  149|  13.9k|    for (const auto& f : format_strings) {
-  ------------------
-  |  Branch (149:24): [True: 13.9k, False: 1.39k]
-  ------------------
-  150|  13.9k|        auto it = scn::ranges::begin(source);
-  151|  14.1k|        while (true) {
-  ------------------
-  |  Branch (151:16): [Folded - Ignored]
-  ------------------
-  152|  14.1k|            SCN_EXPECT(it <= scn::ranges::end(source));
+  138|  14.1k|            SCN_EXPECT(it <= scn::ranges::end(source));
   ------------------
   |  |  930|  14.1k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
   |  |  ------------------
   |  |  |  |  927|  14.1k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
   |  |  ------------------
   ------------------
-  153|  14.1k|            auto result = scn::scan<T>(
-  154|  14.1k|                global_locale,
-  155|  14.1k|                scn::ranges::subrange{it, scn::ranges::end(source)},
-  156|  14.1k|                scn::runtime_format(f));
-  157|  14.1k|            if (!result) {
+  139|  14.1k|            auto result = scn::scan<T>(
+  140|  14.1k|                scn::ranges::subrange{it, scn::ranges::end(source)},
+  141|  14.1k|                scn::runtime_format(f));
+  142|  14.1k|            if (!result) {
   ------------------
-  |  Branch (157:17): [True: 13.9k, False: 213]
+  |  Branch (142:17): [True: 13.9k, False: 213]
   ------------------
-  158|  13.9k|                break;
-  159|  13.9k|            }
-  160|    213|            it = result->begin();
-  161|    213|        }
-  162|  13.9k|    }
-  163|       |
-  164|       |    // scan_value
-  165|  1.39k|    {
-  166|  1.39k|        auto it = scn::ranges::begin(source);
-  167|  1.42k|        while (true) {
+  143|  13.9k|                break;
+  144|  13.9k|            }
+  145|    213|            it = result->begin();
+  146|    213|        }
+  147|  13.9k|    }
+  148|       |
+  149|       |    // scan localized
+  150|  13.9k|    for (const auto& f : format_strings) {
   ------------------
-  |  Branch (167:16): [Folded - Ignored]
+  |  Branch (150:24): [True: 13.9k, False: 1.39k]
   ------------------
-  168|  1.42k|            SCN_EXPECT(it <= scn::ranges::end(source));
+  151|  13.9k|        auto it = scn::ranges::begin(source);
+  152|  14.1k|        while (true) {
+  ------------------
+  |  Branch (152:16): [Folded - Ignored]
+  ------------------
+  153|  14.1k|            SCN_EXPECT(it <= scn::ranges::end(source));
+  ------------------
+  |  |  930|  14.1k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
+  |  |  ------------------
+  |  |  |  |  927|  14.1k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
+  |  |  ------------------
+  ------------------
+  154|  14.1k|            auto result = scn::scan<T>(
+  155|  14.1k|                global_locale,
+  156|  14.1k|                scn::ranges::subrange{it, scn::ranges::end(source)},
+  157|  14.1k|                scn::runtime_format(f));
+  158|  14.1k|            if (!result) {
+  ------------------
+  |  Branch (158:17): [True: 13.9k, False: 213]
+  ------------------
+  159|  13.9k|                break;
+  160|  13.9k|            }
+  161|    213|            it = result->begin();
+  162|    213|        }
+  163|  13.9k|    }
+  164|       |
+  165|       |    // scan_value
+  166|  1.39k|    {
+  167|  1.39k|        auto it = scn::ranges::begin(source);
+  168|  1.42k|        while (true) {
+  ------------------
+  |  Branch (168:16): [Folded - Ignored]
+  ------------------
+  169|  1.42k|            SCN_EXPECT(it <= scn::ranges::end(source));
   ------------------
   |  |  930|  1.42k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
   |  |  ------------------
   |  |  |  |  927|  1.42k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
   |  |  ------------------
   ------------------
-  169|  1.42k|            auto result = scn::scan_value<T>(
-  170|  1.42k|                scn::ranges::subrange{it, scn::ranges::end(source)});
-  171|  1.42k|            if (!result) {
+  170|  1.42k|            auto result = scn::scan_value<T>(
+  171|  1.42k|                scn::ranges::subrange{it, scn::ranges::end(source)});
+  172|  1.42k|            if (!result) {
   ------------------
-  |  Branch (171:17): [True: 1.39k, False: 33]
+  |  Branch (172:17): [True: 1.39k, False: 33]
   ------------------
-  172|  1.39k|                break;
-  173|  1.39k|            }
-  174|     33|            it = result->begin();
-  175|     33|        }
-  176|  1.39k|    }
-  177|  1.39k|}
+  173|  1.39k|                break;
+  174|  1.39k|            }
+  175|     33|            it = result->begin();
+  176|     33|        }
+  177|  1.39k|    }
+  178|  1.39k|}
 _ZN3scn4fuzz21do_basic_run_for_typeIwxNSt3__117basic_string_viewIwNS2_11char_traitsIwEEEEEEvRT1_RKNS2_6vectorINS3_IT_NS4_ISA_EEEENS2_9allocatorISC_EEEE:
-  132|  1.39k|{
-  133|       |    // Regular scan
-  134|  13.9k|    for (const auto& f : format_strings) {
+  133|  1.39k|{
+  134|       |    // Regular scan
+  135|  13.9k|    for (const auto& f : format_strings) {
   ------------------
-  |  Branch (134:24): [True: 13.9k, False: 1.39k]
+  |  Branch (135:24): [True: 13.9k, False: 1.39k]
   ------------------
-  135|  13.9k|        auto it = scn::ranges::begin(source);
-  136|  14.2k|        while (true) {
+  136|  13.9k|        auto it = scn::ranges::begin(source);
+  137|  14.2k|        while (true) {
   ------------------
-  |  Branch (136:16): [Folded - Ignored]
+  |  Branch (137:16): [Folded - Ignored]
   ------------------
-  137|  14.2k|            SCN_EXPECT(it <= scn::ranges::end(source));
-  ------------------
-  |  |  930|  14.2k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
-  |  |  ------------------
-  |  |  |  |  927|  14.2k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
-  |  |  ------------------
-  ------------------
-  138|  14.2k|            auto result = scn::scan<T>(
-  139|  14.2k|                scn::ranges::subrange{it, scn::ranges::end(source)},
-  140|  14.2k|                scn::runtime_format(f));
-  141|  14.2k|            if (!result) {
-  ------------------
-  |  Branch (141:17): [True: 13.9k, False: 324]
-  ------------------
-  142|  13.9k|                break;
-  143|  13.9k|            }
-  144|    324|            it = result->begin();
-  145|    324|        }
-  146|  13.9k|    }
-  147|       |
-  148|       |    // scan localized
-  149|  13.9k|    for (const auto& f : format_strings) {
-  ------------------
-  |  Branch (149:24): [True: 13.9k, False: 1.39k]
-  ------------------
-  150|  13.9k|        auto it = scn::ranges::begin(source);
-  151|  14.2k|        while (true) {
-  ------------------
-  |  Branch (151:16): [Folded - Ignored]
-  ------------------
-  152|  14.2k|            SCN_EXPECT(it <= scn::ranges::end(source));
+  138|  14.2k|            SCN_EXPECT(it <= scn::ranges::end(source));
   ------------------
   |  |  930|  14.2k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
   |  |  ------------------
   |  |  |  |  927|  14.2k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
   |  |  ------------------
   ------------------
-  153|  14.2k|            auto result = scn::scan<T>(
-  154|  14.2k|                global_locale,
-  155|  14.2k|                scn::ranges::subrange{it, scn::ranges::end(source)},
-  156|  14.2k|                scn::runtime_format(f));
-  157|  14.2k|            if (!result) {
+  139|  14.2k|            auto result = scn::scan<T>(
+  140|  14.2k|                scn::ranges::subrange{it, scn::ranges::end(source)},
+  141|  14.2k|                scn::runtime_format(f));
+  142|  14.2k|            if (!result) {
   ------------------
-  |  Branch (157:17): [True: 13.9k, False: 324]
+  |  Branch (142:17): [True: 13.9k, False: 324]
   ------------------
-  158|  13.9k|                break;
-  159|  13.9k|            }
-  160|    324|            it = result->begin();
-  161|    324|        }
-  162|  13.9k|    }
-  163|       |
-  164|       |    // scan_value
-  165|  1.39k|    {
-  166|  1.39k|        auto it = scn::ranges::begin(source);
-  167|  1.44k|        while (true) {
+  143|  13.9k|                break;
+  144|  13.9k|            }
+  145|    324|            it = result->begin();
+  146|    324|        }
+  147|  13.9k|    }
+  148|       |
+  149|       |    // scan localized
+  150|  13.9k|    for (const auto& f : format_strings) {
   ------------------
-  |  Branch (167:16): [Folded - Ignored]
+  |  Branch (150:24): [True: 13.9k, False: 1.39k]
   ------------------
-  168|  1.44k|            SCN_EXPECT(it <= scn::ranges::end(source));
+  151|  13.9k|        auto it = scn::ranges::begin(source);
+  152|  14.2k|        while (true) {
+  ------------------
+  |  Branch (152:16): [Folded - Ignored]
+  ------------------
+  153|  14.2k|            SCN_EXPECT(it <= scn::ranges::end(source));
+  ------------------
+  |  |  930|  14.2k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
+  |  |  ------------------
+  |  |  |  |  927|  14.2k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
+  |  |  ------------------
+  ------------------
+  154|  14.2k|            auto result = scn::scan<T>(
+  155|  14.2k|                global_locale,
+  156|  14.2k|                scn::ranges::subrange{it, scn::ranges::end(source)},
+  157|  14.2k|                scn::runtime_format(f));
+  158|  14.2k|            if (!result) {
+  ------------------
+  |  Branch (158:17): [True: 13.9k, False: 324]
+  ------------------
+  159|  13.9k|                break;
+  160|  13.9k|            }
+  161|    324|            it = result->begin();
+  162|    324|        }
+  163|  13.9k|    }
+  164|       |
+  165|       |    // scan_value
+  166|  1.39k|    {
+  167|  1.39k|        auto it = scn::ranges::begin(source);
+  168|  1.44k|        while (true) {
+  ------------------
+  |  Branch (168:16): [Folded - Ignored]
+  ------------------
+  169|  1.44k|            SCN_EXPECT(it <= scn::ranges::end(source));
   ------------------
   |  |  930|  1.44k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
   |  |  ------------------
   |  |  |  |  927|  1.44k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
   |  |  ------------------
   ------------------
-  169|  1.44k|            auto result = scn::scan_value<T>(
-  170|  1.44k|                scn::ranges::subrange{it, scn::ranges::end(source)});
-  171|  1.44k|            if (!result) {
+  170|  1.44k|            auto result = scn::scan_value<T>(
+  171|  1.44k|                scn::ranges::subrange{it, scn::ranges::end(source)});
+  172|  1.44k|            if (!result) {
   ------------------
-  |  Branch (171:17): [True: 1.39k, False: 55]
+  |  Branch (172:17): [True: 1.39k, False: 55]
   ------------------
-  172|  1.39k|                break;
-  173|  1.39k|            }
-  174|     55|            it = result->begin();
-  175|     55|        }
-  176|  1.39k|    }
-  177|  1.39k|}
+  173|  1.39k|                break;
+  174|  1.39k|            }
+  175|     55|            it = result->begin();
+  176|     55|        }
+  177|  1.39k|    }
+  178|  1.39k|}
 _ZN3scn4fuzz21do_basic_run_for_typeIwyNSt3__117basic_string_viewIwNS2_11char_traitsIwEEEEEEvRT1_RKNS2_6vectorINS3_IT_NS4_ISA_EEEENS2_9allocatorISC_EEEE:
-  132|  1.39k|{
-  133|       |    // Regular scan
-  134|  13.9k|    for (const auto& f : format_strings) {
+  133|  1.39k|{
+  134|       |    // Regular scan
+  135|  13.9k|    for (const auto& f : format_strings) {
   ------------------
-  |  Branch (134:24): [True: 13.9k, False: 1.39k]
+  |  Branch (135:24): [True: 13.9k, False: 1.39k]
   ------------------
-  135|  13.9k|        auto it = scn::ranges::begin(source);
-  136|  14.1k|        while (true) {
+  136|  13.9k|        auto it = scn::ranges::begin(source);
+  137|  14.1k|        while (true) {
   ------------------
-  |  Branch (136:16): [Folded - Ignored]
+  |  Branch (137:16): [Folded - Ignored]
   ------------------
-  137|  14.1k|            SCN_EXPECT(it <= scn::ranges::end(source));
-  ------------------
-  |  |  930|  14.1k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
-  |  |  ------------------
-  |  |  |  |  927|  14.1k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
-  |  |  ------------------
-  ------------------
-  138|  14.1k|            auto result = scn::scan<T>(
-  139|  14.1k|                scn::ranges::subrange{it, scn::ranges::end(source)},
-  140|  14.1k|                scn::runtime_format(f));
-  141|  14.1k|            if (!result) {
-  ------------------
-  |  Branch (141:17): [True: 13.9k, False: 254]
-  ------------------
-  142|  13.9k|                break;
-  143|  13.9k|            }
-  144|    254|            it = result->begin();
-  145|    254|        }
-  146|  13.9k|    }
-  147|       |
-  148|       |    // scan localized
-  149|  13.9k|    for (const auto& f : format_strings) {
-  ------------------
-  |  Branch (149:24): [True: 13.9k, False: 1.39k]
-  ------------------
-  150|  13.9k|        auto it = scn::ranges::begin(source);
-  151|  14.1k|        while (true) {
-  ------------------
-  |  Branch (151:16): [Folded - Ignored]
-  ------------------
-  152|  14.1k|            SCN_EXPECT(it <= scn::ranges::end(source));
+  138|  14.1k|            SCN_EXPECT(it <= scn::ranges::end(source));
   ------------------
   |  |  930|  14.1k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
   |  |  ------------------
   |  |  |  |  927|  14.1k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
   |  |  ------------------
   ------------------
-  153|  14.1k|            auto result = scn::scan<T>(
-  154|  14.1k|                global_locale,
-  155|  14.1k|                scn::ranges::subrange{it, scn::ranges::end(source)},
-  156|  14.1k|                scn::runtime_format(f));
-  157|  14.1k|            if (!result) {
+  139|  14.1k|            auto result = scn::scan<T>(
+  140|  14.1k|                scn::ranges::subrange{it, scn::ranges::end(source)},
+  141|  14.1k|                scn::runtime_format(f));
+  142|  14.1k|            if (!result) {
   ------------------
-  |  Branch (157:17): [True: 13.9k, False: 254]
+  |  Branch (142:17): [True: 13.9k, False: 254]
   ------------------
-  158|  13.9k|                break;
-  159|  13.9k|            }
-  160|    254|            it = result->begin();
-  161|    254|        }
-  162|  13.9k|    }
-  163|       |
-  164|       |    // scan_value
-  165|  1.39k|    {
-  166|  1.39k|        auto it = scn::ranges::begin(source);
-  167|  1.43k|        while (true) {
+  143|  13.9k|                break;
+  144|  13.9k|            }
+  145|    254|            it = result->begin();
+  146|    254|        }
+  147|  13.9k|    }
+  148|       |
+  149|       |    // scan localized
+  150|  13.9k|    for (const auto& f : format_strings) {
   ------------------
-  |  Branch (167:16): [Folded - Ignored]
+  |  Branch (150:24): [True: 13.9k, False: 1.39k]
   ------------------
-  168|  1.43k|            SCN_EXPECT(it <= scn::ranges::end(source));
+  151|  13.9k|        auto it = scn::ranges::begin(source);
+  152|  14.1k|        while (true) {
+  ------------------
+  |  Branch (152:16): [Folded - Ignored]
+  ------------------
+  153|  14.1k|            SCN_EXPECT(it <= scn::ranges::end(source));
+  ------------------
+  |  |  930|  14.1k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
+  |  |  ------------------
+  |  |  |  |  927|  14.1k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
+  |  |  ------------------
+  ------------------
+  154|  14.1k|            auto result = scn::scan<T>(
+  155|  14.1k|                global_locale,
+  156|  14.1k|                scn::ranges::subrange{it, scn::ranges::end(source)},
+  157|  14.1k|                scn::runtime_format(f));
+  158|  14.1k|            if (!result) {
+  ------------------
+  |  Branch (158:17): [True: 13.9k, False: 254]
+  ------------------
+  159|  13.9k|                break;
+  160|  13.9k|            }
+  161|    254|            it = result->begin();
+  162|    254|        }
+  163|  13.9k|    }
+  164|       |
+  165|       |    // scan_value
+  166|  1.39k|    {
+  167|  1.39k|        auto it = scn::ranges::begin(source);
+  168|  1.43k|        while (true) {
+  ------------------
+  |  Branch (168:16): [Folded - Ignored]
+  ------------------
+  169|  1.43k|            SCN_EXPECT(it <= scn::ranges::end(source));
   ------------------
   |  |  930|  1.43k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
   |  |  ------------------
   |  |  |  |  927|  1.43k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
   |  |  ------------------
   ------------------
-  169|  1.43k|            auto result = scn::scan_value<T>(
-  170|  1.43k|                scn::ranges::subrange{it, scn::ranges::end(source)});
-  171|  1.43k|            if (!result) {
+  170|  1.43k|            auto result = scn::scan_value<T>(
+  171|  1.43k|                scn::ranges::subrange{it, scn::ranges::end(source)});
+  172|  1.43k|            if (!result) {
   ------------------
-  |  Branch (171:17): [True: 1.39k, False: 41]
+  |  Branch (172:17): [True: 1.39k, False: 41]
   ------------------
-  172|  1.39k|                break;
-  173|  1.39k|            }
-  174|     41|            it = result->begin();
-  175|     41|        }
-  176|  1.39k|    }
-  177|  1.39k|}
+  173|  1.39k|                break;
+  174|  1.39k|            }
+  175|     41|            it = result->begin();
+  176|     41|        }
+  177|  1.39k|    }
+  178|  1.39k|}
 _ZN3scn4fuzz21do_basic_run_for_typeIwaKNSt3__15dequeIwNS2_9allocatorIwEEEEEEvRT1_RKNS2_6vectorINS2_17basic_string_viewIT_NS2_11char_traitsISC_EEEENS4_ISF_EEEE:
-  132|  1.39k|{
-  133|       |    // Regular scan
-  134|  13.9k|    for (const auto& f : format_strings) {
+  133|  1.39k|{
+  134|       |    // Regular scan
+  135|  13.9k|    for (const auto& f : format_strings) {
   ------------------
-  |  Branch (134:24): [True: 13.9k, False: 1.39k]
+  |  Branch (135:24): [True: 13.9k, False: 1.39k]
   ------------------
-  135|  13.9k|        auto it = scn::ranges::begin(source);
-  136|  14.1k|        while (true) {
+  136|  13.9k|        auto it = scn::ranges::begin(source);
+  137|  14.1k|        while (true) {
   ------------------
-  |  Branch (136:16): [Folded - Ignored]
+  |  Branch (137:16): [Folded - Ignored]
   ------------------
-  137|  14.1k|            SCN_EXPECT(it <= scn::ranges::end(source));
-  ------------------
-  |  |  930|  14.1k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
-  |  |  ------------------
-  |  |  |  |  927|  14.1k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
-  |  |  ------------------
-  ------------------
-  138|  14.1k|            auto result = scn::scan<T>(
-  139|  14.1k|                scn::ranges::subrange{it, scn::ranges::end(source)},
-  140|  14.1k|                scn::runtime_format(f));
-  141|  14.1k|            if (!result) {
-  ------------------
-  |  Branch (141:17): [True: 13.9k, False: 218]
-  ------------------
-  142|  13.9k|                break;
-  143|  13.9k|            }
-  144|    218|            it = result->begin();
-  145|    218|        }
-  146|  13.9k|    }
-  147|       |
-  148|       |    // scan localized
-  149|  13.9k|    for (const auto& f : format_strings) {
-  ------------------
-  |  Branch (149:24): [True: 13.9k, False: 1.39k]
-  ------------------
-  150|  13.9k|        auto it = scn::ranges::begin(source);
-  151|  14.1k|        while (true) {
-  ------------------
-  |  Branch (151:16): [Folded - Ignored]
-  ------------------
-  152|  14.1k|            SCN_EXPECT(it <= scn::ranges::end(source));
+  138|  14.1k|            SCN_EXPECT(it <= scn::ranges::end(source));
   ------------------
   |  |  930|  14.1k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
   |  |  ------------------
   |  |  |  |  927|  14.1k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
   |  |  ------------------
   ------------------
-  153|  14.1k|            auto result = scn::scan<T>(
-  154|  14.1k|                global_locale,
-  155|  14.1k|                scn::ranges::subrange{it, scn::ranges::end(source)},
-  156|  14.1k|                scn::runtime_format(f));
-  157|  14.1k|            if (!result) {
+  139|  14.1k|            auto result = scn::scan<T>(
+  140|  14.1k|                scn::ranges::subrange{it, scn::ranges::end(source)},
+  141|  14.1k|                scn::runtime_format(f));
+  142|  14.1k|            if (!result) {
   ------------------
-  |  Branch (157:17): [True: 13.9k, False: 218]
+  |  Branch (142:17): [True: 13.9k, False: 218]
   ------------------
-  158|  13.9k|                break;
-  159|  13.9k|            }
-  160|    218|            it = result->begin();
-  161|    218|        }
-  162|  13.9k|    }
-  163|       |
-  164|       |    // scan_value
-  165|  1.39k|    {
-  166|  1.39k|        auto it = scn::ranges::begin(source);
-  167|  1.42k|        while (true) {
+  143|  13.9k|                break;
+  144|  13.9k|            }
+  145|    218|            it = result->begin();
+  146|    218|        }
+  147|  13.9k|    }
+  148|       |
+  149|       |    // scan localized
+  150|  13.9k|    for (const auto& f : format_strings) {
   ------------------
-  |  Branch (167:16): [Folded - Ignored]
+  |  Branch (150:24): [True: 13.9k, False: 1.39k]
   ------------------
-  168|  1.42k|            SCN_EXPECT(it <= scn::ranges::end(source));
+  151|  13.9k|        auto it = scn::ranges::begin(source);
+  152|  14.1k|        while (true) {
+  ------------------
+  |  Branch (152:16): [Folded - Ignored]
+  ------------------
+  153|  14.1k|            SCN_EXPECT(it <= scn::ranges::end(source));
+  ------------------
+  |  |  930|  14.1k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
+  |  |  ------------------
+  |  |  |  |  927|  14.1k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
+  |  |  ------------------
+  ------------------
+  154|  14.1k|            auto result = scn::scan<T>(
+  155|  14.1k|                global_locale,
+  156|  14.1k|                scn::ranges::subrange{it, scn::ranges::end(source)},
+  157|  14.1k|                scn::runtime_format(f));
+  158|  14.1k|            if (!result) {
+  ------------------
+  |  Branch (158:17): [True: 13.9k, False: 218]
+  ------------------
+  159|  13.9k|                break;
+  160|  13.9k|            }
+  161|    218|            it = result->begin();
+  162|    218|        }
+  163|  13.9k|    }
+  164|       |
+  165|       |    // scan_value
+  166|  1.39k|    {
+  167|  1.39k|        auto it = scn::ranges::begin(source);
+  168|  1.42k|        while (true) {
+  ------------------
+  |  Branch (168:16): [Folded - Ignored]
+  ------------------
+  169|  1.42k|            SCN_EXPECT(it <= scn::ranges::end(source));
   ------------------
   |  |  930|  1.42k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
   |  |  ------------------
   |  |  |  |  927|  1.42k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
   |  |  ------------------
   ------------------
-  169|  1.42k|            auto result = scn::scan_value<T>(
-  170|  1.42k|                scn::ranges::subrange{it, scn::ranges::end(source)});
-  171|  1.42k|            if (!result) {
+  170|  1.42k|            auto result = scn::scan_value<T>(
+  171|  1.42k|                scn::ranges::subrange{it, scn::ranges::end(source)});
+  172|  1.42k|            if (!result) {
   ------------------
-  |  Branch (171:17): [True: 1.39k, False: 34]
+  |  Branch (172:17): [True: 1.39k, False: 34]
   ------------------
-  172|  1.39k|                break;
-  173|  1.39k|            }
-  174|     34|            it = result->begin();
-  175|     34|        }
-  176|  1.39k|    }
-  177|  1.39k|}
+  173|  1.39k|                break;
+  174|  1.39k|            }
+  175|     34|            it = result->begin();
+  176|     34|        }
+  177|  1.39k|    }
+  178|  1.39k|}
 _ZN3scn4fuzz21do_basic_run_for_typeIwhKNSt3__15dequeIwNS2_9allocatorIwEEEEEEvRT1_RKNS2_6vectorINS2_17basic_string_viewIT_NS2_11char_traitsISC_EEEENS4_ISF_EEEE:
-  132|  1.39k|{
-  133|       |    // Regular scan
-  134|  13.9k|    for (const auto& f : format_strings) {
+  133|  1.39k|{
+  134|       |    // Regular scan
+  135|  13.9k|    for (const auto& f : format_strings) {
   ------------------
-  |  Branch (134:24): [True: 13.9k, False: 1.39k]
+  |  Branch (135:24): [True: 13.9k, False: 1.39k]
   ------------------
-  135|  13.9k|        auto it = scn::ranges::begin(source);
-  136|  14.0k|        while (true) {
+  136|  13.9k|        auto it = scn::ranges::begin(source);
+  137|  14.0k|        while (true) {
   ------------------
-  |  Branch (136:16): [Folded - Ignored]
+  |  Branch (137:16): [Folded - Ignored]
   ------------------
-  137|  14.0k|            SCN_EXPECT(it <= scn::ranges::end(source));
-  ------------------
-  |  |  930|  14.0k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
-  |  |  ------------------
-  |  |  |  |  927|  14.0k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
-  |  |  ------------------
-  ------------------
-  138|  14.0k|            auto result = scn::scan<T>(
-  139|  14.0k|                scn::ranges::subrange{it, scn::ranges::end(source)},
-  140|  14.0k|                scn::runtime_format(f));
-  141|  14.0k|            if (!result) {
-  ------------------
-  |  Branch (141:17): [True: 13.9k, False: 184]
-  ------------------
-  142|  13.9k|                break;
-  143|  13.9k|            }
-  144|    184|            it = result->begin();
-  145|    184|        }
-  146|  13.9k|    }
-  147|       |
-  148|       |    // scan localized
-  149|  13.9k|    for (const auto& f : format_strings) {
-  ------------------
-  |  Branch (149:24): [True: 13.9k, False: 1.39k]
-  ------------------
-  150|  13.9k|        auto it = scn::ranges::begin(source);
-  151|  14.0k|        while (true) {
-  ------------------
-  |  Branch (151:16): [Folded - Ignored]
-  ------------------
-  152|  14.0k|            SCN_EXPECT(it <= scn::ranges::end(source));
+  138|  14.0k|            SCN_EXPECT(it <= scn::ranges::end(source));
   ------------------
   |  |  930|  14.0k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
   |  |  ------------------
   |  |  |  |  927|  14.0k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
   |  |  ------------------
   ------------------
-  153|  14.0k|            auto result = scn::scan<T>(
-  154|  14.0k|                global_locale,
-  155|  14.0k|                scn::ranges::subrange{it, scn::ranges::end(source)},
-  156|  14.0k|                scn::runtime_format(f));
-  157|  14.0k|            if (!result) {
+  139|  14.0k|            auto result = scn::scan<T>(
+  140|  14.0k|                scn::ranges::subrange{it, scn::ranges::end(source)},
+  141|  14.0k|                scn::runtime_format(f));
+  142|  14.0k|            if (!result) {
   ------------------
-  |  Branch (157:17): [True: 13.9k, False: 184]
+  |  Branch (142:17): [True: 13.9k, False: 184]
   ------------------
-  158|  13.9k|                break;
-  159|  13.9k|            }
-  160|    184|            it = result->begin();
-  161|    184|        }
-  162|  13.9k|    }
-  163|       |
-  164|       |    // scan_value
-  165|  1.39k|    {
-  166|  1.39k|        auto it = scn::ranges::begin(source);
-  167|  1.41k|        while (true) {
+  143|  13.9k|                break;
+  144|  13.9k|            }
+  145|    184|            it = result->begin();
+  146|    184|        }
+  147|  13.9k|    }
+  148|       |
+  149|       |    // scan localized
+  150|  13.9k|    for (const auto& f : format_strings) {
   ------------------
-  |  Branch (167:16): [Folded - Ignored]
+  |  Branch (150:24): [True: 13.9k, False: 1.39k]
   ------------------
-  168|  1.41k|            SCN_EXPECT(it <= scn::ranges::end(source));
+  151|  13.9k|        auto it = scn::ranges::begin(source);
+  152|  14.0k|        while (true) {
+  ------------------
+  |  Branch (152:16): [Folded - Ignored]
+  ------------------
+  153|  14.0k|            SCN_EXPECT(it <= scn::ranges::end(source));
+  ------------------
+  |  |  930|  14.0k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
+  |  |  ------------------
+  |  |  |  |  927|  14.0k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
+  |  |  ------------------
+  ------------------
+  154|  14.0k|            auto result = scn::scan<T>(
+  155|  14.0k|                global_locale,
+  156|  14.0k|                scn::ranges::subrange{it, scn::ranges::end(source)},
+  157|  14.0k|                scn::runtime_format(f));
+  158|  14.0k|            if (!result) {
+  ------------------
+  |  Branch (158:17): [True: 13.9k, False: 184]
+  ------------------
+  159|  13.9k|                break;
+  160|  13.9k|            }
+  161|    184|            it = result->begin();
+  162|    184|        }
+  163|  13.9k|    }
+  164|       |
+  165|       |    // scan_value
+  166|  1.39k|    {
+  167|  1.39k|        auto it = scn::ranges::begin(source);
+  168|  1.41k|        while (true) {
+  ------------------
+  |  Branch (168:16): [Folded - Ignored]
+  ------------------
+  169|  1.41k|            SCN_EXPECT(it <= scn::ranges::end(source));
   ------------------
   |  |  930|  1.41k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
   |  |  ------------------
   |  |  |  |  927|  1.41k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
   |  |  ------------------
   ------------------
-  169|  1.41k|            auto result = scn::scan_value<T>(
-  170|  1.41k|                scn::ranges::subrange{it, scn::ranges::end(source)});
-  171|  1.41k|            if (!result) {
+  170|  1.41k|            auto result = scn::scan_value<T>(
+  171|  1.41k|                scn::ranges::subrange{it, scn::ranges::end(source)});
+  172|  1.41k|            if (!result) {
   ------------------
-  |  Branch (171:17): [True: 1.39k, False: 27]
+  |  Branch (172:17): [True: 1.39k, False: 27]
   ------------------
-  172|  1.39k|                break;
-  173|  1.39k|            }
-  174|     27|            it = result->begin();
-  175|     27|        }
-  176|  1.39k|    }
-  177|  1.39k|}
+  173|  1.39k|                break;
+  174|  1.39k|            }
+  175|     27|            it = result->begin();
+  176|     27|        }
+  177|  1.39k|    }
+  178|  1.39k|}
 _ZN3scn4fuzz21do_basic_run_for_typeIwiKNSt3__15dequeIwNS2_9allocatorIwEEEEEEvRT1_RKNS2_6vectorINS2_17basic_string_viewIT_NS2_11char_traitsISC_EEEENS4_ISF_EEEE:
-  132|  1.39k|{
-  133|       |    // Regular scan
-  134|  13.9k|    for (const auto& f : format_strings) {
+  133|  1.39k|{
+  134|       |    // Regular scan
+  135|  13.9k|    for (const auto& f : format_strings) {
   ------------------
-  |  Branch (134:24): [True: 13.9k, False: 1.39k]
+  |  Branch (135:24): [True: 13.9k, False: 1.39k]
   ------------------
-  135|  13.9k|        auto it = scn::ranges::begin(source);
-  136|  14.1k|        while (true) {
+  136|  13.9k|        auto it = scn::ranges::begin(source);
+  137|  14.1k|        while (true) {
   ------------------
-  |  Branch (136:16): [Folded - Ignored]
+  |  Branch (137:16): [Folded - Ignored]
   ------------------
-  137|  14.1k|            SCN_EXPECT(it <= scn::ranges::end(source));
-  ------------------
-  |  |  930|  14.1k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
-  |  |  ------------------
-  |  |  |  |  927|  14.1k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
-  |  |  ------------------
-  ------------------
-  138|  14.1k|            auto result = scn::scan<T>(
-  139|  14.1k|                scn::ranges::subrange{it, scn::ranges::end(source)},
-  140|  14.1k|                scn::runtime_format(f));
-  141|  14.1k|            if (!result) {
-  ------------------
-  |  Branch (141:17): [True: 13.9k, False: 271]
-  ------------------
-  142|  13.9k|                break;
-  143|  13.9k|            }
-  144|    271|            it = result->begin();
-  145|    271|        }
-  146|  13.9k|    }
-  147|       |
-  148|       |    // scan localized
-  149|  13.9k|    for (const auto& f : format_strings) {
-  ------------------
-  |  Branch (149:24): [True: 13.9k, False: 1.39k]
-  ------------------
-  150|  13.9k|        auto it = scn::ranges::begin(source);
-  151|  14.1k|        while (true) {
-  ------------------
-  |  Branch (151:16): [Folded - Ignored]
-  ------------------
-  152|  14.1k|            SCN_EXPECT(it <= scn::ranges::end(source));
+  138|  14.1k|            SCN_EXPECT(it <= scn::ranges::end(source));
   ------------------
   |  |  930|  14.1k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
   |  |  ------------------
   |  |  |  |  927|  14.1k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
   |  |  ------------------
   ------------------
-  153|  14.1k|            auto result = scn::scan<T>(
-  154|  14.1k|                global_locale,
-  155|  14.1k|                scn::ranges::subrange{it, scn::ranges::end(source)},
-  156|  14.1k|                scn::runtime_format(f));
-  157|  14.1k|            if (!result) {
+  139|  14.1k|            auto result = scn::scan<T>(
+  140|  14.1k|                scn::ranges::subrange{it, scn::ranges::end(source)},
+  141|  14.1k|                scn::runtime_format(f));
+  142|  14.1k|            if (!result) {
   ------------------
-  |  Branch (157:17): [True: 13.9k, False: 271]
+  |  Branch (142:17): [True: 13.9k, False: 271]
   ------------------
-  158|  13.9k|                break;
-  159|  13.9k|            }
-  160|    271|            it = result->begin();
-  161|    271|        }
-  162|  13.9k|    }
-  163|       |
-  164|       |    // scan_value
-  165|  1.39k|    {
-  166|  1.39k|        auto it = scn::ranges::begin(source);
-  167|  1.43k|        while (true) {
+  143|  13.9k|                break;
+  144|  13.9k|            }
+  145|    271|            it = result->begin();
+  146|    271|        }
+  147|  13.9k|    }
+  148|       |
+  149|       |    // scan localized
+  150|  13.9k|    for (const auto& f : format_strings) {
   ------------------
-  |  Branch (167:16): [Folded - Ignored]
+  |  Branch (150:24): [True: 13.9k, False: 1.39k]
   ------------------
-  168|  1.43k|            SCN_EXPECT(it <= scn::ranges::end(source));
+  151|  13.9k|        auto it = scn::ranges::begin(source);
+  152|  14.1k|        while (true) {
+  ------------------
+  |  Branch (152:16): [Folded - Ignored]
+  ------------------
+  153|  14.1k|            SCN_EXPECT(it <= scn::ranges::end(source));
+  ------------------
+  |  |  930|  14.1k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
+  |  |  ------------------
+  |  |  |  |  927|  14.1k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
+  |  |  ------------------
+  ------------------
+  154|  14.1k|            auto result = scn::scan<T>(
+  155|  14.1k|                global_locale,
+  156|  14.1k|                scn::ranges::subrange{it, scn::ranges::end(source)},
+  157|  14.1k|                scn::runtime_format(f));
+  158|  14.1k|            if (!result) {
+  ------------------
+  |  Branch (158:17): [True: 13.9k, False: 271]
+  ------------------
+  159|  13.9k|                break;
+  160|  13.9k|            }
+  161|    271|            it = result->begin();
+  162|    271|        }
+  163|  13.9k|    }
+  164|       |
+  165|       |    // scan_value
+  166|  1.39k|    {
+  167|  1.39k|        auto it = scn::ranges::begin(source);
+  168|  1.43k|        while (true) {
+  ------------------
+  |  Branch (168:16): [Folded - Ignored]
+  ------------------
+  169|  1.43k|            SCN_EXPECT(it <= scn::ranges::end(source));
   ------------------
   |  |  930|  1.43k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
   |  |  ------------------
   |  |  |  |  927|  1.43k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
   |  |  ------------------
   ------------------
-  169|  1.43k|            auto result = scn::scan_value<T>(
-  170|  1.43k|                scn::ranges::subrange{it, scn::ranges::end(source)});
-  171|  1.43k|            if (!result) {
+  170|  1.43k|            auto result = scn::scan_value<T>(
+  171|  1.43k|                scn::ranges::subrange{it, scn::ranges::end(source)});
+  172|  1.43k|            if (!result) {
   ------------------
-  |  Branch (171:17): [True: 1.39k, False: 44]
+  |  Branch (172:17): [True: 1.39k, False: 44]
   ------------------
-  172|  1.39k|                break;
-  173|  1.39k|            }
-  174|     44|            it = result->begin();
-  175|     44|        }
-  176|  1.39k|    }
-  177|  1.39k|}
+  173|  1.39k|                break;
+  174|  1.39k|            }
+  175|     44|            it = result->begin();
+  176|     44|        }
+  177|  1.39k|    }
+  178|  1.39k|}
 _ZN3scn4fuzz21do_basic_run_for_typeIwjKNSt3__15dequeIwNS2_9allocatorIwEEEEEEvRT1_RKNS2_6vectorINS2_17basic_string_viewIT_NS2_11char_traitsISC_EEEENS4_ISF_EEEE:
-  132|  1.39k|{
-  133|       |    // Regular scan
-  134|  13.9k|    for (const auto& f : format_strings) {
+  133|  1.39k|{
+  134|       |    // Regular scan
+  135|  13.9k|    for (const auto& f : format_strings) {
   ------------------
-  |  Branch (134:24): [True: 13.9k, False: 1.39k]
+  |  Branch (135:24): [True: 13.9k, False: 1.39k]
   ------------------
-  135|  13.9k|        auto it = scn::ranges::begin(source);
-  136|  14.1k|        while (true) {
+  136|  13.9k|        auto it = scn::ranges::begin(source);
+  137|  14.1k|        while (true) {
   ------------------
-  |  Branch (136:16): [Folded - Ignored]
+  |  Branch (137:16): [Folded - Ignored]
   ------------------
-  137|  14.1k|            SCN_EXPECT(it <= scn::ranges::end(source));
-  ------------------
-  |  |  930|  14.1k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
-  |  |  ------------------
-  |  |  |  |  927|  14.1k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
-  |  |  ------------------
-  ------------------
-  138|  14.1k|            auto result = scn::scan<T>(
-  139|  14.1k|                scn::ranges::subrange{it, scn::ranges::end(source)},
-  140|  14.1k|                scn::runtime_format(f));
-  141|  14.1k|            if (!result) {
-  ------------------
-  |  Branch (141:17): [True: 13.9k, False: 213]
-  ------------------
-  142|  13.9k|                break;
-  143|  13.9k|            }
-  144|    213|            it = result->begin();
-  145|    213|        }
-  146|  13.9k|    }
-  147|       |
-  148|       |    // scan localized
-  149|  13.9k|    for (const auto& f : format_strings) {
-  ------------------
-  |  Branch (149:24): [True: 13.9k, False: 1.39k]
-  ------------------
-  150|  13.9k|        auto it = scn::ranges::begin(source);
-  151|  14.1k|        while (true) {
-  ------------------
-  |  Branch (151:16): [Folded - Ignored]
-  ------------------
-  152|  14.1k|            SCN_EXPECT(it <= scn::ranges::end(source));
+  138|  14.1k|            SCN_EXPECT(it <= scn::ranges::end(source));
   ------------------
   |  |  930|  14.1k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
   |  |  ------------------
   |  |  |  |  927|  14.1k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
   |  |  ------------------
   ------------------
-  153|  14.1k|            auto result = scn::scan<T>(
-  154|  14.1k|                global_locale,
-  155|  14.1k|                scn::ranges::subrange{it, scn::ranges::end(source)},
-  156|  14.1k|                scn::runtime_format(f));
-  157|  14.1k|            if (!result) {
+  139|  14.1k|            auto result = scn::scan<T>(
+  140|  14.1k|                scn::ranges::subrange{it, scn::ranges::end(source)},
+  141|  14.1k|                scn::runtime_format(f));
+  142|  14.1k|            if (!result) {
   ------------------
-  |  Branch (157:17): [True: 13.9k, False: 213]
+  |  Branch (142:17): [True: 13.9k, False: 213]
   ------------------
-  158|  13.9k|                break;
-  159|  13.9k|            }
-  160|    213|            it = result->begin();
-  161|    213|        }
-  162|  13.9k|    }
-  163|       |
-  164|       |    // scan_value
-  165|  1.39k|    {
-  166|  1.39k|        auto it = scn::ranges::begin(source);
-  167|  1.42k|        while (true) {
+  143|  13.9k|                break;
+  144|  13.9k|            }
+  145|    213|            it = result->begin();
+  146|    213|        }
+  147|  13.9k|    }
+  148|       |
+  149|       |    // scan localized
+  150|  13.9k|    for (const auto& f : format_strings) {
   ------------------
-  |  Branch (167:16): [Folded - Ignored]
+  |  Branch (150:24): [True: 13.9k, False: 1.39k]
   ------------------
-  168|  1.42k|            SCN_EXPECT(it <= scn::ranges::end(source));
+  151|  13.9k|        auto it = scn::ranges::begin(source);
+  152|  14.1k|        while (true) {
+  ------------------
+  |  Branch (152:16): [Folded - Ignored]
+  ------------------
+  153|  14.1k|            SCN_EXPECT(it <= scn::ranges::end(source));
+  ------------------
+  |  |  930|  14.1k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
+  |  |  ------------------
+  |  |  |  |  927|  14.1k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
+  |  |  ------------------
+  ------------------
+  154|  14.1k|            auto result = scn::scan<T>(
+  155|  14.1k|                global_locale,
+  156|  14.1k|                scn::ranges::subrange{it, scn::ranges::end(source)},
+  157|  14.1k|                scn::runtime_format(f));
+  158|  14.1k|            if (!result) {
+  ------------------
+  |  Branch (158:17): [True: 13.9k, False: 213]
+  ------------------
+  159|  13.9k|                break;
+  160|  13.9k|            }
+  161|    213|            it = result->begin();
+  162|    213|        }
+  163|  13.9k|    }
+  164|       |
+  165|       |    // scan_value
+  166|  1.39k|    {
+  167|  1.39k|        auto it = scn::ranges::begin(source);
+  168|  1.42k|        while (true) {
+  ------------------
+  |  Branch (168:16): [Folded - Ignored]
+  ------------------
+  169|  1.42k|            SCN_EXPECT(it <= scn::ranges::end(source));
   ------------------
   |  |  930|  1.42k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
   |  |  ------------------
   |  |  |  |  927|  1.42k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
   |  |  ------------------
   ------------------
-  169|  1.42k|            auto result = scn::scan_value<T>(
-  170|  1.42k|                scn::ranges::subrange{it, scn::ranges::end(source)});
-  171|  1.42k|            if (!result) {
+  170|  1.42k|            auto result = scn::scan_value<T>(
+  171|  1.42k|                scn::ranges::subrange{it, scn::ranges::end(source)});
+  172|  1.42k|            if (!result) {
   ------------------
-  |  Branch (171:17): [True: 1.39k, False: 33]
+  |  Branch (172:17): [True: 1.39k, False: 33]
   ------------------
-  172|  1.39k|                break;
-  173|  1.39k|            }
-  174|     33|            it = result->begin();
-  175|     33|        }
-  176|  1.39k|    }
-  177|  1.39k|}
+  173|  1.39k|                break;
+  174|  1.39k|            }
+  175|     33|            it = result->begin();
+  176|     33|        }
+  177|  1.39k|    }
+  178|  1.39k|}
 _ZN3scn4fuzz21do_basic_run_for_typeIwxKNSt3__15dequeIwNS2_9allocatorIwEEEEEEvRT1_RKNS2_6vectorINS2_17basic_string_viewIT_NS2_11char_traitsISC_EEEENS4_ISF_EEEE:
-  132|  1.39k|{
-  133|       |    // Regular scan
-  134|  13.9k|    for (const auto& f : format_strings) {
+  133|  1.39k|{
+  134|       |    // Regular scan
+  135|  13.9k|    for (const auto& f : format_strings) {
   ------------------
-  |  Branch (134:24): [True: 13.9k, False: 1.39k]
+  |  Branch (135:24): [True: 13.9k, False: 1.39k]
   ------------------
-  135|  13.9k|        auto it = scn::ranges::begin(source);
-  136|  14.2k|        while (true) {
+  136|  13.9k|        auto it = scn::ranges::begin(source);
+  137|  14.2k|        while (true) {
   ------------------
-  |  Branch (136:16): [Folded - Ignored]
+  |  Branch (137:16): [Folded - Ignored]
   ------------------
-  137|  14.2k|            SCN_EXPECT(it <= scn::ranges::end(source));
-  ------------------
-  |  |  930|  14.2k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
-  |  |  ------------------
-  |  |  |  |  927|  14.2k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
-  |  |  ------------------
-  ------------------
-  138|  14.2k|            auto result = scn::scan<T>(
-  139|  14.2k|                scn::ranges::subrange{it, scn::ranges::end(source)},
-  140|  14.2k|                scn::runtime_format(f));
-  141|  14.2k|            if (!result) {
-  ------------------
-  |  Branch (141:17): [True: 13.9k, False: 324]
-  ------------------
-  142|  13.9k|                break;
-  143|  13.9k|            }
-  144|    324|            it = result->begin();
-  145|    324|        }
-  146|  13.9k|    }
-  147|       |
-  148|       |    // scan localized
-  149|  13.9k|    for (const auto& f : format_strings) {
-  ------------------
-  |  Branch (149:24): [True: 13.9k, False: 1.39k]
-  ------------------
-  150|  13.9k|        auto it = scn::ranges::begin(source);
-  151|  14.2k|        while (true) {
-  ------------------
-  |  Branch (151:16): [Folded - Ignored]
-  ------------------
-  152|  14.2k|            SCN_EXPECT(it <= scn::ranges::end(source));
+  138|  14.2k|            SCN_EXPECT(it <= scn::ranges::end(source));
   ------------------
   |  |  930|  14.2k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
   |  |  ------------------
   |  |  |  |  927|  14.2k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
   |  |  ------------------
   ------------------
-  153|  14.2k|            auto result = scn::scan<T>(
-  154|  14.2k|                global_locale,
-  155|  14.2k|                scn::ranges::subrange{it, scn::ranges::end(source)},
-  156|  14.2k|                scn::runtime_format(f));
-  157|  14.2k|            if (!result) {
+  139|  14.2k|            auto result = scn::scan<T>(
+  140|  14.2k|                scn::ranges::subrange{it, scn::ranges::end(source)},
+  141|  14.2k|                scn::runtime_format(f));
+  142|  14.2k|            if (!result) {
   ------------------
-  |  Branch (157:17): [True: 13.9k, False: 324]
+  |  Branch (142:17): [True: 13.9k, False: 324]
   ------------------
-  158|  13.9k|                break;
-  159|  13.9k|            }
-  160|    324|            it = result->begin();
-  161|    324|        }
-  162|  13.9k|    }
-  163|       |
-  164|       |    // scan_value
-  165|  1.39k|    {
-  166|  1.39k|        auto it = scn::ranges::begin(source);
-  167|  1.44k|        while (true) {
+  143|  13.9k|                break;
+  144|  13.9k|            }
+  145|    324|            it = result->begin();
+  146|    324|        }
+  147|  13.9k|    }
+  148|       |
+  149|       |    // scan localized
+  150|  13.9k|    for (const auto& f : format_strings) {
   ------------------
-  |  Branch (167:16): [Folded - Ignored]
+  |  Branch (150:24): [True: 13.9k, False: 1.39k]
   ------------------
-  168|  1.44k|            SCN_EXPECT(it <= scn::ranges::end(source));
+  151|  13.9k|        auto it = scn::ranges::begin(source);
+  152|  14.2k|        while (true) {
+  ------------------
+  |  Branch (152:16): [Folded - Ignored]
+  ------------------
+  153|  14.2k|            SCN_EXPECT(it <= scn::ranges::end(source));
+  ------------------
+  |  |  930|  14.2k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
+  |  |  ------------------
+  |  |  |  |  927|  14.2k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
+  |  |  ------------------
+  ------------------
+  154|  14.2k|            auto result = scn::scan<T>(
+  155|  14.2k|                global_locale,
+  156|  14.2k|                scn::ranges::subrange{it, scn::ranges::end(source)},
+  157|  14.2k|                scn::runtime_format(f));
+  158|  14.2k|            if (!result) {
+  ------------------
+  |  Branch (158:17): [True: 13.9k, False: 324]
+  ------------------
+  159|  13.9k|                break;
+  160|  13.9k|            }
+  161|    324|            it = result->begin();
+  162|    324|        }
+  163|  13.9k|    }
+  164|       |
+  165|       |    // scan_value
+  166|  1.39k|    {
+  167|  1.39k|        auto it = scn::ranges::begin(source);
+  168|  1.44k|        while (true) {
+  ------------------
+  |  Branch (168:16): [Folded - Ignored]
+  ------------------
+  169|  1.44k|            SCN_EXPECT(it <= scn::ranges::end(source));
   ------------------
   |  |  930|  1.44k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
   |  |  ------------------
   |  |  |  |  927|  1.44k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
   |  |  ------------------
   ------------------
-  169|  1.44k|            auto result = scn::scan_value<T>(
-  170|  1.44k|                scn::ranges::subrange{it, scn::ranges::end(source)});
-  171|  1.44k|            if (!result) {
+  170|  1.44k|            auto result = scn::scan_value<T>(
+  171|  1.44k|                scn::ranges::subrange{it, scn::ranges::end(source)});
+  172|  1.44k|            if (!result) {
   ------------------
-  |  Branch (171:17): [True: 1.39k, False: 55]
+  |  Branch (172:17): [True: 1.39k, False: 55]
   ------------------
-  172|  1.39k|                break;
-  173|  1.39k|            }
-  174|     55|            it = result->begin();
-  175|     55|        }
-  176|  1.39k|    }
-  177|  1.39k|}
+  173|  1.39k|                break;
+  174|  1.39k|            }
+  175|     55|            it = result->begin();
+  176|     55|        }
+  177|  1.39k|    }
+  178|  1.39k|}
 _ZN3scn4fuzz21do_basic_run_for_typeIwyKNSt3__15dequeIwNS2_9allocatorIwEEEEEEvRT1_RKNS2_6vectorINS2_17basic_string_viewIT_NS2_11char_traitsISC_EEEENS4_ISF_EEEE:
-  132|  1.39k|{
-  133|       |    // Regular scan
-  134|  13.9k|    for (const auto& f : format_strings) {
+  133|  1.39k|{
+  134|       |    // Regular scan
+  135|  13.9k|    for (const auto& f : format_strings) {
   ------------------
-  |  Branch (134:24): [True: 13.9k, False: 1.39k]
+  |  Branch (135:24): [True: 13.9k, False: 1.39k]
   ------------------
-  135|  13.9k|        auto it = scn::ranges::begin(source);
-  136|  14.1k|        while (true) {
+  136|  13.9k|        auto it = scn::ranges::begin(source);
+  137|  14.1k|        while (true) {
   ------------------
-  |  Branch (136:16): [Folded - Ignored]
+  |  Branch (137:16): [Folded - Ignored]
   ------------------
-  137|  14.1k|            SCN_EXPECT(it <= scn::ranges::end(source));
-  ------------------
-  |  |  930|  14.1k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
-  |  |  ------------------
-  |  |  |  |  927|  14.1k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
-  |  |  ------------------
-  ------------------
-  138|  14.1k|            auto result = scn::scan<T>(
-  139|  14.1k|                scn::ranges::subrange{it, scn::ranges::end(source)},
-  140|  14.1k|                scn::runtime_format(f));
-  141|  14.1k|            if (!result) {
-  ------------------
-  |  Branch (141:17): [True: 13.9k, False: 254]
-  ------------------
-  142|  13.9k|                break;
-  143|  13.9k|            }
-  144|    254|            it = result->begin();
-  145|    254|        }
-  146|  13.9k|    }
-  147|       |
-  148|       |    // scan localized
-  149|  13.9k|    for (const auto& f : format_strings) {
-  ------------------
-  |  Branch (149:24): [True: 13.9k, False: 1.39k]
-  ------------------
-  150|  13.9k|        auto it = scn::ranges::begin(source);
-  151|  14.1k|        while (true) {
-  ------------------
-  |  Branch (151:16): [Folded - Ignored]
-  ------------------
-  152|  14.1k|            SCN_EXPECT(it <= scn::ranges::end(source));
+  138|  14.1k|            SCN_EXPECT(it <= scn::ranges::end(source));
   ------------------
   |  |  930|  14.1k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
   |  |  ------------------
   |  |  |  |  927|  14.1k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
   |  |  ------------------
   ------------------
-  153|  14.1k|            auto result = scn::scan<T>(
-  154|  14.1k|                global_locale,
-  155|  14.1k|                scn::ranges::subrange{it, scn::ranges::end(source)},
-  156|  14.1k|                scn::runtime_format(f));
-  157|  14.1k|            if (!result) {
+  139|  14.1k|            auto result = scn::scan<T>(
+  140|  14.1k|                scn::ranges::subrange{it, scn::ranges::end(source)},
+  141|  14.1k|                scn::runtime_format(f));
+  142|  14.1k|            if (!result) {
   ------------------
-  |  Branch (157:17): [True: 13.9k, False: 254]
+  |  Branch (142:17): [True: 13.9k, False: 254]
   ------------------
-  158|  13.9k|                break;
-  159|  13.9k|            }
-  160|    254|            it = result->begin();
-  161|    254|        }
-  162|  13.9k|    }
-  163|       |
-  164|       |    // scan_value
-  165|  1.39k|    {
-  166|  1.39k|        auto it = scn::ranges::begin(source);
-  167|  1.43k|        while (true) {
+  143|  13.9k|                break;
+  144|  13.9k|            }
+  145|    254|            it = result->begin();
+  146|    254|        }
+  147|  13.9k|    }
+  148|       |
+  149|       |    // scan localized
+  150|  13.9k|    for (const auto& f : format_strings) {
   ------------------
-  |  Branch (167:16): [Folded - Ignored]
+  |  Branch (150:24): [True: 13.9k, False: 1.39k]
   ------------------
-  168|  1.43k|            SCN_EXPECT(it <= scn::ranges::end(source));
+  151|  13.9k|        auto it = scn::ranges::begin(source);
+  152|  14.1k|        while (true) {
+  ------------------
+  |  Branch (152:16): [Folded - Ignored]
+  ------------------
+  153|  14.1k|            SCN_EXPECT(it <= scn::ranges::end(source));
+  ------------------
+  |  |  930|  14.1k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
+  |  |  ------------------
+  |  |  |  |  927|  14.1k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
+  |  |  ------------------
+  ------------------
+  154|  14.1k|            auto result = scn::scan<T>(
+  155|  14.1k|                global_locale,
+  156|  14.1k|                scn::ranges::subrange{it, scn::ranges::end(source)},
+  157|  14.1k|                scn::runtime_format(f));
+  158|  14.1k|            if (!result) {
+  ------------------
+  |  Branch (158:17): [True: 13.9k, False: 254]
+  ------------------
+  159|  13.9k|                break;
+  160|  13.9k|            }
+  161|    254|            it = result->begin();
+  162|    254|        }
+  163|  13.9k|    }
+  164|       |
+  165|       |    // scan_value
+  166|  1.39k|    {
+  167|  1.39k|        auto it = scn::ranges::begin(source);
+  168|  1.43k|        while (true) {
+  ------------------
+  |  Branch (168:16): [Folded - Ignored]
+  ------------------
+  169|  1.43k|            SCN_EXPECT(it <= scn::ranges::end(source));
   ------------------
   |  |  930|  1.43k|#define SCN_EXPECT(cond) SCN_ASSERT(cond, "Precondition violation")
   |  |  ------------------
   |  |  |  |  927|  1.43k|#define SCN_ASSERT(cond, msg) assert((cond) && msg)
   |  |  ------------------
   ------------------
-  169|  1.43k|            auto result = scn::scan_value<T>(
-  170|  1.43k|                scn::ranges::subrange{it, scn::ranges::end(source)});
-  171|  1.43k|            if (!result) {
+  170|  1.43k|            auto result = scn::scan_value<T>(
+  171|  1.43k|                scn::ranges::subrange{it, scn::ranges::end(source)});
+  172|  1.43k|            if (!result) {
   ------------------
-  |  Branch (171:17): [True: 1.39k, False: 41]
+  |  Branch (172:17): [True: 1.39k, False: 41]
   ------------------
-  172|  1.39k|                break;
-  173|  1.39k|            }
-  174|     41|            it = result->begin();
-  175|     41|        }
-  176|  1.39k|    }
-  177|  1.39k|}
+  173|  1.39k|                break;
+  174|  1.39k|            }
+  175|     41|            it = result->begin();
+  176|     41|        }
+  177|  1.39k|    }
+  178|  1.39k|}
 _ZN3scn4fuzz22populate_noncontiguousINSt3__117basic_string_viewIwNS2_11char_traitsIwEEEEEERKDaRT_:
-   89|  1.39k|{
-   90|  1.39k|    using char_type = ranges::range_value_t<Source>;
-   91|  1.39k|    auto& deque = get_noncontiguous_buffer<char_type>();
-   92|  1.39k|    deque.clear();
-   93|  1.39k|    std::copy(ranges::begin(source), ranges::end(source),
-   94|  1.39k|              std::back_inserter(deque));
-   95|  1.39k|    return deque;
-   96|  1.39k|}
+   90|  1.39k|{
+   91|  1.39k|    using char_type = ranges::range_value_t<Source>;
+   92|  1.39k|    auto& deque = get_noncontiguous_buffer<char_type>();
+   93|  1.39k|    deque.clear();
+   94|  1.39k|    std::copy(ranges::begin(source), ranges::end(source),
+   95|  1.39k|              std::back_inserter(deque));
+   96|  1.39k|    return deque;
+   97|  1.39k|}
 _ZN3scn4fuzz24get_noncontiguous_bufferIwEERDav:
-   78|  1.39k|{
-   79|       |    if constexpr (std::is_same_v<CharT, char>) {
-   80|       |        return noncontiguous_buffer;
-   81|       |    }
-   82|  1.39k|    else {
-   83|  1.39k|        return wnoncontiguous_buffer;
-   84|  1.39k|    }
-   85|  1.39k|}
+   79|  1.39k|{
+   80|       |    if constexpr (std::is_same_v<CharT, char>) {
+   81|       |        return noncontiguous_buffer;
+   82|       |    }
+   83|  1.39k|    else {
+   84|  1.39k|        return wnoncontiguous_buffer;
+   85|  1.39k|    }
+   86|  1.39k|}
 
 LLVMFuzzerTestOneInput:
    59|    695|{
