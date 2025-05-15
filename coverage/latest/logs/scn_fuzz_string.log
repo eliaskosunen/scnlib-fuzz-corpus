@@ -1,12 +1,12 @@
 INFO: Running with entropic power schedule (0xFF, 100).
-INFO: Seed: 2993913131
-MERGE-OUTER: 893 files, 0 in the initial corpus, 0 processed earlier
+INFO: Seed: 3369937229
+MERGE-OUTER: 902 files, 0 in the initial corpus, 0 processed earlier
 MERGE-OUTER: attempt 1
 INFO: Running with entropic power schedule (0xFF, 100).
-INFO: Seed: 2993923583
+INFO: Seed: 3369947731
 INFO: -max_len is not provided; libFuzzer will not generate inputs larger than 1048576 bytes
-MERGE-INNER: using the control file '/tmp/libFuzzerTemp.Merge301.txt'
-MERGE-INNER: 893 total files; 0 processed earlier; will process 893 files now
+MERGE-INNER: using the control file '/tmp/libFuzzerTemp.Merge300.txt'
+MERGE-INNER: 902 total files; 0 processed earlier; will process 902 files now
 #1	pulse  exec/s: 0 rss: 30Mb
 #2	pulse  exec/s: 0 rss: 30Mb
 #4	pulse  exec/s: 0 rss: 30Mb
@@ -17,8 +17,8 @@ MERGE-INNER: 893 total files; 0 processed earlier; will process 893 files now
 #128	pulse  exec/s: 128 rss: 30Mb
 #256	pulse  exec/s: 128 rss: 30Mb
 #512	pulse  exec/s: 85 rss: 30Mb
-#893	DONE   exec/s: 89 rss: 33Mb
+#902	DONE   exec/s: 69 rss: 33Mb
 MERGE-OUTER: successful in 1 attempt(s)
-MERGE-OUTER: the control file has 106015 bytes
-MERGE-OUTER: consumed 0Mb (30Mb rss) to parse the control file
+MERGE-OUTER: the control file has 107108 bytes
+MERGE-OUTER: consumed 0Mb (28Mb rss) to parse the control file
 MERGE-OUTER: 0 new files with 0 new features added; 0 new coverage edges
