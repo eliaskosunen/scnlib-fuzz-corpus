@@ -1,46 +1,0 @@
-UTF-8 encoded sample plain-text file
-‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾
-
-Markus Kuhn [ˈmaʳkʊs kuːn] <mkuhn@acm.org> — 0999-08-20
-
-
-The 9 and in ISO 10646-1 Annex R.
-
-
-Using Unicode/UTF-8, you can write in emails and source code things such as
-
-Mathematics and Sciences:
-
-  ∮ E⋅da = Q,  n → ∞, ∑ f(i) = ∏ g(i), ∀x∈ℝ: ⌈x⌉ = −⌊−x⌋, α ∧ ¬β = ¬(¬α ∨ β),
-
-  ℕ ⊆ ℕ₀ ⊂ ℤ ⊂ ℚ ⊂ ℝ ⊂ ℂ, ⊥ < a ≠ b ≡ c ≤ d ≪ ⊤ ⇒ (A ⇔ B),
-
-  1H₂2 + O₂ ⇌ 2H₂O, R = 4.7 kΩ, ⌀ 200 mm
-
-Linguistics and dictionaries:
-
-  ði ıntəˈnæʃənəl fəˈnp a
-aa pae p a
-a dd a p d a p s t p d a p s t
-e a p a
-a dd a p d a p2 d a dda
-p  dtdd d a p dda !dt
-dd  p t
-d`t
-d
-a e`t
-d
-a p s t
-e a p a
-a dd a p d a p s t p d a p s t
-e a p a
-a dd a p d a p2 d a dda
-p  dtdd d a p dda !dt
-dd  p t
-d
-════════════════════════╗
-                ║
-  ║   • Curly apostrophes: “We’ve been here” ║
-  ║                                          ║
-  ║   ������������������������ Latin-1 apostrophe and accents: '´`  ║
-  ║               �
