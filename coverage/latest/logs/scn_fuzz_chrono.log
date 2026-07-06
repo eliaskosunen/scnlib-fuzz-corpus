@@ -1,25 +1,25 @@
 INFO: Running with entropic power schedule (0xFF, 100).
-INFO: Seed: 3674372684
-MERGE-OUTER: 1880 files, 0 in the initial corpus, 0 processed earlier
+INFO: Seed: 327441777
+MERGE-OUTER: 1888 files, 0 in the initial corpus, 0 processed earlier
 MERGE-OUTER: attempt 1
 INFO: Running with entropic power schedule (0xFF, 100).
-INFO: Seed: 3674395374
+INFO: Seed: 327464556
 INFO: -max_len is not provided; libFuzzer will not generate inputs larger than 1048576 bytes
-MERGE-INNER: using the control file '/tmp/libFuzzerTemp.Merge478.txt'
-MERGE-INNER: 1880 total files; 0 processed earlier; will process 1880 files now
-#1	pulse  exec/s: 0 rss: 31Mb
-#2	pulse  exec/s: 0 rss: 31Mb
-#4	pulse  exec/s: 0 rss: 31Mb
-#8	pulse  exec/s: 0 rss: 31Mb
-#16	pulse  exec/s: 0 rss: 31Mb
-#32	pulse  exec/s: 0 rss: 31Mb
-#64	pulse  exec/s: 0 rss: 31Mb
-#128	pulse  exec/s: 0 rss: 31Mb
-#256	pulse  exec/s: 0 rss: 31Mb
-#512	pulse  exec/s: 0 rss: 31Mb
-#1024	pulse  exec/s: 1024 rss: 31Mb
-#1880	DONE   exec/s: 470 rss: 32Mb
+MERGE-INNER: using the control file '/tmp/libFuzzerTemp.Merge476.txt'
+MERGE-INNER: 1888 total files; 0 processed earlier; will process 1888 files now
+#1	pulse  exec/s: 0 rss: 32Mb
+#2	pulse  exec/s: 0 rss: 32Mb
+#4	pulse  exec/s: 0 rss: 32Mb
+#8	pulse  exec/s: 0 rss: 32Mb
+#16	pulse  exec/s: 0 rss: 32Mb
+#32	pulse  exec/s: 0 rss: 32Mb
+#64	pulse  exec/s: 0 rss: 32Mb
+#128	pulse  exec/s: 0 rss: 32Mb
+#256	pulse  exec/s: 0 rss: 32Mb
+#512	pulse  exec/s: 0 rss: 32Mb
+#1024	pulse  exec/s: 1024 rss: 32Mb
+#1888	DONE   exec/s: 472 rss: 32Mb
 MERGE-OUTER: successful in 1 attempt(s)
-MERGE-OUTER: the control file has 226552 bytes
+MERGE-OUTER: the control file has 227531 bytes
 MERGE-OUTER: consumed 0Mb (29Mb rss) to parse the control file
 MERGE-OUTER: 0 new files with 0 new features added; 0 new coverage edges
